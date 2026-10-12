@@ -70,10 +70,11 @@
   <div class="hero-foot"><span id="heroPaidLabel">0,00 € rimborsati</span><span id="heroPct">0% completato</span></div>
  </div>
  <div class="stats">
-  <div class="stat"><div class="stat-top"><span class="stat-icon">◎</span>Debito iniziale</div><div class="stat-value" id="statInitial">0.00 €</div><div class="stat-sub">Importo del profilo</div></div>
+  <div class="stat"><div class="stat-top"><span class="stat-icon">◎</span>Debito iniziale</div><div class="stat-value" id="statInitial">0 €</div><div class="stat-sub">Importo del profilo</div></div>
   <div class="stat"><div class="stat-top"><span class="stat-icon">↗</span>Totale pagato</div><div class="stat-value" id="statPaid">0 €</div><div class="stat-sub" id="statCount">0 rate registrate</div></div>
   <div class="stat"><div class="stat-top"><span class="stat-icon">✓</span>Prossima rata</div><div class="stat-value" id="statNext">—</div><div class="stat-sub" id="statNextSub">Imposta il giorno nel profilo</div></div>
  </div>
+ <section class="panel section-gap" id="repaymentTips"><div class="panel-head"><h3>Suggerimenti per il rimborso</h3><span class="status">Piano indicativo</span></div><div id="repaymentTipsBody" class="muted" style="font-size:13px;line-height:1.65">Inserisci il debito totale e la rata mensile nel Profilo per ricevere suggerimenti personalizzati.</div></section>
  <div class="content-grid">
   <section class="panel"><div class="panel-head"><h3>Prossimo pagamento</h3><span class="status" id="nextStatus">Da impostare</span></div><div id="nextPayment"><div class="empty"><div class="empty-icon">▦</div>Imposta la rata mensile nel tuo profilo per visualizzare la prossima scadenza.</div></div><button class="btn secondary wide" onclick="showPage('profile')">Configura piano di rimborso</button></section>
   <section class="panel"><div class="panel-head"><h3>Pagamenti recenti</h3><button class="table-action" onclick="showPage('payments')">Vedi tutti →</button></div><div id="recentList" class="list"><div class="empty"><div class="empty-icon">↗</div>I pagamenti registrati appariranno qui.</div></div></section>
@@ -102,8 +103,8 @@
   <section class="panel"><div class="panel-head"><h3>Il tuo debito</h3><span class="status">Profilo</span></div>
    <form id="profileForm">
     <div class="field"><label for="profileName">Nome del profilo (facoltativo)</label><input id="profileName" maxlength="50" placeholder="Es. Il mio piano"></div>
-    <div class="field"><label for="profileDebt">Importo totale dovuto (€)</label><input id="profileDebt" type="number" min="0.01" step="0.01" required></div>
-    <div class="field"><label for="profileMonthly">Importo rata mensile previsto (€)</label><input id="profileMonthly" type="number" min="0.01" step="0.01" placeholder="Es. 150,00"></div>
+    <div class="field"><label for="profileDebt">Importo totale dovuto (€)</label><input id="profileDebt" type="number" min="0" step="0.01" value="0" required></div>
+    <div class="field"><label for="profileMonthly">Importo rata mensile previsto (€)</label><input id="profileMonthly" type="number" min="0" step="0.01" value="0" placeholder="0,00"></div>
     <div class="field"><label for="profileDay">Giorno del mese in cui pagare</label><select id="profileDay"></select></div>
     <div class="field"><label for="profileStart">Prima scadenza</label><input id="profileStart" type="date"></div>
     <button class="btn primary wide" type="submit">Salva profilo e piano</button><div class="toast" id="profileToast" role="status"></div>
@@ -126,14 +127,14 @@
 <nav class="bottom-nav"><div class="nav-inner"><button class="nav-btn active" data-page="home" onclick="showPage('home')"><span>⌂</span><span>Panoramica</span></button><button class="nav-btn" data-page="payments" onclick="showPage('payments')"><span>＋</span><span>Pagamenti</span></button><button class="nav-btn" data-page="profile" onclick="showPage('profile')"><span>⚙</span><span>Profilo</span></button></div></nav>
 <script>
 const KEY='le-mie-rate-v2', $=id=>document.getElementById(id);
-const SUPABASE_URL='https://yzqrlwbprvaymzfjvhtn.supabase.co';
-const SUPABASE_ANON_KEY='sb_publishable_nbtFfInsf9bEyloq2WvlHA_z3um0l4F';
+const SUPABASE_URL='INSERISCI_PROJECT_URL';
+const SUPABASE_ANON_KEY='INSERISCI_PUBLISHABLE_KEY';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 let currentUser=null, isSignup=false, isUnlocked=false, syncTimer=null, remoteLoading=false;
 const PIN_KEY='le-mie-rate-pin-v1';
 const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(n||0);
 const dateISO=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)};
-let state={name:'',debt:3000,monthly:150,day:1,startDate:'',reminders:false,reminderTime:'18:00',reminderDays:7,payments:[]},editing=null;
+let state={name:'',debt:0,monthly:0,day:1,startDate:'',reminders:false,reminderTime:'18:00',reminderDays:7,payments:[]},editing=null;
 for(let i=1;i<=31;i++) $('profileDay').add(new Option(i+' del mese',String(i)));
 function safeLoad(){try{let x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeof x==='object'&&Number.isFinite(x.debt)&&Array.isArray(x.payments))state={...state,...x};}catch(e){}}
 function save(){
@@ -151,11 +152,12 @@ async function cloudLoad(){
   const {data:rows,error:re}=await sb.from('payments').select('*').eq('user_id',currentUser.id).order('due_date',{ascending:false});
   if(re)throw re;
   if(profile){
-   state.name=profile.name||'';state.debt=Number(profile.initial_debt??3000);
-   state.monthly=Number(profile.monthly_amount||150);state.day=Number(profile.due_day||1);state.startDate=profile.start_date||'';
+   state.name=profile.name||'';state.debt=Number(profile.initial_debt??0);
+   state.monthly=Number(profile.monthly_amount??0);state.day=Number(profile.due_day||1);state.startDate=profile.start_date||'';
    state.reminders=!!profile.reminders_enabled;state.reminderTime=profile.reminder_time||'18:00';state.reminderDays=Number(profile.reminder_days||7);
   }else{
-   const {error}=await sb.from('profiles').insert({user_id:currentUser.id,initial_debt:state.debt,name:state.name,monthly_amount:state.monthly,due_day:state.day,start_date:state.startDate||null});
+   state={name:'',debt:0,monthly:0,day:1,startDate:'',reminders:false,reminderTime:'18:00',reminderDays:7,payments:[]};
+   const {error}=await sb.from('profiles').insert({user_id:currentUser.id,initial_debt:0,name:'',monthly_amount:0,due_day:1,start_date:null});
    if(error)throw error;
   }
   state.payments=(rows||[]).map(r=>({id:r.id,date:r.due_date,amount:Number(r.amount),method:r.method||'',note:r.note||r.description||''}));
@@ -232,10 +234,19 @@ function render(){
  $('historyCount').textContent=state.payments.length+' '+(state.payments.length===1?'pagamento':'pagamenti');$('historyEmpty').style.display=sorted.length?'none':'block';
  $('historyTable').innerHTML=sorted.length?`<div class="table-wrap"><table><thead><tr><th>Data</th><th>Descrizione</th><th>Importo</th><th>Azioni</th></tr></thead><tbody>${sorted.map(p=>`<tr><td>${dateLabel(p.date)}</td><td>${esc(p.note||p.method||'Rata mensile')}</td><td><strong>${euro(p.amount)}</strong></td><td><button class="table-action" onclick="editPayment('${esc(p.id)}')">Modifica</button><button class="table-action danger-text" onclick="deletePayment('${esc(p.id)}')">Elimina</button></td></tr>`).join('')}</tbody></table></div>`:'';
  $('profileName').value=state.name||'';$('profileDebt').value=state.debt;$('profileMonthly').value=state.monthly||'';$('profileDay').value=String(state.day||1);$('profileStart').value=state.startDate||'';
- $('remindersEnabled').checked=!!state.reminders;$('reminderTime').value=state.reminderTime||'09:00';$('reminderDays').value=String(state.reminderDays||7);$('notifyStatus').textContent=state.reminders?'Attivi (se supportati)':'Da configurare';
+ $('remindersEnabled').checked=!!state.reminders;$('reminderTime').value=state.reminderTime||'18:00';$('reminderDays').value=String(state.reminderDays||7);$('notifyStatus').textContent=state.reminders?'Attivi (se supportati)':'Da configurare';
+ renderRepaymentTips(rem);
+}
+function renderRepaymentTips(rem){
+ const box=$('repaymentTipsBody'); if(!box)return; const debt=Math.max(0,Number(state.debt)||0), monthly=Math.max(0,Number(state.monthly)||0);
+ if(debt<=0){box.innerHTML='Per iniziare, apri <strong>Profilo</strong> e inserisci il debito totale. Per ora tutti gli importi iniziali sono impostati a 0 €.';return}
+ if(rem<=0){box.innerHTML='<strong>Ottimo:</strong> in base ai pagamenti registrati, il debito risulta rimborsato. Verifica eventuali interessi o spese direttamente con il creditore.';return}
+ if(monthly<=0){box.innerHTML=`Il debito residuo è <strong>${euro(rem)}</strong>. Imposta una rata mensile sostenibile nel Profilo per stimare la durata del rimborso. Considera prima le spese essenziali e un margine per imprevisti.`;return}
+ const months=Math.ceil(rem/monthly); const date=new Date(); date.setMonth(date.getMonth()+months); const dateTxt=date.toLocaleDateString('it-IT',{month:'long',year:'numeric'}); const extra=monthly*1.1; const faster=Math.ceil(rem/extra);
+ box.innerHTML=`Debito residuo stimato: <strong>${euro(rem)}</strong>. Con una rata di <strong>${euro(monthly)}/mese</strong>, servirebbero circa <strong>${months} mesi</strong> (indicativamente fino a ${dateTxt}), senza considerare interessi, commissioni o nuove spese. <ul style="padding-left:19px;margin:10px 0"><li>Scegli una rata sostenibile dopo le spese essenziali.</li><li>Se hai più debiti, valuta di pagare le rate minime dovute e destinare eventuali extra al debito con il tasso d'interesse più alto.</li><li>Se puoi aumentare la rata del 10% (${euro(extra)}/mese), il tempo teorico scenderebbe a circa ${faster} mesi.</li><li>Verifica con il creditore interessi, penali e condizioni di estinzione anticipata.</li></ul><span style="font-size:11px">Stima semplice, non consulenza finanziaria: gli interessi non sono inclusi.</span>`;
 }
 function showPage(page){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+page));document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'});}
-$('profileForm').addEventListener('submit',e=>{e.preventDefault();let debt=Number($('profileDebt').value),monthly=Number($('profileMonthly').value||0);if(debt<=0||monthly<0){$('profileToast').textContent='Inserisci importi validi.';return}state.name=$('profileName').value.trim();state.debt=money(debt);state.monthly=monthly?money(monthly):0;state.day=Number($('profileDay').value);state.startDate=$('profileStart').value;save();render();syncPushPlan();$('profileToast').textContent='Profilo e piano salvati.';});
+$('profileForm').addEventListener('submit',e=>{e.preventDefault();let debt=Number($('profileDebt').value),monthly=Number($('profileMonthly').value||0);if(!Number.isFinite(debt)||debt<0||monthly<0){$('profileToast').textContent='Inserisci importi validi.';return}state.name=$('profileName').value.trim();state.debt=money(debt);state.monthly=monthly?money(monthly):0;state.day=Number($('profileDay').value);state.startDate=$('profileStart').value;save();render();syncPushPlan();$('profileToast').textContent='Profilo e piano salvati.';});
 $('paymentForm').addEventListener('submit',e=>{e.preventDefault();let amount=Number($('paymentAmount').value),date=$('paymentDate').value;if(!date||amount<=0)return;const item={id:editing||((crypto.randomUUID&&crypto.randomUUID())||String(Date.now())),date,amount:money(amount),method:$('paymentMethod').value,note:$('paymentNote').value.trim()};if(editing)state.payments=state.payments.map(p=>p.id===editing?item:p);else state.payments.push(item);save();resetPaymentForm();render();$('paymentToast').textContent=editing?'Pagamento aggiornato.':'Pagamento registrato correttamente.';editing=null;});
 function resetPaymentForm(){editing=null;$('paymentForm').reset();$('paymentDate').value=dateISO();$('paymentFormTitle').textContent='Registra un pagamento';$('paymentSubmit').textContent='＋ Salva pagamento';$('cancelEdit').hidden=true}
 window.editPayment=id=>{const p=state.payments.find(x=>x.id===id);if(!p)return;editing=id;$('paymentDate').value=p.date;$('paymentAmount').value=p.amount;$('paymentMethod').value=p.method||'';$('paymentNote').value=p.note||'';$('paymentFormTitle').textContent='Modifica pagamento';$('paymentSubmit').textContent='Salva modifiche';$('cancelEdit').hidden=false;showPage('payments')};
