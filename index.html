@@ -128,7 +128,7 @@
 <script>
 const KEY='le-mie-rate-v2', $=id=>document.getElementById(id);
 const SUPABASE_URL='https://yzqrlwbprvaymzfjvhtn.supabase.co';
-const SUPABASE_ANON_KEY=sb_publishable_nbtFfInsf9bEyloq2WvlHA_z3um0l4F';
+const SUPABASE_ANON_KEY='sb_publishable_nbtFfInsf9bEyloq2WvlHA_z3um0l4F';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage } });
 let currentUser=null, isSignup=false, isUnlocked=false, syncTimer=null, remoteLoading=false;
 const PIN_KEY='le-mie-rate-pin-v1';
@@ -201,18 +201,29 @@ $('authToggle').addEventListener('click',()=>{isSignup=!isSignup;$('authTitle').
 $('authForm').addEventListener('submit',async e=>{
  e.preventDefault();
  const submit=$('authSubmit');
- submit.disabled=true;submit.textContent='Accesso…';showAuthMessage('Verifico le credenziali…');
+ const wasSignup=isSignup;
+ submit.disabled=true;submit.textContent=wasSignup?'Creazione account…':'Accesso…';
+ showAuthMessage(wasSignup?'Creo il tuo account…':'Verifico le credenziali…');
  const email=$('authEmail').value.trim(),password=$('authPassword').value;
  try{
-  const result=isSignup
-   ? await sb.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}})
-   : await sb.auth.signInWithPassword({email,password});
+  const request=wasSignup
+   ? sb.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}})
+   : sb.auth.signInWithPassword({email,password});
+  const timeout=new Promise((_,reject)=>setTimeout(()=>reject(new Error('La richiesta a Supabase non risponde. Controlla connessione, Project URL e impostazioni Authentication > URL Configuration, poi riprova.')),15000));
+  const result=await Promise.race([request,timeout]);
   if(result.error)throw result.error;
-  if(isSignup&&!result.data.session){showAuthMessage('Account creato. Conferma l’email dal messaggio ricevuto, poi torna qui e accedi.');return}
+  if(wasSignup && !result.data.session){
+   isSignup=false;
+   $('authTitle').textContent='Account creato';
+   $('authSubmit').textContent='Accedi';
+   $('authToggle').textContent='Crea un account';
+   $('authPassword').autocomplete='current-password';
+   showAuthMessage('Account creato. Se è attiva la conferma email, apri il messaggio di Supabase e conferma l’indirizzo. Poi accedi con le credenziali.');
+   return;
+  }
   const user=result.data.user || result.data.session?.user;
-  if(!user)throw new Error('Supabase non ha restituito una sessione. Verifica la conferma email nelle impostazioni di autenticazione e riprova.');
+  if(!user)throw new Error('Supabase non ha restituito un utente. Se hai appena creato l’account, conferma prima la tua email e poi accedi.');
   currentUser=user;
-  // Mostra subito il PIN dopo l’accesso riuscito, senza attendere un nuovo controllo sessione.
   showAuthMessage('');
   showPinForCurrentUser();
   $('pinInput').focus();
@@ -220,7 +231,8 @@ $('authForm').addEventListener('submit',async e=>{
   console.error('Errore accesso Supabase:',err);
   showAuthMessage(err.message||'Accesso non riuscito. Controlla email e password.');
  }finally{
-  submit.disabled=false;submit.textContent=isSignup?'Registrati':'Accedi';
+  submit.disabled=false;
+  submit.textContent=isSignup?'Registrati':'Accedi';
  }
 });
 $('pinForm').addEventListener('submit',async e=>{
