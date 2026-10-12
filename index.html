@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101c2c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Le mie rate">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<title>Le mie rate</title>
+<style>
+:root{color-scheme:light;--navy:#101c2c;--navy2:#1b2c42;--mint:#b9f3d8;--green:#167653;--bg:#f3f6fa;--card:#fff;--text:#182638;--muted:#728094;--line:#e6ebf1;--red:#b94141;--amber:#966515;--shadow:0 12px 34px #14243b0a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:15px;line-height:1.45}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}
+.app{max-width:1120px;margin:0 auto;padding:22px 20px 110px}.header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:15px;background:var(--navy);color:var(--mint);display:grid;place-items:center;font-size:24px}.brand h1{font-size:20px;margin:0;letter-spacing:-.04em}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.avatar{height:42px;width:42px;border-radius:50%;background:#dfe8f1;color:var(--navy);font-weight:800;display:grid;place-items:center;border:2px solid #fff;box-shadow:0 0 0 1px var(--line)}
+.page{display:none}.page.active{display:block}.eyebrow{font-size:11px;letter-spacing:.13em;text-transform:uppercase;font-weight:800;color:var(--muted)}h2{margin:5px 0 0;font-size:28px;letter-spacing:-.05em}h3{margin:0;font-size:16px;letter-spacing:-.02em}.intro{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:20px}.muted{color:var(--muted)}.small{font-size:12px;color:var(--muted)}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 15px;border-radius:13px;font-weight:750;transition:transform .12s}.btn:active{transform:scale(.98)}.primary{background:var(--navy);color:white}.primary .plus{color:var(--mint);font-size:19px}.secondary{background:#edf1f6;color:var(--navy)}.outline{background:white;border:1px solid var(--line);color:var(--text)}.danger{background:#fff0f0;color:var(--red)}.wide{width:100%}
+.hero{background:linear-gradient(125deg,#101c2c 0%,#1d344a 100%);color:#fff;border-radius:26px;padding:26px;position:relative;overflow:hidden;box-shadow:0 18px 45px #12233a20;margin-bottom:16px}.hero:after{content:"";position:absolute;width:240px;height:240px;border:1px solid #ffffff12;border-radius:50%;right:-70px;top:-110px;box-shadow:0 0 0 30px #ffffff05,0 0 0 65px #ffffff04}.hero-top{display:flex;justify-content:space-between;align-items:center;gap:10px;position:relative;z-index:1}.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #ffffff25;background:#ffffff0d;border-radius:100px;padding:6px 10px;font-size:11px;font-weight:700;color:#d7e2ed}.dot{height:7px;width:7px;border-radius:50%;background:var(--mint)}.hero-label{font-size:13px;color:#b8c6d5;margin-top:28px}.hero-amount{font-size:clamp(36px,7vw,54px);letter-spacing:-.065em;font-weight:800;margin:3px 0 14px;position:relative;z-index:1}.hero-foot{display:flex;justify-content:space-between;gap:12px;color:#c3d0dc;font-size:12px}.bar{height:8px;border-radius:99px;background:#ffffff1d;margin:13px 0 9px;overflow:hidden;position:relative;z-index:1}.bar span{height:100%;display:block;width:0;background:var(--mint);border-radius:99px;transition:width .25s}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}.stat,.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:19px;box-shadow:var(--shadow)}.stat-top{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:12px;font-weight:650}.stat-icon{width:32px;height:32px;border-radius:10px;background:#eff4f7;display:grid;place-items:center;font-size:15px}.stat-value{font-size:22px;font-weight:800;letter-spacing:-.04em;margin-top:12px}.stat-sub{font-size:11px;color:var(--muted);margin-top:3px}.content-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);gap:16px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.next-card{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}.calendar-icon{width:48px;height:51px;border-radius:13px;background:#e8f7ef;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--green);flex-shrink:0}.calendar-icon strong{font-size:20px;line-height:1.1}.calendar-icon span{font-size:9px;font-weight:800;text-transform:uppercase}.next-details{flex:1;min-width:0}.next-details strong{display:block;font-size:14px}.next-details span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.next-amount{font-size:17px;font-weight:800;white-space:nowrap}.status{display:inline-flex;align-items:center;border-radius:99px;padding:5px 8px;font-size:10px;font-weight:800;background:#edf2f7;color:#647286}.status.paid{background:#e6f7ef;color:#18734e}.status.due{background:#fff3dc;color:#956315}.empty{padding:30px 12px;text-align:center;color:var(--muted);font-size:13px}.empty .empty-icon{font-size:26px;margin-bottom:7px}.list{display:flex;flex-direction:column;gap:9px}.payment-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.payment-row:last-child{border-bottom:0}.payment-date{width:43px;height:43px;border-radius:13px;background:#f0f3f7;display:grid;place-items:center;font-size:11px;font-weight:800;color:#4f6073;flex-shrink:0}.payment-info{flex:1;min-width:0}.payment-info strong{display:block;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.payment-info span{font-size:11px;color:var(--muted)}.payment-right{text-align:right}.payment-right strong{display:block;font-size:14px}.payment-right button{font-size:11px;color:var(--muted);background:transparent;padding:3px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:10;background:#ffffffed;backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;justify-content:center;padding:8px 12px max(8px,env(safe-area-inset-bottom));}.nav-inner{width:min(600px,100%);display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.nav-btn{background:transparent;color:#8591a0;border-radius:13px;padding:9px 4px 7px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:750}.nav-btn span:first-child{font-size:19px}.nav-btn.active{background:#e8f5ee;color:var(--green)}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}.field label{font-size:12px;font-weight:750;color:#526174}.field input,.field select,.field textarea{width:100%;border:1px solid #dce3eb;background:#fbfcfe;border-radius:12px;padding:12px 13px;outline:none;color:var(--text)}.field input:focus,.field select:focus,.field textarea:focus{border-color:#67b996;box-shadow:0 0 0 3px #67b99620}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.section-gap{margin-top:16px}.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.notice{padding:13px 14px;border-radius:13px;background:#f0f5fa;color:#526174;font-size:12px;line-height:1.55;margin-top:13px}.notice strong{color:var(--text)}.switch-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}.switch-row:last-child{border:0}.switch-row strong{display:block;font-size:13px}.switch-row span{font-size:11px;color:var(--muted)}input[type=checkbox]{accent-color:var(--green);width:19px;height:19px}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:440px}th,td{text-align:left;padding:12px 9px;border-bottom:1px solid var(--line);font-size:12px}th{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em}td:last-child{text-align:right}.table-action{background:transparent;color:var(--muted);padding:5px 7px}.toast{font-size:12px;color:var(--green);min-height:20px;margin-top:9px}.danger-text{color:var(--red)}
+@media(max-width:760px){.app{padding:17px 14px 105px}.header{margin-bottom:22px}.intro{align-items:start;flex-direction:column}.intro h2{font-size:25px}.intro .btn{width:100%}.hero{padding:21px;border-radius:22px}.stats{gap:8px}.stat{padding:13px 11px;border-radius:16px}.stat-top{display:block;font-size:10px}.stat-icon{width:27px;height:27px;margin-bottom:7px}.stat-value{font-size:17px;margin-top:8px}.stat-sub{font-size:10px}.content-grid,.settings-grid{grid-template-columns:1fr}.panel{padding:16px}.form-grid{grid-template-columns:1fr 1fr}.next-amount{font-size:15px}}
+@media(max-width:380px){.form-grid{grid-template-columns:1fr}.hero-amount{font-size:34px}.hero-foot{font-size:11px}}
+@media print{.bottom-nav,.header .avatar,.btn,.no-print{display:none!important}.app{padding:0}.page{display:none!important}.page.active{display:block!important}.panel,.stat,.hero{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="header">
+ <div class="brand"><div class="logo">↗</div><div><h1>Le mie rate</h1><p>Il tuo percorso verso zero</p></div></div>
+ <button class="avatar" aria-label="Apri profilo" onclick="showPage('profile')">IO</button>
+</header>
+
+<section class="page active" id="page-home">
+ <div class="intro"><div><div class="eyebrow">Panoramica</div><h2>Il tuo debito, sotto controllo.</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Un passo alla volta, ogni mese.</p></div><button class="btn primary" onclick="showPage('payments')"><span class="plus">＋</span> Registra una rata</button></div>
+ <div class="hero">
+  <div class="hero-top"><span class="pill"><span class="dot"></span> Piano di rimborso attivo</span><span style="font-size:21px">◈</span></div>
+  <div class="hero-label">Debito residuo</div><div class="hero-amount" id="heroRemaining">3.000,00 €</div>
+  <div class="bar"><span id="heroBar"></span></div>
+  <div class="hero-foot"><span id="heroPaidLabel">0,00 € rimborsati</span><span id="heroPct">0% completato</span></div>
+ </div>
+ <div class="stats">
+  <div class="stat"><div class="stat-top"><span class="stat-icon">◎</span>Debito iniziale</div><div class="stat-value" id="statInitial">3.000 €</div><div class="stat-sub">Importo del profilo</div></div>
+  <div class="stat"><div class="stat-top"><span class="stat-icon">↗</span>Totale pagato</div><div class="stat-value" id="statPaid">0 €</div><div class="stat-sub" id="statCount">0 rate registrate</div></div>
+  <div class="stat"><div class="stat-top"><span class="stat-icon">✓</span>Prossima rata</div><div class="stat-value" id="statNext">—</div><div class="stat-sub" id="statNextSub">Imposta il giorno nel profilo</div></div>
+ </div>
+ <div class="content-grid">
+  <section class="panel"><div class="panel-head"><h3>Prossimo pagamento</h3><span class="status" id="nextStatus">Da impostare</span></div><div id="nextPayment"><div class="empty"><div class="empty-icon">▦</div>Imposta la rata mensile nel tuo profilo per visualizzare la prossima scadenza.</div></div><button class="btn secondary wide" onclick="showPage('profile')">Configura piano di rimborso</button></section>
+  <section class="panel"><div class="panel-head"><h3>Pagamenti recenti</h3><button class="table-action" onclick="showPage('payments')">Vedi tutti →</button></div><div id="recentList" class="list"><div class="empty"><div class="empty-icon">↗</div>I pagamenti registrati appariranno qui.</div></div></section>
+ </div>
+</section>
+
+<section class="page" id="page-payments">
+ <div class="intro"><div><div class="eyebrow">Storico e inserimento</div><h2>Le tue rate</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Registra ogni pagamento e tieni traccia dei progressi.</p></div></div>
+ <div class="settings-grid">
+  <section class="panel"><div class="panel-head"><h3 id="paymentFormTitle">Registra un pagamento</h3></div>
+   <form id="paymentForm">
+    <div class="field"><label for="paymentDate">Data del pagamento</label><input id="paymentDate" type="date" required></div>
+    <div class="form-grid"><div class="field"><label for="paymentAmount">Importo pagato (€)</label><input id="paymentAmount" type="number" min="0.01" step="0.01" placeholder="150,00" required></div><div class="field"><label for="paymentMethod">Metodo (facoltativo)</label><select id="paymentMethod"><option value="">Seleziona</option><option>Bonifico</option><option>Contanti</option><option>Addebito</option><option>Altro</option></select></div></div>
+    <div class="field"><label for="paymentNote">Nota (facoltativa)</label><input id="paymentNote" maxlength="120" placeholder="Es. rata ottobre"></div>
+    <div class="actions"><button class="btn primary" type="submit" id="paymentSubmit">＋ Salva pagamento</button><button class="btn secondary" type="button" id="cancelEdit" hidden>Annulla</button></div><div class="toast" id="paymentToast" role="status"></div>
+   </form>
+   <div class="notice">Il pagamento viene registrato nello storico e sottratto dal debito residuo. L'importo totale del debito si modifica solo nella sezione <strong>Profilo</strong>.</div>
+  </section>
+  <section class="panel"><div class="panel-head"><h3>Storico pagamenti</h3><span class="status" id="historyCount">0 pagamenti</span></div><div id="historyTable"></div><div class="empty" id="historyEmpty">Non hai ancora registrato rate.</div><div class="actions no-print" style="margin-top:12px"><button class="btn secondary" onclick="exportBackup()">Esporta backup</button><button class="btn secondary" onclick="document.getElementById('importFile').click()">Importa backup</button><input id="importFile" type="file" accept=".json,application/json" hidden></div></section>
+ </div>
+</section>
+
+<section class="page" id="page-profile">
+ <div class="intro"><div><div class="eyebrow">Impostazioni personali</div><h2>Profilo e piano</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Qui puoi modificare il debito e le regole delle rate.</p></div></div>
+ <div class="settings-grid">
+  <section class="panel"><div class="panel-head"><h3>Il tuo debito</h3><span class="status">Profilo</span></div>
+   <form id="profileForm">
+    <div class="field"><label for="profileName">Nome del profilo (facoltativo)</label><input id="profileName" maxlength="50" placeholder="Es. Il mio piano"></div>
+    <div class="field"><label for="profileDebt">Importo totale dovuto (€)</label><input id="profileDebt" type="number" min="0.01" step="0.01" required></div>
+    <div class="field"><label for="profileMonthly">Importo rata mensile previsto (€)</label><input id="profileMonthly" type="number" min="0.01" step="0.01" placeholder="Es. 150,00"></div>
+    <div class="field"><label for="profileDay">Giorno del mese in cui pagare</label><select id="profileDay"></select></div>
+    <div class="field"><label for="profileStart">Prima scadenza</label><input id="profileStart" type="date"></div>
+    <button class="btn primary wide" type="submit">Salva profilo e piano</button><div class="toast" id="profileToast" role="status"></div>
+   </form>
+   <div class="notice"><strong>Nota:</strong> questa impostazione serve a calcolare le scadenze indicative. Non effettua pagamenti automatici e non include eventuali interessi o commissioni.</div>
+  </section>
+  <section class="panel"><div class="panel-head"><h3>Promemoria su iPhone</h3><span class="status" id="notifyStatus">Da configurare</span></div>
+   <p class="muted" style="font-size:13px;margin:0 0 15px">Promemoria push alle 18:00, ogni giorno nei 7 giorni prima della scadenza. Per riceverli anche quando l'app è chiusa, installa questa web app sulla schermata Home e configura il servizio gratuito descritto nel README.</p>
+   <div class="switch-row"><div><strong>Promemoria giornalieri</strong><span>Un avviso al giorno nel periodo scelto</span></div><input id="remindersEnabled" type="checkbox" aria-label="Abilita promemoria"></div>
+   <div class="field section-gap"><label for="reminderTime">Ora del promemoria</label><input id="reminderTime" type="time" value="18:00"></div>
+   <div class="field"><label for="reminderDays">Quando ricevere l'avviso</label><select id="reminderDays"><option value="1">Solo il giorno della scadenza</option><option value="3">Ogni giorno nei 3 giorni prima</option><option value="7" selected>Ogni giorno nei 7 giorni prima</option></select></div>
+   <button class="btn primary wide" id="enableNotify" type="button">Attiva notifiche</button><div class="toast" id="notifyToast" role="status"></div>
+   <div class="notice"><strong>Per completare l'attivazione:</strong> pubblica l'app su HTTPS, avvia il backend push e poi premi “Attiva notifiche”. Il server controlla la scadenza ogni giorno alle 18:00 (Europe/Rome) e invia un push nei 7 giorni precedenti. Il piano viene sincronizzato con il server quando salvi il profilo. Per sicurezza, non inserire dati personali non necessari.</div>
+  </section>
+ </div>
+ <section class="panel section-gap"><div class="panel-head"><h3>Dati e backup</h3></div><p class="muted" style="font-size:13px;margin-top:0">I dati restano nel browser di questo dispositivo. Esporta una copia periodicamente.</p><div class="actions"><button class="btn secondary" onclick="exportBackup()">Esporta backup JSON</button><button class="btn secondary" onclick="document.getElementById('importFile').click()">Importa backup JSON</button><button class="btn danger" onclick="clearPayments()">Cancella storico pagamenti</button></div><div class="toast" id="dataToast"></div></section>
+</section>
+</div>
+
+<nav class="bottom-nav"><div class="nav-inner"><button class="nav-btn active" data-page="home" onclick="showPage('home')"><span>⌂</span><span>Panoramica</span></button><button class="nav-btn" data-page="payments" onclick="showPage('payments')"><span>＋</span><span>Pagamenti</span></button><button class="nav-btn" data-page="profile" onclick="showPage('profile')"><span>⚙</span><span>Profilo</span></button></div></nav>
+<script>
+const KEY='le-mie-rate-v2', $=id=>document.getElementById(id);
+const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(n||0);
+const dateISO=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)};
+let state={name:'',debt:3000,monthly:150,day:1,startDate:'',reminders:false,reminderTime:'18:00',reminderDays:7,payments:[]},editing=null;
+for(let i=1;i<=31;i++) $('profileDay').add(new Option(i+' del mese',String(i)));
+function safeLoad(){try{let x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeof x==='object'&&Number.isFinite(x.debt)&&Array.isArray(x.payments))state={...state,...x};}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));return true}catch(e){return false}}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function money(n){return Math.round((Number(n)+Number.EPSILON)*100)/100}
+function totalPaid(){return state.payments.reduce((s,p)=>s+p.amount,0)}
+function remaining(){return Math.max(0,state.debt-totalPaid())}
+function nextDue(){if(!state.monthly||!state.day)return null;let now=new Date(), candidate=new Date(now.getFullYear(),now.getMonth(),Math.min(state.day,new Date(now.getFullYear(),now.getMonth()+1,0).getDate()));candidate.setHours(0,0,0,0);if(candidate<new Date(now.getFullYear(),now.getMonth(),now.getDate()))candidate=new Date(now.getFullYear(),now.getMonth()+1,Math.min(state.day,new Date(now.getFullYear(),now.getMonth()+2,0).getDate()));return candidate}
+function dateLabel(s){if(!s)return '—';let [y,m,d]=s.split('-');return `${d}/${m}/${y}`}
+function render(){
+ const paid=totalPaid(), rem=remaining(), pct=state.debt?Math.min(100,paid/state.debt*100):0;
+ $('heroRemaining').textContent=euro(rem);$('heroPaidLabel').textContent=euro(paid)+' rimborsati';$('heroPct').textContent=pct.toLocaleString('it-IT',{maximumFractionDigits:1})+'% completato';$('heroBar').style.width=pct+'%';
+ $('statInitial').textContent=euro(state.debt);$('statPaid').textContent=euro(paid);$('statCount').textContent=state.payments.length+' '+(state.payments.length===1?'rata registrata':'rate registrate');
+ const due=nextDue();$('statNext').textContent=due?due.toLocaleDateString('it-IT',{day:'2-digit',month:'short'}):'—';$('statNextSub').textContent=state.monthly?euro(state.monthly)+' previsti':'Imposta la rata nel profilo';
+ $('nextStatus').textContent=due?'Scadenza indicativa':'Da impostare';$('nextPayment').innerHTML=due?`<div class="next-card"><div class="calendar-icon"><strong>${due.getDate()}</strong><span>${due.toLocaleDateString('it-IT',{month:'short'})}</span></div><div class="next-details"><strong>Rata mensile prevista</strong><span>${due.toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</span><span>Importo configurato nel profilo</span></div><div class="next-amount">${euro(Math.min(state.monthly,rem))}</div></div><div class="small" style="margin-bottom:15px">Scadenza calcolata in base al giorno impostato. Verifica sempre gli accordi effettivi con il creditore.</div>`:`<div class="empty">Imposta l'importo e il giorno della rata nel profilo.</div>`;
+ const sorted=[...state.payments].sort((a,b)=>b.date.localeCompare(a.date));
+ $('recentList').innerHTML=sorted.length?sorted.slice(0,4).map(p=>`<div class="payment-row"><div class="payment-date">${esc(p.date.slice(8,10))}<br>${esc(p.date.slice(5,7))}</div><div class="payment-info"><strong>${esc(p.note||p.method||'Pagamento rata')}</strong><span>${dateLabel(p.date)}</span></div><div class="payment-right"><strong>− ${euro(p.amount)}</strong><span class="status paid">Pagata</span></div></div>`).join(''):'<div class="empty"><div class="empty-icon">↗</div>I pagamenti registrati appariranno qui.</div>';
+ $('historyCount').textContent=state.payments.length+' '+(state.payments.length===1?'pagamento':'pagamenti');$('historyEmpty').style.display=sorted.length?'none':'block';
+ $('historyTable').innerHTML=sorted.length?`<div class="table-wrap"><table><thead><tr><th>Data</th><th>Descrizione</th><th>Importo</th><th>Azioni</th></tr></thead><tbody>${sorted.map(p=>`<tr><td>${dateLabel(p.date)}</td><td>${esc(p.note||p.method||'Rata mensile')}</td><td><strong>${euro(p.amount)}</strong></td><td><button class="table-action" onclick="editPayment('${esc(p.id)}')">Modifica</button><button class="table-action danger-text" onclick="deletePayment('${esc(p.id)}')">Elimina</button></td></tr>`).join('')}</tbody></table></div>`:'';
+ $('profileName').value=state.name||'';$('profileDebt').value=state.debt;$('profileMonthly').value=state.monthly||'';$('profileDay').value=String(state.day||1);$('profileStart').value=state.startDate||'';
+ $('remindersEnabled').checked=!!state.reminders;$('reminderTime').value=state.reminderTime||'09:00';$('reminderDays').value=String(state.reminderDays||7);$('notifyStatus').textContent=state.reminders?'Attivi (se supportati)':'Da configurare';
+}
+function showPage(page){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+page));document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'});}
+$('profileForm').addEventListener('submit',e=>{e.preventDefault();let debt=Number($('profileDebt').value),monthly=Number($('profileMonthly').value||0);if(debt<=0||monthly<0){$('profileToast').textContent='Inserisci importi validi.';return}state.name=$('profileName').value.trim();state.debt=money(debt);state.monthly=monthly?money(monthly):0;state.day=Number($('profileDay').value);state.startDate=$('profileStart').value;save();render();syncPushPlan();$('profileToast').textContent='Profilo e piano salvati.';});
+$('paymentForm').addEventListener('submit',e=>{e.preventDefault();let amount=Number($('paymentAmount').value),date=$('paymentDate').value;if(!date||amount<=0)return;const item={id:editing||((crypto.randomUUID&&crypto.randomUUID())||String(Date.now())),date,amount:money(amount),method:$('paymentMethod').value,note:$('paymentNote').value.trim()};if(editing)state.payments=state.payments.map(p=>p.id===editing?item:p);else state.payments.push(item);save();resetPaymentForm();render();$('paymentToast').textContent=editing?'Pagamento aggiornato.':'Pagamento registrato correttamente.';editing=null;});
+function resetPaymentForm(){editing=null;$('paymentForm').reset();$('paymentDate').value=dateISO();$('paymentFormTitle').textContent='Registra un pagamento';$('paymentSubmit').textContent='＋ Salva pagamento';$('cancelEdit').hidden=true}
+window.editPayment=id=>{const p=state.payments.find(x=>x.id===id);if(!p)return;editing=id;$('paymentDate').value=p.date;$('paymentAmount').value=p.amount;$('paymentMethod').value=p.method||'';$('paymentNote').value=p.note||'';$('paymentFormTitle').textContent='Modifica pagamento';$('paymentSubmit').textContent='Salva modifiche';$('cancelEdit').hidden=false;showPage('payments')};
+window.deletePayment=id=>{if(!confirm('Vuoi eliminare questo pagamento dallo storico?'))return;state.payments=state.payments.filter(p=>p.id!==id);save();render()};
+$('cancelEdit').addEventListener('click',resetPaymentForm);
+window.clearPayments=()=>{if(confirm('Cancellare tutte le rate registrate? Questa azione non si può annullare.')){state.payments=[];save();render();$('dataToast').textContent='Storico pagamenti cancellato.'}};
+window.exportBackup=()=>{let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='backup-le-mie-rate.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+$('importFile').addEventListener('change',async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());if(!Number.isFinite(d.debt)||d.debt<=0||!Array.isArray(d.payments)||!d.payments.every(p=>typeof p.date==='string'&&Number.isFinite(p.amount)&&p.amount>0))throw Error();if(confirm('Importare il backup? Il profilo e lo storico attuali saranno sostituiti.')){state={...state,...d};save();render();$('dataToast').textContent='Backup importato.'}}catch(err){alert('File non valido: seleziona un backup JSON esportato da Le mie rate.')}e.target.value=''});
+$('remindersEnabled').addEventListener('change',e=>{state.reminders=e.target.checked;save();render()});
+$('reminderTime').addEventListener('change',e=>{state.reminderTime=e.target.value;save()});
+$('reminderDays').addEventListener('change',e=>{state.reminderDays=Number(e.target.value);save()});
+$('enableNotify').addEventListener('click',async()=>{
+ try {
+   if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) {
+     $('notifyToast').textContent='Push non supportato in questo browser. Su iPhone usa iOS/iPadOS 16.4 o successivo e aggiungi prima l’app alla schermata Home.'; return;
+   }
+   if (!location.protocol.startsWith('https') && location.hostname !== 'localhost') {
+     $('notifyToast').textContent='Le notifiche push richiedono HTTPS. Pubblica l’app su un hosting HTTPS e riprova.'; return;
+   }
+   const perm = await Notification.requestPermission();
+   if (perm !== 'granted') { $('notifyToast').textContent='Permesso notifiche non concesso.'; return; }
+   const reg = await navigator.serviceWorker.ready;
+   const keyRes = await fetch('/api/push/public-key');
+   if (!keyRes.ok) throw new Error('Backend push non raggiungibile. Controlla che il server sia avviato.');
+   const keyData = await keyRes.json();
+   const key = urlBase64ToUint8Array(keyData.publicKey);
+   let sub = await reg.pushManager.getSubscription();
+   if (!sub) sub = await reg.pushManager.subscribe({userVisibleOnly:true, applicationServerKey:key});
+   const response = await fetch('/api/push/subscribe', {
+     method:'POST', headers:{'Content-Type':'application/json'},
+     body:JSON.stringify({subscription:sub, plan:{debt:state.debt, monthly:state.monthly, day:state.day, reminders:true, reminderDays:7, reminderTime:'18:00', timezone:'Europe/Rome'}})
+   });
+   if (!response.ok) throw new Error((await response.json()).error || 'Impossibile salvare la sottoscrizione push.');
+   state.reminders=true;state.reminderDays=7;state.reminderTime='18:00';save();render();
+   $('notifyToast').textContent='Notifiche push attivate. Riceverai un promemoria alle 18:00 nei 7 giorni prima della scadenza.';
+ } catch(err) { $('notifyToast').textContent=err.message || 'Errore durante l’attivazione delle notifiche.'; }
+});
+function urlBase64ToUint8Array(base64String) { const padding='='.repeat((4-base64String.length%4)%4); const base64=(base64String+padding).replace(/-/g,'+').replace(/_/g,'/'); const raw=atob(base64); return Uint8Array.from([...raw].map(c=>c.charCodeAt(0))); }
+async function syncPushPlan() {
+ try {
+   if (!state.reminders) return;
+   const reg = await navigator.serviceWorker.ready;
+   const sub = await reg.pushManager.getSubscription();
+   if (!sub) return;
+   await fetch('/api/push/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subscription:sub,plan:{debt:state.debt,monthly:state.monthly,day:state.day,reminders:true,reminderDays:7,reminderTime:'18:00',timezone:'Europe/Rome'}})});
+ } catch(e) { console.warn('Piano push non sincronizzato',e); }
+}
+function maybeNotify(){if(!state.reminders||!('Notification'in window)||Notification.permission!=='granted')return;const due=nextDue();if(!due)return;const today=new Date();today.setHours(0,0,0,0);const days=Math.round((due-today)/86400000);if(days>=0&&days<=(state.reminderDays||1)){const key='le-mie-rate-notified-'+dateISO();if(!localStorage.getItem(key)){new Notification(days===0?'La rata è in scadenza oggi':'Promemoria rata',{body:`Hai una rata prevista di ${euro(Math.min(state.monthly,remaining()))} per ${due.toLocaleDateString('it-IT')}.`,icon:'./icon-192.png'});localStorage.setItem(key,'1')}}}
+safeLoad();$('paymentDate').value=dateISO();if(!state.startDate)state.startDate=dateISO();render();if('serviceWorker'in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('/sw.js').catch(()=>{});maybeNotify();
+</script>
+</body>
+</html>
