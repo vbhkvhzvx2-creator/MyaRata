@@ -49,7 +49,7 @@
    <form id="pinForm">
     <div class="field"><label for="pinInput">PIN di 4 cifre</label><input id="pinInput" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" required placeholder="••••"></div>
     <div class="field" id="pinConfirmWrap"><label for="pinConfirm">Conferma PIN</label><input id="pinConfirm" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" placeholder="••••"></div>
-    <div class="auth-actions"><button class="btn primary wide" type="submit">Continua</button><button class="btn secondary wide" id="pinLogout" type="button">Esci</button></div>
+    <div class="auth-actions"><button class="btn primary wide" type="submit">Continua</button><button class="btn secondary wide" id="pinLogout" type="button">Esci dall’account</button></div>
    </form>
   </div>
   <div class="auth-error" id="authMessage" role="status"></div>
@@ -129,7 +129,7 @@
 const KEY='le-mie-rate-v2', $=id=>document.getElementById(id);
 const SUPABASE_URL='INSERISCI_PROJECT_URL';
 const SUPABASE_ANON_KEY='INSERISCI_PUBLISHABLE_KEY';
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage } });
 let currentUser=null, isSignup=false, isUnlocked=false, syncTimer=null, remoteLoading=false;
 const PIN_KEY='le-mie-rate-pin-v1';
 const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(n||0);
@@ -176,14 +176,20 @@ async function cloudSave(){
 }
 function showAuthPanel(which){$('authEmailPanel').hidden=which!=='email';$('authPinPanel').hidden=which!=='pin';$('authGate').style.display='flex'}
 function showAuthMessage(s){$('authMessage').textContent=s||''}
+function showPinForCurrentUser(){
+ if(!currentUser){showAuthPanel('email');return;}
+ const stored=localStorage.getItem(PIN_KEY);
+ $('pinInput').value='';$('pinConfirm').value='';
+ if(stored){$('pinTitle').textContent='Inserisci il PIN';$('pinDescription').textContent='Inserisci il PIN per sbloccare Le mie rate su questo dispositivo.';$('pinConfirmWrap').hidden=true;}
+ else{$('pinTitle').textContent='Imposta il PIN';$('pinDescription').textContent='Scegli un PIN di 4 cifre per sbloccare questa app su questo dispositivo.';$('pinConfirmWrap').hidden=false;}
+ showAuthPanel('pin');
+}
 async function initAuth(){
  if(SUPABASE_URL.startsWith('INSERISCI_')||SUPABASE_ANON_KEY.startsWith('INSERISCI_')){showAuthPanel('email');showAuthMessage('Configura Project URL e Publishable key nel file prima di usare il login.');return}
  const {data:{session},error}=await sb.auth.getSession();if(error)console.error(error);
  if(!session){showAuthPanel('email');return}
  currentUser=session.user;
- const stored=localStorage.getItem(PIN_KEY);
- if(stored){$('pinTitle').textContent='Inserisci il PIN';$('pinDescription').textContent='Inserisci il PIN per sbloccare Le mie rate su questo dispositivo.';$('pinConfirmWrap').hidden=true;showAuthPanel('pin')}
- else{$('pinTitle').textContent='Imposta il PIN';$('pinDescription').textContent='Scegli un PIN di 4 cifre per sbloccare questa app su questo dispositivo.';$('pinConfirmWrap').hidden=false;showAuthPanel('pin')}
+ showPinForCurrentUser();
 }
 $('authToggle').addEventListener('click',()=>{isSignup=!isSignup;$('authTitle').textContent=isSignup?'Crea account':'Accedi';$('authSubmit').textContent=isSignup?'Registrati':'Accedi';$('authToggle').textContent=isSignup?'Ho già un account':'Crea un account';$('authPassword').autocomplete=isSignup?'new-password':'current-password';showAuthMessage('')});
 $('authForm').addEventListener('submit',async e=>{
@@ -193,7 +199,9 @@ $('authForm').addEventListener('submit',async e=>{
   let result=isSignup?await sb.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}}):await sb.auth.signInWithPassword({email,password});
   if(result.error)throw result.error;
   if(isSignup&&!result.data.session){showAuthMessage('Account creato. Controlla la tua email per confermare, poi torna qui e accedi.');return}
-  currentUser=result.data.user;showAuthMessage('');await initAuth();
+  currentUser=result.data.user;showAuthMessage('');
+  if(!currentUser){throw new Error('Accesso riuscito ma sessione utente non disponibile. Riprova.');}
+  showPinForCurrentUser();
  }catch(err){showAuthMessage(err.message||'Accesso non riuscito.')}
 });
 $('pinForm').addEventListener('submit',async e=>{
@@ -215,7 +223,7 @@ $('pinForm').addEventListener('submit',async e=>{
  try{await cloudLoad();$('authGate').style.display='none';render();}catch(err){showAuthMessage('Errore di sincronizzazione: '+(err.message||'verifica database e credenziali'));isUnlocked=false}
  $('pinInput').value='';$('pinConfirm').value='';
 });
-$('pinLogout').addEventListener('click',async()=>{isUnlocked=false;currentUser=null;await sb.auth.signOut();showAuthPanel('email');showAuthMessage('Hai effettuato la disconnessione.')});
+$('pinLogout').addEventListener('click',async()=>{if(!confirm('Vuoi davvero uscire dall’account? La prossima volta dovrai inserire email e password.'))return;isUnlocked=false;currentUser=null;await sb.auth.signOut();showAuthPanel('email');showAuthMessage('Hai effettuato la disconnessione.')});
 
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function money(n){return Math.round((Number(n)+Number.EPSILON)*100)/100}
