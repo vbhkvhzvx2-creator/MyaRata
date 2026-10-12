@@ -185,24 +185,43 @@ function showPinForCurrentUser(){
  showAuthPanel('pin');
 }
 async function initAuth(){
- if(SUPABASE_URL.startsWith('INSERISCI_')||SUPABASE_ANON_KEY.startsWith('INSERISCI_')){showAuthPanel('email');showAuthMessage('Configura Project URL e Publishable key nel file prima di usare il login.');return}
- const {data:{session},error}=await sb.auth.getSession();if(error)console.error(error);
+ if(SUPABASE_URL.startsWith('INSERISCI_')||SUPABASE_ANON_KEY.startsWith('INSERISCI_')){showAuthPanel('email');showAuthMessage('Mancano Project URL e Publishable Key reali di Supabase nel file index.html.');return}
+ const {data,error}=await sb.auth.getSession();
+ if(error)throw error;
+ const session=data?.session;
  if(!session){showAuthPanel('email');return}
  currentUser=session.user;
  showPinForCurrentUser();
 }
+// Ripristina la schermata PIN anche quando Supabase completa il ripristino della sessione in ritardo.
+sb.auth.onAuthStateChange((event,session)=>{
+ if(session?.user){currentUser=session.user;if(event==='SIGNED_IN' && $('authEmailPanel').hidden===false)showPinForCurrentUser();}
+});
 $('authToggle').addEventListener('click',()=>{isSignup=!isSignup;$('authTitle').textContent=isSignup?'Crea account':'Accedi';$('authSubmit').textContent=isSignup?'Registrati':'Accedi';$('authToggle').textContent=isSignup?'Ho già un account':'Crea un account';$('authPassword').autocomplete=isSignup?'new-password':'current-password';showAuthMessage('')});
 $('authForm').addEventListener('submit',async e=>{
- e.preventDefault();showAuthMessage('Attendi…');
+ e.preventDefault();
+ const submit=$('authSubmit');
+ submit.disabled=true;submit.textContent='Accesso…';showAuthMessage('Verifico le credenziali…');
  const email=$('authEmail').value.trim(),password=$('authPassword').value;
  try{
-  let result=isSignup?await sb.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}}):await sb.auth.signInWithPassword({email,password});
+  const result=isSignup
+   ? await sb.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}})
+   : await sb.auth.signInWithPassword({email,password});
   if(result.error)throw result.error;
-  if(isSignup&&!result.data.session){showAuthMessage('Account creato. Controlla la tua email per confermare, poi torna qui e accedi.');return}
-  currentUser=result.data.user;showAuthMessage('');
-  if(!currentUser){throw new Error('Accesso riuscito ma sessione utente non disponibile. Riprova.');}
+  if(isSignup&&!result.data.session){showAuthMessage('Account creato. Conferma l’email dal messaggio ricevuto, poi torna qui e accedi.');return}
+  const user=result.data.user || result.data.session?.user;
+  if(!user)throw new Error('Supabase non ha restituito una sessione. Verifica la conferma email nelle impostazioni di autenticazione e riprova.');
+  currentUser=user;
+  // Mostra subito il PIN dopo l’accesso riuscito, senza attendere un nuovo controllo sessione.
+  showAuthMessage('');
   showPinForCurrentUser();
- }catch(err){showAuthMessage(err.message||'Accesso non riuscito.')}
+  $('pinInput').focus();
+ }catch(err){
+  console.error('Errore accesso Supabase:',err);
+  showAuthMessage(err.message||'Accesso non riuscito. Controlla email e password.');
+ }finally{
+  submit.disabled=false;submit.textContent=isSignup?'Registrati':'Accedi';
+ }
 });
 $('pinForm').addEventListener('submit',async e=>{
  e.preventDefault();showAuthMessage('');
