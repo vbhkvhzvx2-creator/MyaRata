@@ -127,8 +127,8 @@
 <nav class="bottom-nav"><div class="nav-inner"><button class="nav-btn active" data-page="home" onclick="showPage('home')"><span>⌂</span><span>Panoramica</span></button><button class="nav-btn" data-page="payments" onclick="showPage('payments')"><span>＋</span><span>Pagamenti</span></button><button class="nav-btn" data-page="profile" onclick="showPage('profile')"><span>⚙</span><span>Profilo</span></button></div></nav>
 <script>
 const KEY='le-mie-rate-v2', $=id=>document.getElementById(id);
-const SUPABASE_URL='INSERISCI_PROJECT_URL';
-const SUPABASE_ANON_KEY='INSERISCI_PUBLISHABLE_KEY';
+const SUPABASE_URL='https://yzqrlwbprvaymzfjvhtn.supabase.co';
+const SUPABASE_ANON_KEY=sb_publishable_nbtFfInsf9bEyloq2WvlHA_z3um0l4F';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage } });
 let currentUser=null, isSignup=false, isUnlocked=false, syncTimer=null, remoteLoading=false;
 const PIN_KEY='le-mie-rate-pin-v1';
