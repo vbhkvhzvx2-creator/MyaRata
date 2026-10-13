@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#101c2c">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -22,6 +22,20 @@
 @media(max-width:760px){.app{padding:17px 14px 105px}.header{margin-bottom:22px}.intro{align-items:start;flex-direction:column}.intro h2{font-size:25px}.intro .btn{width:100%}.hero{padding:21px;border-radius:22px}.stats{gap:8px}.stat{padding:13px 11px;border-radius:16px}.stat-top{display:block;font-size:10px}.stat-icon{width:27px;height:27px;margin-bottom:7px}.stat-value{font-size:17px;margin-top:8px}.stat-sub{font-size:10px}.content-grid,.settings-grid{grid-template-columns:1fr}.panel{padding:16px}.form-grid{grid-template-columns:1fr 1fr}.next-amount{font-size:15px}}
 @media(max-width:380px){.form-grid{grid-template-columns:1fr}.hero-amount{font-size:34px}.hero-foot{font-size:11px}}
 @media print{.bottom-nav,.header .avatar,.btn,.no-print{display:none!important}.app{padding:0}.page{display:none!important}.page.active{display:block!important}.panel,.stat,.hero{box-shadow:none;break-inside:avoid}}
+
+body[data-theme="dark"]{color-scheme:dark;--bg:#0d1520;--card:#152131;--text:#e8eef5;--muted:#a1afc0;--line:#29384a;--shadow:0 12px 34px #0003}
+body[data-theme="dark"] .bottom-nav{background:#111d2bed}
+body[data-theme="dark"] .secondary,body[data-theme="dark"] .outline{background:#243347;color:#e8eef5}
+body[data-theme="dark"] .field input,body[data-theme="dark"] .field select,body[data-theme="dark"] .field textarea{background:#111d2b;border-color:#34465a;color:#e8eef5}
+body[data-theme="dark"] .stat-icon,body[data-theme="dark"] .payment-date{background:#243347}
+body[data-theme="dark"] .next-card{border-color:var(--line)}
+.debt-card{border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:10px;background:var(--card)}
+.debt-card-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.debt-card h4{margin:0 0 4px;font-size:15px}.debt-card .debt-meta{font-size:12px;color:var(--muted)}
+.debt-card .debt-numbers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:13px}
+.debt-number{background:var(--bg);padding:9px;border-radius:11px;min-width:0}.debt-number span{display:block;color:var(--muted);font-size:10px}.debt-number strong{display:block;font-size:13px;overflow-wrap:anywhere;margin-top:3px}
+.priority-tag{font-size:10px;font-weight:800;padding:4px 7px;border-radius:99px;background:#e8f5ee;color:#167653}
+@media(max-width:380px){.debt-card .debt-numbers{grid-template-columns:1fr 1fr}.debt-number:last-child{grid-column:span 2}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -141,7 +155,7 @@
    <div class="notice"><strong>Per completare l'attivazione:</strong> pubblica l'app su HTTPS, avvia il backend push e poi premi “Attiva notifiche”. Il server controlla la scadenza ogni giorno alle 18:00 (Europe/Rome) e invia un push nei 7 giorni precedenti. Il piano viene sincronizzato con il server quando salvi il profilo. Per sicurezza, non inserire dati personali non necessari.</div>
   </section>
  </div>
- <section class="panel section-gap"><div class="panel-head"><h3>Dati e backup</h3></div><p class="muted" style="font-size:13px;margin-top:0">I dati restano nel browser di questo dispositivo. Esporta una copia periodicamente.</p><div class="actions"><button class="btn secondary" onclick="exportBackup()">Esporta backup JSON</button><button class="btn secondary" onclick="document.getElementById('importFile').click()">Importa backup JSON</button><button class="btn danger" onclick="clearPayments()">Cancella storico pagamenti</button></div><div class="toast" id="dataToast"></div></section>
+ <section class="panel section-gap"><div class="panel-head"><h3>Dati e preferenze</h3></div><div class="field"><label for="themeSelect">Aspetto dell’app</label><select id="themeSelect"><option value="light">☀️ Giorno</option><option value="dark">🌙 Notte</option></select></div><div class="small">La preferenza viene salvata su questo dispositivo.</div><div class="panel-head section-gap"><h3>Dati e backup</h3></div><p class="muted" style="font-size:13px;margin-top:0">I dati restano nel browser di questo dispositivo. Esporta una copia periodicamente.</p><div class="actions"><button class="btn secondary" onclick="exportBackup()">Esporta backup JSON</button><button class="btn secondary" onclick="document.getElementById('importFile').click()">Importa backup JSON</button><button class="btn danger" onclick="clearPayments()">Cancella storico pagamenti</button></div><div class="toast" id="dataToast"></div></section>
 </section>
 </div>
 
@@ -155,9 +169,9 @@ let currentUser=null, isSignup=false, isUnlocked=false, syncTimer=null, remoteLo
 const PIN_KEY='le-mie-rate-pin-v1';
 const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(n||0);
 const dateISO=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)};
-let state={name:'',debt:0,monthly:0,day:1,startDate:'',reminders:false,reminderTime:'18:00',reminderDays:7,payments:[]},editing=null;
-for(let i=1;i<=31;i++) $('profileDay').add(new Option(i+' del mese',String(i)));
-function safeLoad(){try{let x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeof x==='object'&&Number.isFinite(x.debt)&&Array.isArray(x.payments))state={...state,...x};}catch(e){}}
+let state={name:'',debt:0,monthly:0,day:1,startDate:'',reminders:false,reminderTime:'18:00',reminderDays:7,payments:[],debts:[]},editing=null;
+for(let i=1;i<=31;i++){ $('profileDay').add(new Option(i+' del mese',String(i))); $('debtDueDay').add(new Option(i+' del mese',String(i))); }
+function safeLoad(){try{let x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeof x==='object'&&Number.isFinite(x.debt)&&Array.isArray(x.payments))state={...state,...x,debts:Array.isArray(x.debts)?x.debts:[]};}catch(e){}}
 function save(){
  try{localStorage.setItem(KEY,JSON.stringify(state)); if(currentUser && isUnlocked && !remoteLoading) scheduleCloudSave(); return true}
  catch(e){return false}
@@ -181,7 +195,9 @@ async function cloudLoad(){
    const {error}=await sb.from('profiles').insert({user_id:currentUser.id,initial_debt:0,name:'',monthly_amount:0,due_day:1,start_date:null});
    if(error)throw error;
   }
-  state.payments=(rows||[]).map(r=>({id:r.id,date:r.due_date,amount:Number(r.amount),method:r.method||'',note:r.note||r.description||''}));
+  state.payments=(rows||[]).map(r=>({id:r.id,date:r.due_date,amount:Number(r.amount),method:r.method||'',note:r.note||r.description||'',debtId:r.debt_id||''}));
+   state.debts=(debtRows||[]).map(r=>({id:r.id,name:r.name,amount:Number(r.initial_amount),monthly:Number(r.monthly_amount),priority:Number(r.priority||2),day:Number(r.due_day||1),startDate:r.start_date||''}));
+   if(!state.debts.length && Number(state.debt)>0){state.debts=[{id:crypto.randomUUID(),name:state.name||'Debito principale',amount:Number(state.debt),monthly:Number(state.monthly||0),priority:2,day:Number(state.day||1),startDate:state.startDate||''}];}
   localStorage.setItem(KEY,JSON.stringify(state));render();
  } finally {remoteLoading=false}
 }
@@ -191,7 +207,7 @@ async function cloudSave(){
  const {error:pe}=await sb.from('profiles').upsert(profile,{onConflict:'user_id'});if(pe)throw pe;
  const {error:de}=await sb.from('payments').delete().eq('user_id',currentUser.id);if(de)throw de;
  if(state.payments.length){
-  const payload=state.payments.map(p=>({id:(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(p.id)?p.id:crypto.randomUUID()),user_id:currentUser.id,description:p.note||p.method||'Pagamento rata',method:p.method||'',note:p.note||'',amount:p.amount,due_date:p.date,is_paid:true,paid_at:p.date}));
+  const payload=state.payments.map(p=>({id:(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(p.id)?p.id:crypto.randomUUID()),user_id:currentUser.id,description:p.note||p.method||'Pagamento rata',method:p.method||'',note:p.note||'',amount:p.amount,due_date:p.date,debt_id:p.debtId||null,is_paid:true,paid_at:p.date}));
   const {error:ie}=await sb.from('payments').insert(payload);if(ie)throw ie;
  }
 }
@@ -295,7 +311,7 @@ $('pinLogout').addEventListener('click',async()=>{if(!confirm('Vuoi davvero usci
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function money(n){return Math.round((Number(n)+Number.EPSILON)*100)/100}
 function totalPaid(){return state.payments.reduce((s,p)=>s+p.amount,0)}
-function remaining(){return Math.max(0,state.debt-totalPaid())}
+function remaining(){const initial=state.debts.length?state.debts.reduce((s,d)=>s+Number(d.amount||0),0):state.debt;return Math.max(0,initial-totalPaid())}
 function nextDue(){if(!state.monthly||!state.day)return null;let now=new Date(), candidate=new Date(now.getFullYear(),now.getMonth(),Math.min(state.day,new Date(now.getFullYear(),now.getMonth()+1,0).getDate()));candidate.setHours(0,0,0,0);if(candidate<new Date(now.getFullYear(),now.getMonth(),now.getDate()))candidate=new Date(now.getFullYear(),now.getMonth()+1,Math.min(state.day,new Date(now.getFullYear(),now.getMonth()+2,0).getDate()));return candidate}
 function dateLabel(s){if(!s)return '—';let [y,m,d]=s.split('-');return `${d}/${m}/${y}`}
 function render(){
@@ -310,20 +326,44 @@ function render(){
  $('historyTable').innerHTML=sorted.length?`<div class="table-wrap"><table><thead><tr><th>Data</th><th>Descrizione</th><th>Importo</th><th>Azioni</th></tr></thead><tbody>${sorted.map(p=>`<tr><td>${dateLabel(p.date)}</td><td>${esc(p.note||p.method||'Rata mensile')}</td><td><strong>${euro(p.amount)}</strong></td><td><button class="table-action" onclick="editPayment('${esc(p.id)}')">Modifica</button><button class="table-action danger-text" onclick="deletePayment('${esc(p.id)}')">Elimina</button></td></tr>`).join('')}</tbody></table></div>`:'';
  $('profileName').value=state.name||'';$('profileDebt').value=state.debt;$('profileMonthly').value=state.monthly||'';$('profileDay').value=String(state.day||1);$('profileStart').value=state.startDate||'';
  $('remindersEnabled').checked=!!state.reminders;$('reminderTime').value=state.reminderTime||'18:00';$('reminderDays').value=String(state.reminderDays||7);$('notifyStatus').textContent=state.reminders?'Attivi (se supportati)':'Da configurare';
- renderRepaymentTips(rem);
+ renderRepaymentTips(rem);renderDebts();
 }
 function renderRepaymentTips(rem){
- const box=$('repaymentTipsBody'); if(!box)return; const debt=Math.max(0,Number(state.debt)||0), monthly=Math.max(0,Number(state.monthly)||0);
+ const box=$('repaymentTipsBody'); if(!box)return; const debt=state.debts.length?state.debts.reduce((a,d)=>a+Number(d.amount||0),0):Math.max(0,Number(state.debt)||0), monthly=state.debts.length?state.debts.reduce((a,d)=>a+Number(d.monthly||0),0):Math.max(0,Number(state.monthly)||0);
  if(debt<=0){box.innerHTML='Per iniziare, apri <strong>Profilo</strong> e inserisci il debito totale. Per ora tutti gli importi iniziali sono impostati a 0 €.';return}
  if(rem<=0){box.innerHTML='<strong>Ottimo:</strong> in base ai pagamenti registrati, il debito risulta rimborsato. Verifica eventuali interessi o spese direttamente con il creditore.';return}
  if(monthly<=0){box.innerHTML=`Il debito residuo è <strong>${euro(rem)}</strong>. Imposta una rata mensile sostenibile nel Profilo per stimare la durata del rimborso. Considera prima le spese essenziali e un margine per imprevisti.`;return}
  const months=Math.ceil(rem/monthly); const date=new Date(); date.setMonth(date.getMonth()+months); const dateTxt=date.toLocaleDateString('it-IT',{month:'long',year:'numeric'}); const extra=monthly*1.1; const faster=Math.ceil(rem/extra);
  box.innerHTML=`Debito residuo stimato: <strong>${euro(rem)}</strong>. Con una rata di <strong>${euro(monthly)}/mese</strong>, servirebbero circa <strong>${months} mesi</strong> (indicativamente fino a ${dateTxt}), senza considerare interessi, commissioni o nuove spese. <ul style="padding-left:19px;margin:10px 0"><li>Scegli una rata sostenibile dopo le spese essenziali.</li><li>Se hai più debiti, valuta di pagare le rate minime dovute e destinare eventuali extra al debito con il tasso d'interesse più alto.</li><li>Se puoi aumentare la rata del 10% (${euro(extra)}/mese), il tempo teorico scenderebbe a circa ${faster} mesi.</li><li>Verifica con il creditore interessi, penali e condizioni di estinzione anticipata.</li></ul><span style="font-size:11px">Stima semplice, non consulenza finanziaria: gli interessi non sono inclusi.</span>`;
 }
+
+function debtPaid(id){return state.payments.filter(p=>p.debtId===id).reduce((a,p)=>a+Number(p.amount||0),0)}
+function debtRemaining(d){return Math.max(0,Number(d.amount||0)-debtPaid(d.id))}
+function renderDebts(){
+ const list=$('debtsList'), overview=$('debtsOverview'); if(!list||!overview)return;
+ const debts=[...(state.debts||[])].sort((a,b)=>(a.priority||2)-(b.priority||2)||a.name.localeCompare(b.name));
+ const total=debts.reduce((n,d)=>n+Number(d.amount||0),0), paid=debts.reduce((n,d)=>n+debtPaid(d.id),0), monthly=debts.reduce((n,d)=>n+Number(d.monthly||0),0);
+ $('statInitial').textContent=euro(total);$('statPaid').textContent=euro(paid);$('statCount').textContent=state.payments.length+' '+(state.payments.length===1?'rata registrata':'rate registrate');
+ $('heroRemaining').textContent=euro(Math.max(0,total-paid));$('heroPaidLabel').textContent=euro(paid)+' rimborsati';$('heroPct').textContent=(total?Math.min(100,paid/total*100):0).toLocaleString('it-IT',{maximumFractionDigits:1})+'% completato';$('heroBar').style.width=(total?Math.min(100,paid/total*100):0)+'%';
+ $('debtCount').textContent=debts.length+' '+(debts.length===1?'debito':'debiti');
+ const html=d=>`<div class="debt-card"><div class="debt-card-top"><div><h4>${esc(d.name)}</h4><div class="debt-meta">Priorità ${d.priority===1?'alta':d.priority===2?'media':'bassa'} · ${euro(d.monthly)}/mese · giorno ${d.day}</div></div><span class="priority-tag">#${d.priority}</span></div><div class="debt-numbers"><div class="debt-number"><span>Iniziale</span><strong>${euro(d.amount)}</strong></div><div class="debt-number"><span>Pagato</span><strong>${euro(debtPaid(d.id))}</strong></div><div class="debt-number"><span>Residuo</span><strong>${euro(debtRemaining(d))}</strong></div></div><div class="actions" style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn secondary" onclick="editDebt('${esc(d.id)}')">Modifica</button><button class="btn secondary" onclick="startDebtPayment('${esc(d.id)}')">＋ Registra rata</button><button class="btn danger" onclick="deleteDebt('${esc(d.id)}')">Elimina</button></div></div>`;
+ list.innerHTML=debts.length?debts.map(html).join(''):'<div class="empty">Non hai ancora aggiunto debiti. Usa il modulo qui sopra.</div>';
+ overview.innerHTML=debts.length?`<div class="small" style="margin-bottom:10px">Totale iniziale ${euro(total)} · residuo ${euro(Math.max(0,total-paid))} · rate mensili previste ${euro(monthly)}</div>${debts.map(html).join('')}`:'<div class="empty">Aggiungi il primo debito dal Profilo.</div>';
+ $('statNextSub').textContent=monthly?euro(monthly)+' al mese in totale':'Aggiungi le rate nel Profilo';
+}
+function resetDebtForm(){ $('debtForm').reset();$('debtEditId').value='';$('debtDueDay').value='1';$('debtSaveBtn').textContent='＋ Salva debito';$('debtCancelBtn').hidden=true; }
+$('debtForm').addEventListener('submit',e=>{e.preventDefault();const id=$('debtEditId').value||crypto.randomUUID();const d={id,name:$('debtName').value.trim(),amount:money(Number($('debtAmount').value)),monthly:money(Number($('debtMonthly').value)),priority:Number($('debtPriority').value),day:Number($('debtDueDay').value),startDate:$('debtStartDate').value};if(!d.name||d.amount<=0||d.monthly<=0){$('debtToast').textContent='Inserisci nome e importi validi.';return}const ix=state.debts.findIndex(x=>x.id===id);if(ix>=0)state.debts[ix]=d;else state.debts.push(d);save();render();resetDebtForm();$('debtToast').textContent='Debito salvato.';});
+window.editDebt=id=>{const d=state.debts.find(x=>x.id===id);if(!d)return;$('debtEditId').value=d.id;$('debtName').value=d.name;$('debtAmount').value=d.amount;$('debtMonthly').value=d.monthly;$('debtPriority').value=String(d.priority||2);$('debtDueDay').value=String(d.day||1);$('debtStartDate').value=d.startDate||'';$('debtSaveBtn').textContent='Salva modifiche';$('debtCancelBtn').hidden=false;showPage('profile');$('debtName').focus();};
+window.deleteDebt=id=>{const d=state.debts.find(x=>x.id===id);if(!d)return;if(!confirm('Eliminare "'+d.name+'" e i pagamenti collegati?'))return;state.debts=state.debts.filter(x=>x.id!==id);state.payments=state.payments.filter(p=>p.debtId!==id);save();render();};
+window.startDebtPayment=id=>{const d=state.debts.find(x=>x.id===id);if(!d)return;showPage('payments');$('paymentAmount').value=Math.min(d.monthly,debtRemaining(d)).toFixed(2);$('paymentNote').value='Rata '+d.name;$('paymentDate').value=dateISO();$('paymentForm').dataset.debtId=id;$('paymentAmount').focus();};
+$('debtCancelBtn').addEventListener('click',resetDebtForm);
+$('themeSelect').addEventListener('change',e=>{localStorage.setItem('le-mie-rate-theme',e.target.value);applyTheme(e.target.value)});
+function applyTheme(theme){document.body.dataset.theme=theme==='dark'?'dark':'light';if($('themeSelect'))$('themeSelect').value=theme==='dark'?'dark':'light';}
+
 function showPage(page){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+page));document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'});}
-$('profileForm').addEventListener('submit',e=>{e.preventDefault();let debt=Number($('profileDebt').value),monthly=Number($('profileMonthly').value||0);if(!Number.isFinite(debt)||debt<0||monthly<0){$('profileToast').textContent='Inserisci importi validi.';return}state.name=$('profileName').value.trim();state.debt=money(debt);state.monthly=monthly?money(monthly):0;state.day=Number($('profileDay').value);state.startDate=$('profileStart').value;save();render();syncPushPlan();$('profileToast').textContent='Profilo e piano salvati.';});
-$('paymentForm').addEventListener('submit',e=>{e.preventDefault();let amount=Number($('paymentAmount').value),date=$('paymentDate').value;if(!date||amount<=0)return;const item={id:editing||((crypto.randomUUID&&crypto.randomUUID())||String(Date.now())),date,amount:money(amount),method:$('paymentMethod').value,note:$('paymentNote').value.trim()};if(editing)state.payments=state.payments.map(p=>p.id===editing?item:p);else state.payments.push(item);save();resetPaymentForm();render();$('paymentToast').textContent=editing?'Pagamento aggiornato.':'Pagamento registrato correttamente.';editing=null;});
-function resetPaymentForm(){editing=null;$('paymentForm').reset();$('paymentDate').value=dateISO();$('paymentFormTitle').textContent='Registra un pagamento';$('paymentSubmit').textContent='＋ Salva pagamento';$('cancelEdit').hidden=true}
+$('profileForm').addEventListener('submit',e=>{e.preventDefault();let debt=Number($('profileDebt').value),monthly=Number($('profileMonthly').value||0);if(!Number.isFinite(debt)||debt<0||monthly<0){$('profileToast').textContent='Inserisci importi validi.';return}state.name=$('profileName').value.trim();if(!state.debts.length){state.debt=money(debt);state.monthly=monthly?money(monthly):0;state.day=Number($('profileDay').value);state.startDate=$('profileStart').value;}save();render();syncPushPlan();$('profileToast').textContent='Profilo e piano salvati.';});
+$('paymentForm').addEventListener('submit',e=>{e.preventDefault();let amount=Number($('paymentAmount').value),date=$('paymentDate').value;if(!date||amount<=0)return;const item={id:editing||((crypto.randomUUID&&crypto.randomUUID())||String(Date.now())),date,amount:money(amount),method:$('paymentMethod').value,note:$('paymentNote').value.trim(),debtId:$('paymentForm').dataset.debtId||''};if(editing)state.payments=state.payments.map(p=>p.id===editing?item:p);else state.payments.push(item);save();resetPaymentForm();render();$('paymentToast').textContent=editing?'Pagamento aggiornato.':'Pagamento registrato correttamente.';editing=null;});
+function resetPaymentForm(){editing=null;$('paymentForm').reset();delete $('paymentForm').dataset.debtId;$('paymentDate').value=dateISO();$('paymentFormTitle').textContent='Registra un pagamento';$('paymentSubmit').textContent='＋ Salva pagamento';$('cancelEdit').hidden=true}
 window.editPayment=id=>{const p=state.payments.find(x=>x.id===id);if(!p)return;editing=id;$('paymentDate').value=p.date;$('paymentAmount').value=p.amount;$('paymentMethod').value=p.method||'';$('paymentNote').value=p.note||'';$('paymentFormTitle').textContent='Modifica pagamento';$('paymentSubmit').textContent='Salva modifiche';$('cancelEdit').hidden=false;showPage('payments')};
 window.deletePayment=id=>{if(!confirm('Vuoi eliminare questo pagamento dallo storico?'))return;state.payments=state.payments.filter(p=>p.id!==id);save();render()};
 $('cancelEdit').addEventListener('click',resetPaymentForm);
@@ -370,7 +410,7 @@ async function syncPushPlan() {
  } catch(e) { console.warn('Piano push non sincronizzato',e); }
 }
 function maybeNotify(){if(!state.reminders||!('Notification'in window)||Notification.permission!=='granted')return;const due=nextDue();if(!due)return;const today=new Date();today.setHours(0,0,0,0);const days=Math.round((due-today)/86400000);if(days>=0&&days<=(state.reminderDays||1)){const key='le-mie-rate-notified-'+dateISO();if(!localStorage.getItem(key)){new Notification(days===0?'La rata è in scadenza oggi':'Promemoria rata',{body:`Hai una rata prevista di ${euro(Math.min(state.monthly,remaining()))} per ${due.toLocaleDateString('it-IT')}.`,icon:'./icon-192.png'});localStorage.setItem(key,'1')}}}
-safeLoad();$('paymentDate').value=dateISO();if(!state.startDate)state.startDate=dateISO();render();if('serviceWorker'in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});initAuth().catch(e=>showAuthMessage(e.message||'Errore di autenticazione'));maybeNotify();
+safeLoad();applyTheme(localStorage.getItem('le-mie-rate-theme')||'light');$('paymentDate').value=dateISO();if(!state.startDate)state.startDate=dateISO();render();if('serviceWorker'in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});initAuth().catch(e=>showAuthMessage(e.message||'Errore di autenticazione'));maybeNotify();
 </script>
 </body>
 </html>
