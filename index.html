@@ -164,7 +164,16 @@ body[data-theme="dark"] .next-card{border-color:var(--line)}
 const KEY='le-mie-rate-v2', $=id=>document.getElementById(id);
 const SUPABASE_URL='https://yzqrlwbprvaymzfjvhtn.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_nbtFfInsf9bEyloq2WvlHA_z3um0l4F';
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage } });
+const supabaseConfigured = /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(SUPABASE_URL)
+  && SUPABASE_ANON_KEY.length > 20 && !SUPABASE_ANON_KEY.startsWith('INSERISCI_');
+let sb = null;
+if (supabaseConfigured && window.supabase?.createClient) {
+  try {
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage }
+    });
+  } catch (error) { console.error('Configurazione Supabase non valida:', error); }
+}
 let currentUser=null, isSignup=false, isUnlocked=false, syncTimer=null, remoteLoading=false;
 const PIN_KEY='le-mie-rate-pin-v1';
 const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(n||0);
@@ -224,7 +233,7 @@ function showPinForCurrentUser(){
  showAuthPanel('pin');
 }
 async function initAuth(){
- if(SUPABASE_URL.startsWith('INSERISCI_')||SUPABASE_ANON_KEY.startsWith('INSERISCI_')){showAuthPanel('email');showAuthMessage('Mancano Project URL e Publishable Key reali di Supabase nel file index.html.');return}
+ if(!sb){showAuthPanel('email');showAuthMessage('Configurazione Supabase mancante o non valida. Inserisci Project URL e Publishable Key in index.html, poi riprova.');return}
  const {data,error}=await sb.auth.getSession();
  if(error)throw error;
  const session=data?.session;
@@ -233,12 +242,13 @@ async function initAuth(){
  showPinForCurrentUser();
 }
 // Ripristina la schermata PIN anche quando Supabase completa il ripristino della sessione in ritardo.
-sb.auth.onAuthStateChange((event,session)=>{
+if (sb) sb.auth.onAuthStateChange((event,session)=>{
  if(session?.user){currentUser=session.user;if(event==='SIGNED_IN' && $('authEmailPanel').hidden===false)showPinForCurrentUser();}
 });
 $('authToggle').addEventListener('click',()=>{isSignup=!isSignup;$('authTitle').textContent=isSignup?'Crea account':'Accedi';$('authSubmit').textContent=isSignup?'Registrati':'Accedi';$('authToggle').textContent=isSignup?'Ho già un account':'Crea un account';$('authPassword').autocomplete=isSignup?'new-password':'current-password';showAuthMessage('')});
 $('authForm').addEventListener('submit',async e=>{
  e.preventDefault();
+ if (!sb) { showAuthMessage('Accesso non disponibile: configura prima Project URL e Publishable Key di Supabase nel codice.'); return; }
  const submit=$('authSubmit');
  const wasSignup=isSignup;
  submit.disabled=true;submit.textContent=wasSignup?'Creazione account…':'Accesso…';
@@ -290,6 +300,7 @@ $('pinKeypad').addEventListener('click',e=>{
 });
 $('pinForm').addEventListener('submit',async e=>{
  e.preventDefault();showAuthMessage('');
+ if (!sb) { showAuthPanel('email'); showAuthMessage('Configurazione Supabase mancante o non valida.'); return; }
  const pin=$('pinInput').value;
  if(!/^[0-9]{4}$/.test(pin)){showAuthMessage('Inserisci tutte le 4 cifre con il tastierino.');return}
  const stored=localStorage.getItem(PIN_KEY);
@@ -306,7 +317,7 @@ $('pinForm').addEventListener('submit',async e=>{
  try{await cloudLoad();$('authGate').style.display='none';render();}catch(err){showAuthMessage('Errore di sincronizzazione: '+(err.message||'verifica database e credenziali'));isUnlocked=false}
  $('pinInput').value='';pendingPin='';updatePinDots();
 });
-$('pinLogout').addEventListener('click',async()=>{if(!confirm('Vuoi davvero uscire dall’account? La prossima volta dovrai inserire email e password.'))return;isUnlocked=false;currentUser=null;await sb.auth.signOut();showAuthPanel('email');showAuthMessage('Hai effettuato la disconnessione.')});
+$('pinLogout').addEventListener('click',async()=>{if(!confirm('Vuoi davvero uscire dall’account? La prossima volta dovrai inserire email e password.'))return;isUnlocked=false;currentUser=null;if(sb)await sb.auth.signOut();showAuthPanel('email');showAuthMessage('Hai effettuato la disconnessione.')});
 
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function money(n){return Math.round((Number(n)+Number.EPSILON)*100)/100}
