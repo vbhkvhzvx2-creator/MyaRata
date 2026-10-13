@@ -136,7 +136,16 @@ body[data-theme="dark"] .next-card{border-color:var(--line)}
 </section>
 
 <section class="page" id="page-profile">
- <div class="intro"><div><div class="eyebrow">Impostazioni personali</div><h2>Profilo e piano</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Qui puoi modificare il debito e le regole delle rate.</p></div></div>
+ <div class="intro"><div><div class="eyebrow">Impostazioni personali</div><h2>Profilo e piano</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Imposta i tuoi dati personali separatamente dai nomi dei debiti e gestisci il piano delle rate.</p></div></div>
+ <section class="panel section-gap" aria-labelledby="personalSettingsTitle">
+  <div class="panel-head"><h3 id="personalSettingsTitle">Dati personali</h3><span class="status">Il tuo account</span></div>
+  <p class="muted" style="font-size:13px;margin:0 0 14px">Questi dati sono indipendenti dai nomi dei debiti (per esempio “Auto” o “iPhone”). Il nome viene salvato nel tuo account e usato nel saluto della dashboard su tutti i dispositivi.</p>
+  <form id="personalSettingsForm">
+   <div class="field"><label for="personalName">Nome da mostrare nella dashboard</label><input id="personalName" maxlength="60" autocomplete="given-name" placeholder="Es. Marco"></div>
+   <button class="btn primary wide" type="submit" id="personalSettingsSave">Salva dati personali</button>
+   <div class="toast" id="personalSettingsToast" role="status" aria-live="polite"></div>
+  </form>
+ </section>
  <section class="panel section-gap">
   <div class="panel-head"><h3>Aggiungi o modifica un debito</h3><span class="status">Piano rate</span></div>
   <form id="debtForm">
@@ -205,7 +214,7 @@ function showSyncStatus(message,kind='info'){
 
 const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(n||0);
 const dateISO=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)};
-let state={name:'',debt:0,monthly:0,day:1,startDate:'',reminders:false,reminderTime:'18:00',reminderDays:7,payments:[],debts:[]},editing=null;
+let state={name:'',personalName:'',debt:0,monthly:0,day:1,startDate:'',reminders:false,reminderTime:'18:00',reminderDays:7,payments:[],debts:[]},editing=null;
 for(let i=1;i<=31;i++){ $('profileDay').add(new Option(i+' del mese',String(i))); $('debtDueDay').add(new Option(i+' del mese',String(i))); }
 function safeLoad(){try{let x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeof x==='object'&&Number.isFinite(x.debt)&&Array.isArray(x.payments))state={...state,...x,debts:Array.isArray(x.debts)?x.debts:[]};}catch(e){}}
 function save(){
@@ -240,6 +249,10 @@ async function cloudLoad({quiet=false}={}){
   if(re)throw re;
   const {data:debtRows,error:dre}=await sb.from('debts').select('*').eq('user_id',currentUser.id).order('priority',{ascending:true});
   if(dre)throw new Error('Impossibile leggere i debiti dalla tabella debts. Controlla le policy RLS e i permessi. '+dre.message);
+  // Il nome personale arriva dai metadati dell'utente Supabase, non dal nome del debito/profilo.
+  const userMetadata=currentUser?.user_metadata||{};
+  // Non riutilizzare il nome locale se si accede a un account diverso che non ha ancora un nome impostato.
+  state.personalName=Object.prototype.hasOwnProperty.call(userMetadata,'display_name')?String(userMetadata.display_name||''):'';
   if(profile){
    state.name=profile.name||'';state.debt=Number(profile.initial_debt??0);
    state.monthly=Number(profile.monthly_amount??0);state.day=Number(profile.due_day||1);state.startDate=profile.start_date||'';
@@ -413,7 +426,7 @@ function nextDue(){if(!state.monthly||!state.day)return null;let now=new Date(),
 function dateLabel(s){if(!s)return '—';let [y,m,d]=s.split('-');return `${d}/${m}/${y}`}
 function render(){
  const paid=totalPaid(), rem=remaining(), pct=state.debt?Math.min(100,paid/state.debt*100):0;
- const displayName=(state.name||'').trim(); const welcome=$('welcomeTitle'); if(welcome) welcome.innerHTML=displayName?`<span class="greeting-name">${esc(displayName)}</span>, il tuo debito, sotto controllo.`:'Il tuo debito, sotto controllo.'; const avatar=$('profileAvatar'); if(avatar) avatar.textContent=displayName?displayName.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toLocaleUpperCase('it-IT'):'IO';
+ const displayName=(state.personalName||'').trim(); const welcome=$('welcomeTitle'); if(welcome) welcome.innerHTML=displayName?`<span class="greeting-name">${esc(displayName)}</span>, il tuo debito sotto controllo.`:'Il tuo debito, sotto controllo.'; const avatar=$('profileAvatar'); if(avatar) avatar.textContent=displayName?displayName.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toLocaleUpperCase('it-IT'):'IO';
  $('heroRemaining').textContent=euro(rem);$('heroPaidLabel').textContent=euro(paid)+' rimborsati';$('heroPct').textContent=pct.toLocaleString('it-IT',{maximumFractionDigits:1})+'% completato';$('heroBar').style.width=pct+'%';
  $('statInitial').textContent=euro(state.debt);$('statPaid').textContent=euro(paid);$('statCount').textContent=state.payments.length+' '+(state.payments.length===1?'rata registrata':'rate registrate');
  const due=nextDue();$('statNext').textContent=due?due.toLocaleDateString('it-IT',{day:'2-digit',month:'short'}):'—';$('statNextSub').textContent=state.monthly?euro(state.monthly)+' previsti':'Imposta la rata nel profilo';
@@ -422,7 +435,7 @@ function render(){
  $('recentList').innerHTML=sorted.length?sorted.slice(0,4).map(p=>`<div class="payment-row"><div class="payment-date">${esc(p.date.slice(8,10))}<br>${esc(p.date.slice(5,7))}</div><div class="payment-info"><strong>${esc(p.note||p.method||'Pagamento rata')}</strong><span>${dateLabel(p.date)}</span></div><div class="payment-right"><strong>− ${euro(p.amount)}</strong><span class="status paid">Pagata</span></div></div>`).join(''):'<div class="empty"><div class="empty-icon">↗</div>I pagamenti registrati appariranno qui.</div>';
  $('historyCount').textContent=state.payments.length+' '+(state.payments.length===1?'pagamento':'pagamenti');$('historyEmpty').style.display=sorted.length?'none':'block';
  $('historyTable').innerHTML=sorted.length?`<div class="table-wrap"><table><thead><tr><th>Data</th><th>Descrizione</th><th>Importo</th><th>Azioni</th></tr></thead><tbody>${sorted.map(p=>`<tr><td>${dateLabel(p.date)}</td><td>${esc(p.note||p.method||'Rata mensile')}</td><td><strong>${euro(p.amount)}</strong></td><td><button class="table-action" onclick="editPayment('${esc(p.id)}')">Modifica</button><button class="table-action danger-text" onclick="deletePayment('${esc(p.id)}')">Elimina</button></td></tr>`).join('')}</tbody></table></div>`:'';
- $('profileName').value=state.name||'';$('profileDebt').value=state.debt;$('profileMonthly').value=state.monthly||'';$('profileDay').value=String(state.day||1);$('profileStart').value=state.startDate||'';
+ $('personalName').value=state.personalName||'';$('profileName').value=state.name||'';$('profileDebt').value=state.debt;$('profileMonthly').value=state.monthly||'';$('profileDay').value=String(state.day||1);$('profileStart').value=state.startDate||'';
  $('remindersEnabled').checked=!!state.reminders;$('reminderTime').value=state.reminderTime||'18:00';$('reminderDays').value=String(state.reminderDays||7);$('notifyStatus').textContent=state.reminders?'Attivi (se supportati)':'Da configurare';
  renderRepaymentTips(rem);renderDebts();
 }
@@ -459,6 +472,25 @@ $('themeSelect').addEventListener('change',e=>{localStorage.setItem('le-mie-rate
 function applyTheme(theme){document.body.dataset.theme=theme==='dark'?'dark':'light';if($('themeSelect'))$('themeSelect').value=theme==='dark'?'dark':'light';}
 
 function showPage(page){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+page));document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'});}
+$('personalSettingsForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ const name=$('personalName').value.trim();
+ const btn=$('personalSettingsSave'),toast=$('personalSettingsToast');
+ state.personalName=name;save();render();
+ if(!sb||!currentUser){toast.textContent='Nome salvato solo su questo dispositivo: account Supabase non disponibile.';return;}
+ btn.disabled=true;btn.textContent='Salvataggio…';toast.textContent='Salvo il nome nel tuo account…';
+ try{
+  const {data,error}=await sb.auth.updateUser({data:{display_name:name}});
+  if(error)throw error;
+  if(data?.user)currentUser=data.user;
+  state.personalName=String(currentUser?.user_metadata?.display_name??name);
+  save();render();
+  toast.textContent='Nome personale salvato nel tuo account. Verrà mostrato anche sugli altri dispositivi.';
+ }catch(err){
+  toast.textContent='Nome conservato su questo dispositivo, ma non sincronizzato: '+(err?.message||'errore Supabase');
+  showSyncStatus('Nome non sincronizzato: '+(err?.message||'errore Supabase'),'error');
+ }finally{btn.disabled=false;btn.textContent='Salva dati personali';}
+});
 $('profileForm').addEventListener('submit',e=>{e.preventDefault();let debt=Number($('profileDebt').value),monthly=Number($('profileMonthly').value||0);if(!Number.isFinite(debt)||debt<0||monthly<0){$('profileToast').textContent='Inserisci importi validi.';return}state.name=$('profileName').value.trim();if(!state.debts.length){state.debt=money(debt);state.monthly=monthly?money(monthly):0;state.day=Number($('profileDay').value);state.startDate=$('profileStart').value;}save();render();syncPushPlan();$('profileToast').textContent='Profilo e piano salvati.';});
 $('paymentForm').addEventListener('submit',e=>{e.preventDefault();let amount=Number($('paymentAmount').value),date=$('paymentDate').value;if(!date||amount<=0)return;const item={id:editing||((crypto.randomUUID&&crypto.randomUUID())||String(Date.now())),date,amount:money(amount),method:$('paymentMethod').value,note:$('paymentNote').value.trim(),debtId:$('paymentForm').dataset.debtId||''};if(editing)state.payments=state.payments.map(p=>p.id===editing?item:p);else state.payments.push(item);save();resetPaymentForm();render();$('paymentToast').textContent=editing?'Pagamento aggiornato.':'Pagamento registrato correttamente.';editing=null;});
 function resetPaymentForm(){editing=null;$('paymentForm').reset();delete $('paymentForm').dataset.debtId;$('paymentDate').value=dateISO();$('paymentFormTitle').textContent='Registra un pagamento';$('paymentSubmit').textContent='＋ Salva pagamento';$('cancelEdit').hidden=true}
