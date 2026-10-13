@@ -64,7 +64,6 @@
    <form id="pinForm">
     <div class="pin-dots" id="pinDots" aria-label="PIN inserito"><span></span><span></span><span></span><span></span></div>
     <input id="pinInput" type="hidden" value="">
-    <input id="pinConfirm" type="hidden" value="">
     <div class="pin-keypad" id="pinKeypad" aria-label="Tastierino numerico">
       <button type="button" data-digit="1">1</button><button type="button" data-digit="2">2</button><button type="button" data-digit="3">3</button>
       <button type="button" data-digit="4">4</button><button type="button" data-digit="5">5</button><button type="button" data-digit="6">6</button>
@@ -201,9 +200,9 @@ function showAuthMessage(s){$('authMessage').textContent=s||''}
 function showPinForCurrentUser(){
  if(!currentUser){showAuthPanel('email');return;}
  const stored=localStorage.getItem(PIN_KEY);
- $('pinInput').value='';$('pinConfirm').value='';$('pinContinue').disabled=true;updatePinDots();pendingPin='';
- if(stored){$('pinTitle').textContent='Inserisci il PIN';$('pinDescription').textContent='Inserisci il PIN per sbloccare Le mie rate su questo dispositivo.';$('pinConfirmWrap').hidden=true;}
- else{$('pinTitle').textContent='Imposta il PIN';$('pinDescription').textContent='Scegli un PIN di 4 cifre per sbloccare questa app su questo dispositivo.';$('pinConfirmWrap').hidden=false;}
+ $('pinInput').value='';$('pinContinue').disabled=true;updatePinDots();pendingPin='';
+ if(stored){$('pinTitle').textContent='Inserisci il PIN';$('pinDescription').textContent='Inserisci il PIN per sbloccare Le mie rate su questo dispositivo.';$('pinContinue').textContent='Sblocca';}
+ else{$('pinTitle').textContent='Imposta il PIN';$('pinDescription').textContent='Scegli un PIN di 4 cifre per sbloccare questa app su questo dispositivo.';$('pinContinue').textContent='Continua';}
  showAuthPanel('pin');
 }
 async function initAuth(){
@@ -289,7 +288,7 @@ $('pinForm').addEventListener('submit',async e=>{
  }
  isUnlocked=true;
  try{await cloudLoad();$('authGate').style.display='none';render();}catch(err){showAuthMessage('Errore di sincronizzazione: '+(err.message||'verifica database e credenziali'));isUnlocked=false}
- $('pinInput').value='';$('pinConfirm').value='';pendingPin='';updatePinDots();
+ $('pinInput').value='';pendingPin='';updatePinDots();
 });
 $('pinLogout').addEventListener('click',async()=>{if(!confirm('Vuoi davvero uscire dall’account? La prossima volta dovrai inserire email e password.'))return;isUnlocked=false;currentUser=null;await sb.auth.signOut();showAuthPanel('email');showAuthMessage('Hai effettuato la disconnessione.')});
 
