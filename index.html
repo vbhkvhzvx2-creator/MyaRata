@@ -38,6 +38,83 @@ body[data-theme="dark"] .next-card{border-color:var(--line)}
 @media(max-width:380px){.debt-card .debt-numbers{grid-template-columns:1fr 1fr}.debt-number:last-child{grid-column:span 2}}
 
 .debt-card{border:1px solid var(--line);border-radius:15px;padding:14px;margin:10px 0;background:var(--card)}.debt-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.debt-card h4{margin:0;font-size:14px}.debt-meta{font-size:12px;color:var(--muted);margin-top:4px}.priority-tag{border-radius:99px;background:#edf2f7;color:#526174;padding:5px 8px;font-size:11px;font-weight:800}.debt-numbers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}.debt-number{background:var(--bg);padding:10px;border-radius:10px;min-width:0}.debt-number span{display:block;color:var(--muted);font-size:10px}.debt-number strong{display:block;font-size:13px;margin-top:3px;overflow-wrap:anywhere}@media(max-width:380px){.debt-number{padding:7px}.debt-number strong{font-size:11px}}
+
+/* Finanze Pro: layout mobile senza overflow, allineato al resto dell'app */
+.nav-inner{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:3px!important}
+.nav-btn{min-width:0;padding-left:2px;padding-right:2px}
+.nav-btn span:last-child{font-size:10px;white-space:nowrap}
+.finance-stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.finance-stat{min-width:0;padding:15px;border-radius:17px;background:var(--card);border:1px solid var(--line)}
+.finance-stat span{display:block;font-size:11px;color:var(--muted)}
+.finance-stat strong{display:block;font-size:clamp(17px,2.6vw,23px);margin-top:7px;letter-spacing:-.04em;overflow-wrap:anywhere}
+.finance-stat .positive{color:#19875b}.finance-stat .negative{color:var(--red)}
+.finance-layout{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:14px;align-items:start}
+.finance-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.finance-form-grid .field{min-width:0}
+.finance-chip{display:inline-flex;align-items:center;border-radius:100px;padding:5px 9px;font-size:10px;font-weight:800;background:var(--bg);color:var(--muted)}
+.finance-chip.income{background:#e6f7ef;color:#167653}.finance-chip.expense{background:#fff0f0;color:#b94141}
+.finance-list{display:flex;flex-direction:column;gap:0}
+.finance-row{display:flex;align-items:center;gap:10px;min-width:0;padding:13px 0;border-bottom:1px solid var(--line)}
+.finance-row:last-child{border-bottom:0}
+.finance-kind-icon{width:39px;height:39px;flex:0 0 39px;display:grid;place-items:center;border-radius:13px;background:var(--bg);font-size:18px}
+.finance-row-main{min-width:0;flex:1}
+.finance-row-main strong{display:block;font-size:13px;overflow-wrap:anywhere}
+.finance-row-main small{display:block;color:var(--muted);font-size:11px;margin-top:3px;overflow-wrap:anywhere}
+.finance-row-side{text-align:right;max-width:42%;min-width:0}
+.finance-row-side strong{display:block;font-size:13px;white-space:nowrap}
+.finance-row-side .actions{justify-content:flex-end;gap:4px;margin-top:3px}
+.finance-row-side .table-action{font-size:11px;padding:4px}
+.finance-progress{height:7px;border-radius:99px;background:var(--line);overflow:hidden;margin:8px 0 4px}
+.finance-progress span{display:block;height:100%;border-radius:99px;background:var(--accent,#5367ff)}
+.finance-mini-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.finance-mini-card{padding:13px;border-radius:15px;background:var(--bg);min-width:0}
+.finance-mini-card strong{display:block;font-size:14px;overflow-wrap:anywhere}
+.finance-mini-card span{display:block;color:var(--muted);font-size:11px}
+.finance-chart{width:100%;min-width:0;overflow:hidden}.finance-chart svg{display:block;width:100%;height:auto;max-height:220px}
+.finance-chart .chart-label{font-size:10px}
+.finance-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.finance-filter button{background:var(--bg);color:var(--muted);border-radius:100px;padding:8px 12px;font-size:12px;font-weight:750}
+.finance-filter button.active{background:var(--accent,#5367ff);color:white}
+.finance-section-note{font-size:11px;color:var(--muted);line-height:1.55;margin-top:9px}
+.account-tag{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 10px;font-size:12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.account-tag strong{overflow-wrap:anywhere}
+.inline-form{display:grid;grid-template-columns:minmax(0,1fr) minmax(100px,.55fr) auto;gap:8px;align-items:end}
+.inline-form .field{margin-bottom:0}
+.goal-item,.budget-item,.recurring-item{padding:13px 0;border-bottom:1px solid var(--line)}
+.goal-item:last-child,.budget-item:last-child,.recurring-item:last-child{border-bottom:0}
+.goal-head,.budget-head,.recurring-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.goal-head strong,.budget-head strong,.recurring-head strong{font-size:13px;overflow-wrap:anywhere}
+.goal-head small,.budget-head small,.recurring-head small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.finance-small-btn{background:transparent;color:var(--muted);padding:4px 6px;font-size:11px}
+.finance-small-btn.danger-text{color:var(--red)}
+.finance-empty{padding:18px 10px;text-align:center;font-size:12px;color:var(--muted)}
+body[data-theme="dark"] .finance-chip.income{background:#162c22;color:#91e4b5}
+body[data-theme="dark"] .finance-chip.expense{background:#321e24;color:#ff9ca6}
+body[data-theme="dark"] .finance-filter button.active{background:var(--accent);color:white}
+@media(max-width:760px){
+ .finance-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .finance-stat{padding:13px;border-radius:15px}
+ .finance-layout{grid-template-columns:minmax(0,1fr);gap:12px}
+ .finance-form-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .finance-row{align-items:flex-start;gap:8px}
+ .finance-row-side{max-width:40%}
+ .finance-row-side strong{font-size:12px}
+ .inline-form{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+ .inline-form .field:first-child{grid-column:1/-1}
+ .inline-form button{grid-column:1/-1;width:100%}
+}
+@media(max-width:370px){
+ .nav-btn span:last-child{font-size:9px}
+ .finance-form-grid{grid-template-columns:minmax(0,1fr)}
+ .finance-row-side .actions{flex-direction:column;align-items:flex-end}
+}
+@media print{.bottom-nav,.header,.no-print,#authGate{display:none!important}.page{display:none!important}#page-home{display:block!important}.app{max-width:none;padding:0}}
+/* Tastierino PIN: solo cifre, senza contorni o pulsanti circolari visibili */
+.pin-keypad button,.pin-keypad button:focus,.pin-keypad button:focus-visible{border:0!important;outline:none!important;box-shadow:none!important;background:transparent!important;border-radius:0!important}
+.pin-keypad button{height:60px;width:60px;color:var(--text);font-size:29px;font-weight:550}
+.pin-keypad button:active{background:transparent!important;transform:scale(.94);opacity:.65}
+.pin-keypad .key-empty{background:transparent!important}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -81,6 +158,60 @@ body[data-theme=dark] #authGate{background:#050506}body[data-theme=dark] .auth-c
 @media(min-width:761px){.app{padding-left:24px;padding-right:24px}.hero{padding:30px}}
 @media print{body{background:white;color:black}.app{max-width:none;padding:0}.bottom-nav,.header .avatar,.btn,.no-print,.undo-payment{display:none!important}.page{display:none!important}.page.active{display:block!important}.panel,.stat,.hero{box-shadow:none;break-inside:avoid}.hero{color:#fff!important}.field input,.field select{border:1px solid #ddd!important}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+
+
+<style id="iphone-history-pin-and-visual-settings-fix">
+/* Storico: nessuna larghezza forzata o effetto di pagina ingrandita su iPhone. */
+#page-payments{width:100%;min-width:0;max-width:100%;overflow-x:clip}
+#page-payments .intro,#page-payments .settings-grid,#page-payments .panel,#page-payments #historyTable{width:100%;min-width:0;max-width:100%}
+#page-payments .settings-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
+#page-payments .panel{min-width:0}
+#page-payments .field input,#page-payments .field select,#page-payments .field textarea{font-size:16px}
+#historyTable{min-width:0;overflow:hidden}
+#historyTable .table-wrap{width:100%;max-width:100%;min-width:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+#historyTable table{width:100%;min-width:410px;table-layout:auto}
+@media(max-width:760px){
+  #page-payments .settings-grid{grid-template-columns:minmax(0,1fr);gap:12px}
+  #page-payments .panel{padding:15px;border-radius:19px}
+  #page-payments .intro{margin-bottom:14px}
+  #page-payments .intro h2{font-size:25px;line-height:1.12}
+  #page-payments .panel-head{align-items:flex-start;gap:8px}
+  #page-payments .panel-head h3{min-width:0;overflow-wrap:anywhere}
+  #page-payments .form-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px}
+  #page-payments .actions .btn{flex:1 1 100%;width:100%;min-width:0}
+  #page-payments .export-actions .btn{flex:1 1 calc(50% - 8px);width:auto;font-size:12px;padding:11px 9px;overflow-wrap:anywhere}
+  /* Le righe diventano schede compatte, evitando tabelle da 410px su schermi stretti. */
+  #historyTable .table-wrap{border:0;overflow:visible}
+  #historyTable table,#historyTable tbody{display:block;width:100%;min-width:0!important}
+  #historyTable thead{display:none}
+  #historyTable tr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;width:100%;min-width:0;margin:0 0 10px;padding:7px;border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden}
+  #historyTable td{display:flex;flex-direction:column;justify-content:flex-start;min-width:0;width:auto;padding:7px 6px;border:0;text-align:left;font-size:12px;overflow-wrap:anywhere;word-break:break-word}
+  #historyTable td::before{content:attr(data-label);display:block;margin-bottom:4px;font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  #historyTable td:last-child{grid-column:1/-1;display:flex;flex-direction:row;align-items:center;justify-content:flex-end;gap:10px;border-top:1px solid var(--line);margin-top:4px;padding-top:9px}
+  #historyTable td:last-child::before{content:"Azioni";margin:0 auto 0 0}
+  #historyTable .table-action{padding:6px 7px;font-size:12px;white-space:nowrap}
+}
+@media(max-width:370px){
+  #page-payments .form-grid{grid-template-columns:minmax(0,1fr)}
+  #page-payments .export-actions .btn{flex-basis:100%}
+  #historyTable tr{padding:5px}
+  #historyTable td{padding:6px 5px}
+}
+/* Tastierino PIN: solo cifre, senza riquadri, cerchi o sfondi sui singoli tasti. */
+#authPinPanel .pin-keypad{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-width:276px;margin:0 auto 22px}
+#authPinPanel .pin-keypad button,
+#authPinPanel .pin-keypad button:focus,
+#authPinPanel .pin-keypad button:focus-visible{
+  width:64px;height:64px;justify-self:center;align-self:center;padding:0;border:0!important;border-radius:0!important;outline:none!important;box-shadow:none!important;background:transparent!important;color:var(--text);font-size:26px;font-weight:550;touch-action:manipulation;-webkit-tap-highlight-color:transparent
+}
+#authPinPanel .pin-keypad button:active{background:transparent!important;color:var(--accent);transform:scale(.94)}
+#authPinPanel .pin-keypad button.key-empty{background:transparent!important;pointer-events:none}
+body[data-theme="dark"] #authPinPanel .pin-keypad button{color:#f5f5f7}
+body[data-theme="dark"] #authPinPanel .pin-keypad button:active{color:#8591ff}
+@media(max-width:390px){#authPinPanel .pin-keypad{max-width:252px;gap:6px}#authPinPanel .pin-keypad button{width:60px;height:60px;font-size:25px}}
+/* iOS ingrandisce automaticamente i campi sotto i 16px quando ricevono il focus. */
+@media(max-width:760px){input,select,textarea{font-size:16px}}
 </style>
 
 </head>
@@ -133,6 +264,7 @@ body[data-theme=dark] #authGate{background:#050506}body[data-theme=dark] .auth-c
   <div class="stat"><div class="stat-top"><span class="stat-icon">↻</span>Rate mensili</div><div class="stat-value" id="statMonthly">0 €</div><div class="stat-sub">Importo previsto al mese</div></div>
   <div class="stat"><div class="stat-top"><span class="stat-icon">⌁</span>Prossima scadenza</div><div class="stat-value" id="statNext">—</div><div class="stat-sub" id="statNextSub">Aggiungi un debito</div></div>
  </div>
+ <section class="panel section-gap" id="homeFinancePanel"><div class="panel-head"><div><h3>Entrate e uscite del mese</h3><div class="small" id="homeFinancePeriod">Riepilogo del mese corrente</div></div><button class="table-action" onclick="showPage('finance')">Apri finanze →</button></div><div class="finance-stat-grid"><div class="finance-stat"><span>Entrate</span><strong class="positive" id="homeIncome">0,00 €</strong></div><div class="finance-stat"><span>Uscite totali</span><strong class="negative" id="homeExpense">0,00 €</strong></div><div class="finance-stat"><span>Saldo del mese</span><strong id="homeNet">0,00 €</strong></div><div class="finance-stat"><span>Patrimonio stimato</span><strong id="homeNetWorth">0,00 €</strong></div></div><div id="homeBudgetSummary" class="finance-section-note">Aggiungi movimenti e budget per vedere il riepilogo finanziario.</div></section>
  <section class="panel section-gap"><div class="panel-head"><h3>I miei debiti</h3><span class="status" id="debtCount">0 debiti</span></div><div id="debtsOverview"><div class="empty">I debiti aggiunti nel Profilo appariranno qui.</div></div></section>
  <section class="panel section-gap" id="repaymentTips"><div class="panel-head"><h3>Il tuo percorso</h3><span class="status">Piano indicativo</span></div><div id="repaymentTipsBody" class="muted" style="font-size:13px;line-height:1.65">Aggiungi i tuoi debiti per visualizzare una stima del percorso di rimborso.</div></section>
  <section class="panel section-gap" id="progressPanel"><div class="panel-head"><div><h3>Andamento dei rimborsi</h3><div class="small" style="margin-top:4px">Pagamenti registrati negli ultimi 6 mesi</div></div><span class="status">Storico</span></div><div id="progressChart" class="progress-chart" role="img" aria-label="Grafico dei pagamenti mensili"><div class="empty">Il grafico apparirà quando registrerai dei pagamenti.</div></div></section>
@@ -149,6 +281,55 @@ body[data-theme=dark] #authGate{background:#050506}body[data-theme=dark] .auth-c
  <section class="panel section-gap"><div class="panel-head"><h3>Debiti e scadenze</h3><div class="sort-control"><label for="debtSort" class="small">Ordina</label><select id="debtSort" aria-label="Ordina i debiti"><option value="priority">Priorità</option><option value="due">Scadenza</option><option value="name">Nome</option></select></div></div><div id="debtsPageList"><div class="empty">Aggiungi il tuo primo debito.</div></div></section>
 </section>
 
+<section class="page" id="page-finance">
+ <div class="intro"><div><div class="eyebrow">Controllo del denaro</div><h2>Entrate e uscite</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Movimenti, conti, budget, ricorrenze e obiettivi in un unico posto.</p></div><button class="btn primary" type="button" onclick="openFinanceEntry('expense')">＋ Nuovo movimento</button></div>
+ <div class="finance-stat-grid section-gap" id="financeSummary"><div class="finance-stat"><span>Entrate mese</span><strong id="financeIncomeTotal">0,00 €</strong></div><div class="finance-stat"><span>Uscite mese</span><strong id="financeExpenseTotal">0,00 €</strong></div><div class="finance-stat"><span>Avanzo mese</span><strong id="financeNetTotal">0,00 €</strong></div><div class="finance-stat"><span>Patrimonio stimato</span><strong id="financeNetWorth">0,00 €</strong></div></div>
+ <section class="panel section-gap" id="transactionEditorPanel"><div class="panel-head"><div><h3 id="financeFormTitle">Registra un movimento</h3><div class="small">Ogni importo è un'entrata o un'uscita manuale.</div></div><span class="status">Movimento</span></div>
+  <form id="financeTransactionForm">
+   <input id="financeEditId" type="hidden">
+   <div class="finance-form-grid">
+    <div class="field"><label for="financeKind">Tipo</label><select id="financeKind"><option value="expense">Uscita</option><option value="income">Entrata</option><option value="transfer">Trasferimento tra conti</option></select></div>
+    <div class="field"><label for="financeDate">Data</label><input id="financeDate" type="date" required></div>
+    <div class="field"><label for="financeTitle">Descrizione</label><input id="financeTitle" maxlength="100" placeholder="Es. Spesa supermercato" required></div>
+    <div class="field"><label for="financeCategory">Categoria</label><select id="financeCategory" required></select></div>
+    <div class="field"><label for="financeAmount">Importo (€)</label><input id="financeAmount" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="0,00" required></div>
+    <div class="field"><label for="financeAccountId">Conto di origine / conto</label><select id="financeAccountId"><option value="">Non specificato</option></select></div><div class="field" id="financeToAccountWrap" hidden><label for="financeToAccountId">Conto di destinazione</label><select id="financeToAccountId"><option value="">Scegli conto</option></select></div>
+    <div class="field"><label for="financeMethod">Metodo (facoltativo)</label><select id="financeMethod"><option value="">Nessuno</option><option>Contanti</option><option>Carta</option><option>Bonifico</option><option>Addebito</option><option>Altro</option></select></div>
+    <div class="field"><label for="financeNote">Nota (facoltativa)</label><input id="financeNote" maxlength="180" placeholder="Dettagli aggiuntivi"></div>
+   </div>
+   <div class="switch-row" id="recurringToggleRow"><div><strong>Ripeti automaticamente nel piano</strong><span>La regola non muove denaro: registra le occorrenze solo quando le confermi qui.</span></div><input id="financeMakeRecurring" type="checkbox" aria-label="Crea movimento ricorrente"></div>
+   <div class="field section-gap" id="financeFrequencyWrap" hidden><label for="financeFrequency">Frequenza</label><select id="financeFrequency"><option value="monthly">Ogni mese</option><option value="weekly">Ogni settimana</option><option value="yearly">Ogni anno</option></select></div>
+   <div class="actions"><button class="btn primary" type="submit" id="financeSubmit">Salva movimento</button><button class="btn secondary" type="button" id="financeCancelEdit" hidden>Annulla modifica</button></div><div class="toast" id="financeToast" role="status" aria-live="polite"></div>
+  </form>
+  <p class="finance-section-note">Le uscite inserite qui sono separate dalle rate nella sezione Storico; queste ultime sono aggiunte al totale delle uscite e alla categoria “Debiti” per evitare che debbano essere inserite due volte.</p>
+ </section>
+ <div class="finance-layout section-gap">
+  <section class="panel"><div class="panel-head"><div><h3>Conti e portafogli</h3><div class="small">Saldo stimato a partire dal saldo iniziale e dai movimenti registrati.</div></div></div>
+   <form id="accountForm"><input id="accountEditId" type="hidden"><div class="finance-form-grid"><div class="field"><label for="accountName">Nome del conto</label><input id="accountName" maxlength="60" required placeholder="Es. Conto principale"></div><div class="field"><label for="accountType">Tipo</label><select id="accountType"><option value="checking">Conto corrente</option><option value="cash">Contanti</option><option value="savings">Risparmi</option><option value="card">Carta</option></select></div><div class="field"><label for="accountOpening">Saldo iniziale (€)</label><input id="accountOpening" type="number" step="0.01" inputmode="decimal" value="0" required></div></div><div class="actions"><button class="btn secondary" type="submit" id="accountSubmit">＋ Aggiungi conto</button><button class="btn secondary" type="button" id="accountCancel" hidden>Annulla</button></div><div class="toast" id="accountToast"></div></form>
+   <div id="accountsList" class="section-gap"><div class="finance-empty">Nessun conto ancora inserito.</div></div>
+  </section>
+  <section class="panel"><div class="panel-head"><div><h3>Budget mensili</h3><div class="small">Definisci un limite per categoria e mese.</div></div></div>
+   <form id="budgetForm"><div class="finance-form-grid"><div class="field"><label for="budgetMonth">Mese</label><input id="budgetMonth" type="month" required></div><div class="field"><label for="budgetCategory">Categoria</label><select id="budgetCategory" required></select></div><div class="field"><label for="budgetLimit">Limite (€)</label><input id="budgetLimit" type="number" min="0.01" step="0.01" inputmode="decimal" required placeholder="300"></div></div><button class="btn secondary wide" type="submit">＋ Salva budget</button><div class="toast" id="budgetToast"></div></form>
+   <div id="budgetsList" class="section-gap"><div class="finance-empty">Aggiungi un limite per tenere sotto controllo le spese.</div></div>
+  </section>
+ </div>
+ <div class="finance-layout section-gap">
+  <section class="panel"><div class="panel-head"><div><h3>Obiettivi di risparmio</h3><div class="small">Monitora fondi e traguardi personali.</div></div></div>
+   <form id="goalForm"><input id="goalEditId" type="hidden"><div class="finance-form-grid"><div class="field"><label for="goalName">Nome obiettivo</label><input id="goalName" maxlength="80" required placeholder="Es. Fondo emergenza"></div><div class="field"><label for="goalTarget">Importo obiettivo (€)</label><input id="goalTarget" type="number" min="0.01" step="0.01" required placeholder="2000"></div><div class="field"><label for="goalCurrent">Già accantonato (€)</label><input id="goalCurrent" type="number" min="0" step="0.01" value="0" required></div><div class="field"><label for="goalDate">Data obiettivo (facoltativa)</label><input id="goalDate" type="date"></div></div><div class="field"><label for="goalNote">Nota (facoltativa)</label><input id="goalNote" maxlength="160" placeholder="Dettagli dell'obiettivo"></div><div class="actions"><button class="btn secondary" type="submit" id="goalSubmit">＋ Salva obiettivo</button><button class="btn secondary" type="button" id="goalCancel" hidden>Annulla</button></div><div class="toast" id="goalToast"></div></form>
+   <div id="goalsList" class="section-gap"><div class="finance-empty">Crea il tuo primo obiettivo.</div></div>
+  </section>
+  <section class="panel"><div class="panel-head"><div><h3>Movimenti ricorrenti</h3><div class="small">Rendite, bollette e abbonamenti che si ripetono.</div></div><span class="status" id="recurringCount">0 regole</span></div><p class="finance-section-note" style="margin-top:0">Le occorrenze non vengono registrate in automatico in background. Quando vuoi, premi “Registra scadenze previste” per creare i movimenti arrivati alla data prevista.</p><button class="btn secondary wide" type="button" id="processRecurringBtn">Registra scadenze previste</button><div class="toast" id="recurringToast"></div><div id="recurringList" class="section-gap"><div class="finance-empty">Nessuna regola ricorrente.</div></div>
+  </section>
+ </div>
+ <section class="panel section-gap"><div class="panel-head"><div><h3>Report mensile</h3><div class="small">Andamento delle entrate, delle uscite e dei pagamenti debiti.</div></div><select id="financeReportMonths" aria-label="Periodo report" style="width:auto;max-width:120px"><option value="3">3 mesi</option><option value="6" selected>6 mesi</option><option value="12">12 mesi</option></select></div><div id="financeTrendChart" class="finance-chart"><div class="finance-empty">Registra dei movimenti per vedere il report.</div></div><div id="financeCategoryReport" class="section-gap"></div></section>
+ <section class="panel section-gap"><div class="panel-head"><div><h3>Registro movimenti</h3><div class="small" id="financeHistoryCount">0 movimenti</div></div><button class="btn secondary" type="button" onclick="exportFinanceCSV()">Esporta CSV</button></div>
+  <div class="finance-form-grid"><div class="field"><label for="financeSearch">Cerca movimenti</label><input id="financeSearch" type="search" placeholder="Descrizione, categoria, conto"></div><div class="field"><label for="financeHistoryMonth">Filtra per mese</label><input id="financeHistoryMonth" type="month"></div></div><div class="finance-filter"><button type="button" class="active" data-finance-filter="all">Tutti</button><button type="button" data-finance-filter="income">Entrate</button><button type="button" data-finance-filter="expense">Uscite</button><button type="button" data-finance-filter="transfer">Trasferimenti</button></div>
+  <div id="financeTransactionsList"><div class="finance-empty">Non hai ancora registrato movimenti.</div></div>
+  <div class="actions section-gap"><button class="btn secondary" type="button" onclick="exportBackup()">Backup JSON completo</button><button class="btn secondary" type="button" onclick="exportFinanceCSV()">Esporta movimenti CSV</button></div>
+ </section>
+ <section class="panel section-gap"><div class="panel-head"><h3>Importazione ed esportazione</h3><span class="status">Backup</span></div><p class="muted" style="font-size:13px;margin-top:0">Il backup JSON include conti, entrate, uscite, budget, obiettivi, ricorrenze e debiti. Conservalo in un luogo privato e sicuro.</p><div class="actions"><button class="btn secondary" type="button" onclick="exportBackup()">Esporta backup completo</button><button class="btn secondary" type="button" onclick="document.getElementById('importFile').click()">Importa backup JSON</button></div></section>
+</section>
+
 <section class="page" id="page-payments">
  <div class="intro"><div><div class="eyebrow">Storico e inserimento</div><h2>Le tue rate</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Registra ogni pagamento e tieni traccia dei progressi.</p></div></div>
  <div class="settings-grid">
@@ -156,7 +337,7 @@ body[data-theme=dark] #authGate{background:#050506}body[data-theme=dark] .auth-c
    <form id="paymentForm">
     <div class="field"><label for="paymentDate">Data del pagamento</label><input id="paymentDate" type="date" required></div>
     <div class="field"><label for="paymentDebtId">A quale debito si riferisce?</label><select id="paymentDebtId"><option value="">Pagamento generico / non associato</option></select></div>
-    <div class="form-grid"><div class="field"><label for="paymentAmount">Importo pagato (€)</label><input id="paymentAmount" type="number" min="0.01" step="0.01" placeholder="150,00" inputmode="decimal" required></div><div class="field"><label for="paymentMethod">Metodo (facoltativo)</label><select id="paymentMethod"><option value="">Seleziona</option><option>Bonifico</option><option>Contanti</option><option>Addebito</option><option>Altro</option></select></div></div>
+    <div class="form-grid"><div class="field"><label for="paymentAmount">Importo pagato (€)</label><input id="paymentAmount" type="number" min="0.01" step="0.01" placeholder="150,00" inputmode="decimal" required></div><div class="field"><label for="paymentMethod">Metodo (facoltativo)</label><select id="paymentMethod"><option value="">Seleziona</option><option>Bonifico</option><option>Contanti</option><option>Addebito</option><option>Altro</option></select></div></div><div class="field"><label for="paymentAccountId">Conto utilizzato (facoltativo)</label><select id="paymentAccountId"><option value="">Non specificato</option></select></div>
     <div class="field"><label for="paymentNote">Nota (facoltativa)</label><input id="paymentNote" maxlength="120" placeholder="Es. rata ottobre"></div>
     <div class="actions"><button class="btn primary" type="submit" id="paymentSubmit">＋ Salva pagamento</button><button class="btn secondary" type="button" id="cancelEdit" hidden>Annulla</button></div><div class="toast" id="paymentToast" role="status" aria-live="polite"></div><button class="btn secondary undo-payment" id="undoLastPaymentBtn" type="button" onclick="undoLastPayment()" hidden>↶ Annulla ultimo pagamento</button>
    </form>
@@ -211,11 +392,18 @@ body[data-theme=dark] #authGate{background:#050506}body[data-theme=dark] .auth-c
    <div class="notice"><strong>Per completare l'attivazione:</strong> pubblica l'app su HTTPS, avvia il backend push e poi premi “Attiva notifiche”. Il server controlla la scadenza ogni giorno alle 18:00 (Europe/Rome) e invia un push nei 7 giorni precedenti. Il piano viene sincronizzato con il server quando salvi il profilo. Per sicurezza, non inserire dati personali non necessari.</div>
   </section>
  </div>
- <section class="panel section-gap"><div class="panel-head"><h3>Dati e preferenze</h3></div><div class="field"><label for="themeSelect">Aspetto dell’app</label><select id="themeSelect"><option value="light">☀️ Giorno</option><option value="dark">🌙 Notte</option></select></div><div class="small">La preferenza grafica viene salvata su questo dispositivo.</div><div class="panel-head section-gap"><h3>Dati e backup</h3></div><p class="muted" style="font-size:13px;margin-top:0">La sincronizzazione cloud resta attiva quando il tuo account Supabase è configurato. Il backup locale è una copia aggiuntiva utile per sicurezza.</p><div class="actions export-actions"><button class="btn secondary" onclick="exportBackup()">Esporta backup JSON</button><button class="btn secondary" onclick="exportCSV()">Esporta CSV</button><button class="btn secondary" onclick="exportPDF()">Stampa / Salva PDF</button><button class="btn secondary" onclick="document.getElementById('importFile').click()">Importa backup JSON</button><button class="btn danger" onclick="clearPayments()">Cancella storico pagamenti</button></div><div class="toast" id="dataToast"></div></section>
+ <section class="panel section-gap" id="visualSettingsPanel" aria-labelledby="visualSettingsTitle">
+  <div class="panel-head"><div><h3 id="visualSettingsTitle">Grafici e simulazioni</h3><div class="small" style="margin-top:4px">Personalizza gli strumenti della dashboard.</div></div><span class="status">Preferenze</span></div>
+  <div class="switch-row"><div><strong>Mostra andamento dei rimborsi</strong><span>Visualizza il grafico dei pagamenti mensili nella Home.</span></div><input id="settingShowChart" type="checkbox" checked aria-label="Mostra il grafico dei rimborsi"></div>
+  <div class="field section-gap"><label for="settingChartMonths">Periodo del grafico</label><select id="settingChartMonths"><option value="3">Ultimi 3 mesi</option><option value="6" selected>Ultimi 6 mesi</option><option value="12">Ultimi 12 mesi</option></select></div>
+  <div class="switch-row"><div><strong>Mostra simulatore di pagamento extra</strong><span>Consente di confrontare una rata con un extra mensile ipotetico.</span></div><input id="settingShowSimulator" type="checkbox" checked aria-label="Mostra il simulatore"></div>
+  <p class="small" style="margin:12px 0 0">Le preferenze grafiche vengono salvate su questo dispositivo. La simulazione è indicativa e non modifica debiti o pagamenti reali.</p>
+ </section>
+ <section class="panel section-gap"><div class="panel-head"><h3>Dati e preferenze</h3></div><div class="field"><label for="themeSelect">Aspetto dell’app</label><select id="themeSelect"><option value="light">☀️ Giorno</option><option value="dark">🌙 Notte</option></select></div><div class="small">La preferenza grafica viene salvata su questo dispositivo.</div><div class="panel-head section-gap"><h3>Dati e backup</h3></div><p class="muted" style="font-size:13px;margin-top:0">La sincronizzazione cloud resta attiva quando il tuo account Supabase è configurato. Per sincronizzare anche Finanze Pro devi eseguire la migrazione SQL allegata. Il backup locale è una copia aggiuntiva utile per sicurezza.</p><div class="actions export-actions"><button class="btn secondary" onclick="exportBackup()">Esporta backup JSON</button><button class="btn secondary" onclick="exportCSV()">Esporta CSV</button><button class="btn secondary" onclick="exportPDF()">Stampa / Salva PDF</button><button class="btn secondary" onclick="document.getElementById('importFile').click()">Importa backup JSON</button><button class="btn danger" onclick="clearPayments()">Cancella storico pagamenti</button></div><div class="toast" id="dataToast"></div></section>
 </section>
 </div>
 
-<nav class="bottom-nav"><div class="nav-inner"><button class="nav-btn active" data-page="home" onclick="showPage('home')"><span>⌂</span><span>Home</span></button><button class="nav-btn" data-page="debts" onclick="showPage('debts')"><span>◫</span><span>Debiti</span></button><button class="nav-btn" data-page="payments" onclick="showPage('payments')"><span>↗</span><span>Storico</span></button><button class="nav-btn" data-page="profile" onclick="showPage('profile')"><span>⚙</span><span>Profilo</span></button></div></nav>
+<nav class="bottom-nav"><div class="nav-inner"><button class="nav-btn active" data-page="home" onclick="showPage('home')"><span>⌂</span><span>Home</span></button><button class="nav-btn" data-page="debts" onclick="showPage('debts')"><span>◫</span><span>Debiti</span></button><button class="nav-btn" data-page="finance" onclick="showPage('finance')"><span>↗</span><span>Finanze</span></button><button class="nav-btn" data-page="payments" onclick="showPage('payments')"><span>↻</span><span>Storico</span></button><button class="nav-btn" data-page="profile" onclick="showPage('profile')"><span>⚙</span><span>Profilo</span></button></div></nav>
 <script>
 const KEY='le-mie-rate-v2', $=id=>document.getElementById(id);
 window.addEventListener('error',event=>{console.error('Errore JavaScript:',event.error||event.message);const box=document.getElementById('authMessage');if(box&&!box.textContent)box.textContent='Errore interno dell’app: '+(event.message||'ricarica la pagina e riprova.');});
@@ -245,9 +433,14 @@ function showSyncStatus(message,kind='info'){
 
 const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(n||0);
 const dateISO=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)};
-let state={name:'',personalName:'',debt:0,monthly:0,day:1,startDate:'',reminders:false,reminderTime:'18:00',reminderDays:7,payments:[],debts:[]},editing=null,lastSavedPayment=null;
+let state={name:'',personalName:'',debt:0,monthly:0,day:1,startDate:'',reminders:false,reminderTime:'18:00',reminderDays:7,payments:[],debts:[],transactions:[],accounts:[],budgets:[],recurringRules:[],goals:[]},editing=null,lastSavedPayment=null;
+let financeSchemaReady=false,financeSchemaMessage='',financeFilter='all',financeEditingId=null;
+const FINANCE_SYNC_PREFIX='le-mie-rate-finance-synced-v1-';
+const financeSyncKey=kind=>FINANCE_SYNC_PREFIX+(currentUser?.id||'')+'-'+kind;
+const FINANCE_CATEGORIES={income:['Stipendio','Lavori extra','Rimborsi','Interessi','Regali','Altro'],expense:['Casa','Alimentari','Trasporti','Utenze','Salute','Shopping','Abbonamenti','Tempo libero','Ristorazione','Assicurazioni','Imposte','Debiti','Altro']};
+const ALL_CATEGORIES=[...new Set([...FINANCE_CATEGORIES.income,...FINANCE_CATEGORIES.expense])];
 for(let i=1;i<=31;i++){ $('profileDay').add(new Option(i+' del mese',String(i))); $('debtDueDay').add(new Option(i+' del mese',String(i))); }
-function safeLoad(){try{let x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeof x==='object'&&Number.isFinite(x.debt)&&Array.isArray(x.payments))state={...state,...x,debts:Array.isArray(x.debts)?x.debts:[]};}catch(e){}}
+function safeLoad(){try{let x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeof x==='object'&&Number.isFinite(x.debt)&&Array.isArray(x.payments))state={...state,...x,debts:Array.isArray(x.debts)?x.debts:[],transactions:Array.isArray(x.transactions)?x.transactions:[],accounts:Array.isArray(x.accounts)?x.accounts:[],budgets:Array.isArray(x.budgets)?x.budgets:[],recurringRules:Array.isArray(x.recurringRules)?x.recurringRules:[],goals:Array.isArray(x.goals)?x.goals:[]};}catch(e){}}
 function save(){
  try{localStorage.setItem(KEY,JSON.stringify(state)); if(currentUser && isUnlocked && !remoteLoading) scheduleCloudSave(); return true}
  catch(e){return false}
@@ -271,6 +464,8 @@ async function cloudLoad({quiet=false}={}){
  remoteLoading=true;
  // Conserva i debiti locali non ancora arrivati al cloud: la versione precedente li salvava solo sul dispositivo.
  const localDebtsBefore=Array.isArray(state.debts)?state.debts.map(d=>({...d})):[];
+ const localFinanceBefore={accounts:[...state.accounts],transactions:[...state.transactions],budgets:[...state.budgets],recurringRules:[...state.recurringRules],goals:[...state.goals]};
+ let localFinanceNeedsSync=false;
  let previousSyncedIds=null;
  try{const raw=localStorage.getItem(syncedDebtIdsKey());if(raw!==null){const parsed=JSON.parse(raw);if(Array.isArray(parsed))previousSyncedIds=new Set(parsed.map(String));}}catch(e){}
  try{
@@ -280,6 +475,36 @@ async function cloudLoad({quiet=false}={}){
   if(re)throw re;
   const {data:debtRows,error:dre}=await sb.from('debts').select('*').eq('user_id',currentUser.id).order('priority',{ascending:true});
   if(dre)throw new Error('Impossibile leggere i debiti dalla tabella debts. Controlla le policy RLS e i permessi. '+dre.message);
+  // Le tabelle aggiuntive sono opzionali in avvio: se la migrazione non è stata eseguita il login resta disponibile.
+  const financeQueries=await Promise.all([
+   sb.from('finance_accounts').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:true}),
+   sb.from('finance_transactions').select('*').eq('user_id',currentUser.id).order('transaction_date',{ascending:false}),
+   sb.from('finance_budgets').select('*').eq('user_id',currentUser.id).order('month_start',{ascending:false}),
+   sb.from('recurring_rules').select('*').eq('user_id',currentUser.id).order('next_date',{ascending:true}),
+   sb.from('savings_goals').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false})
+  ]);
+  financeSchemaReady=financeQueries.every(q=>!q.error);
+  if(financeSchemaReady){
+   const [ar,tr,br,rr,gr]=financeQueries;
+   const cloudFinance={
+    accounts:(ar.data||[]).map(r=>({id:r.id,name:r.name,type:r.account_type||'checking',openingBalance:Number(r.opening_balance)||0})),
+    transactions:(tr.data||[]).map(r=>({id:r.id,kind:r.kind,title:r.title,category:r.category||'Altro',amount:Number(r.amount)||0,date:r.transaction_date,accountId:r.account_id||'',targetAccountId:r.transfer_to_account_id||'',method:r.payment_method||'',note:r.note||'',recurringRuleId:r.recurring_rule_id||'',recurrenceDate:r.recurrence_date||''})),
+    budgets:(br.data||[]).map(r=>({id:r.id,category:r.category,month:(r.month_start||'').slice(0,7),limit:Number(r.limit_amount)||0})),
+    recurringRules:(rr.data||[]).map(r=>({id:r.id,title:r.title,kind:r.kind,category:r.category||'Altro',amount:Number(r.amount)||0,accountId:r.account_id||'',frequency:r.frequency||'monthly',startDate:r.start_date,nextDate:r.next_date,isActive:r.is_active!==false,method:r.payment_method||'',note:r.note||''})),
+    goals:(gr.data||[]).map(r=>({id:r.id,name:r.name,target:Number(r.target_amount)||0,current:Number(r.current_amount)||0,targetDate:r.target_date||'',note:r.note||''}))
+   };
+   for(const kind of Object.keys(cloudFinance)){
+    let previous=null;try{const raw=localStorage.getItem(financeSyncKey(kind));if(raw!==null){const parsed=JSON.parse(raw);if(Array.isArray(parsed))previous=new Set(parsed.map(String));}}catch(e){}
+    const cloud=cloudFinance[kind], cloudIds=new Set(cloud.map(x=>String(x.id)));
+    const localOnly=localFinanceBefore[kind].filter(x=>x&&x.id&&!cloudIds.has(String(x.id))&&(!previous||!previous.has(String(x.id))));
+    if(localOnly.length)localFinanceNeedsSync=true;
+    state[kind]=[...cloud,...localOnly];
+   }
+  }else{
+   const failed=financeQueries.find(q=>q.error)?.error;
+   console.warn('Schema finanziario aggiuntivo non ancora pronto:',failed?.message||failed);
+   financeSchemaMessage='Le funzioni Finanze sono disponibili sul dispositivo, ma non sono ancora sincronizzate: esegui il file SQL di migrazione Supabase.';
+  }
   // Il nome personale arriva dai metadati dell'utente Supabase, non dal nome del debito/profilo.
   const userMetadata=currentUser?.user_metadata||{};
   // Non riutilizzare il nome locale se si accede a un account diverso che non ha ancora un nome impostato.
@@ -293,7 +518,7 @@ async function cloudLoad({quiet=false}={}){
    const {error}=await sb.from('profiles').insert({user_id:currentUser.id,initial_debt:0,name:state.name,monthly_amount:0,due_day:1,start_date:null});
    if(error)throw error;
   }
-  state.payments=(rows||[]).map(r=>({id:r.id,date:r.due_date,amount:Number(r.amount),method:r.method||'',note:r.note||r.description||'',debtId:r.debt_id||''}));
+  state.payments=(rows||[]).map(r=>({id:r.id,date:r.due_date,amount:Number(r.amount),method:r.method||'',note:r.note||r.description||'',debtId:r.debt_id||'',accountId:r.account_id||''}));
   const cloudDebts=(debtRows||[]).map(r=>({id:r.id,name:r.name,amount:Number(r.initial_amount),monthly:Number(r.monthly_amount),priority:Number(r.priority||2),day:Number(r.due_day||1),startDate:r.start_date||''}));
   const cloudIds=new Set(cloudDebts.map(d=>String(d.id)));
   // If a local debt is not in the cloud and was not part of the last successful sync, preserve and upload it.
@@ -314,7 +539,8 @@ async function cloudLoad({quiet=false}={}){
   localStorage.setItem(KEY,JSON.stringify(state));
   localStorage.setItem(syncedDebtIdsKey(),JSON.stringify(state.debts.map(d=>String(d.id))));
   render();
-  if(!quiet)showSyncStatus('Dati caricati e sincronizzati con Supabase.','ok');
+  if(!quiet){if(financeSchemaReady)showSyncStatus('Dati caricati e sincronizzati con Supabase.','ok');else showSyncStatus(financeSchemaMessage||'Dati debiti sincronizzati; esegui la migrazione SQL per sincronizzare le nuove funzioni Finanze.','error');}
+  if(localFinanceNeedsSync&&financeSchemaReady)setTimeout(()=>scheduleCloudSave(),150);
  } finally {remoteLoading=false}
 }
 async function cloudSave(){
@@ -324,6 +550,12 @@ async function cloudSave(){
  try{
   const profile={user_id:currentUser.id,name:state.name||'',initial_debt:state.debt,monthly_amount:state.monthly||0,due_day:state.day||1,start_date:state.startDate||null,reminders_enabled:!!state.reminders,reminder_time:state.reminderTime||'18:00',reminder_days:state.reminderDays||7};
   const {error:pe}=await sb.from('profiles').upsert(profile,{onConflict:'user_id'});if(pe)throw pe;
+  // Crea prima i conti affinché i movimenti e le rate possano riferirsi a loro.
+  if(financeSchemaReady){
+   for(const a of state.accounts){if(!UUID_RE.test(String(a.id)))a.id=crypto.randomUUID();}
+   const accountPayload=state.accounts.map(a=>({id:a.id,user_id:currentUser.id,name:String(a.name||'Conto').trim()||'Conto',account_type:a.type||'checking',opening_balance:Number(a.openingBalance)||0,currency:'EUR'}));
+   if(accountPayload.length){const {error}=await sb.from('finance_accounts').upsert(accountPayload,{onConflict:'id'});if(error)throw new Error('Impossibile salvare i conti: '+error.message);}
+  }
   // Payments are replaced as in the previous version. Remove them first so debt deletions cannot leave broken foreign keys.
   const {error:dp}=await sb.from('payments').delete().eq('user_id',currentUser.id);if(dp)throw dp;
   const {data:existingDebts,error:ed}=await sb.from('debts').select('id').eq('user_id',currentUser.id);if(ed)throw new Error('Non riesco a leggere i debiti già salvati nel cloud: '+ed.message);
@@ -335,12 +567,34 @@ async function cloudSave(){
    if(!keepIds.has(String(old.id))){const {error:delErr}=await sb.from('debts').delete().eq('user_id',currentUser.id).eq('id',old.id);if(delErr)throw new Error('Impossibile sincronizzare un debito eliminato: '+delErr.message);}
   }
   if(state.payments.length){
-   const payload=state.payments.map(p=>({id:(UUID_RE.test(String(p.id))?p.id:crypto.randomUUID()),user_id:currentUser.id,description:p.note||p.method||'Pagamento rata',method:p.method||'',note:p.note||'',amount:p.amount,due_date:p.date,debt_id:p.debtId||null,is_paid:true,paid_at:p.date}));
+   // Assegna gli ID una sola volta e riutilizzali per evitare di cambiare gli identificativi a ogni sincronizzazione.
+   for(const p of state.payments){if(!UUID_RE.test(String(p.id)))p.id=crypto.randomUUID();}
+   const payload=state.payments.map(p=>({id:p.id,user_id:currentUser.id,description:p.note||p.method||'Pagamento rata',method:p.method||'',note:p.note||'',amount:p.amount,due_date:p.date,debt_id:p.debtId||null,is_paid:true,paid_at:p.date,...(financeSchemaReady?{account_id:p.accountId||null}:{})}));
    const {error:ie}=await sb.from('payments').insert(payload);if(ie)throw ie;
+  }
+  if(financeSchemaReady){
+   const ensureIds=arr=>arr.forEach(x=>{if(!UUID_RE.test(String(x.id)))x.id=crypto.randomUUID();});
+   ensureIds(state.transactions);ensureIds(state.budgets);ensureIds(state.recurringRules);ensureIds(state.goals);
+   const txPayload=state.transactions.map(t=>({id:t.id,user_id:currentUser.id,kind:t.kind,title:String(t.title||'Movimento').trim()||'Movimento',category:t.category||'Altro',amount:Number(t.amount)||0,transaction_date:t.date,account_id:t.accountId||null,transfer_to_account_id:t.targetAccountId||null,payment_method:t.method||'',note:t.note||'',recurring_rule_id:t.recurringRuleId||null,recurrence_date:t.recurrenceDate||null}));
+   const rulePayload=state.recurringRules.map(r=>({id:r.id,user_id:currentUser.id,title:String(r.title||'Ricorrenza').trim()||'Ricorrenza',kind:r.kind,category:r.category||'Altro',amount:Number(r.amount)||0,account_id:r.accountId||null,frequency:r.frequency||'monthly',start_date:r.startDate,next_date:r.nextDate,is_active:r.isActive!==false,payment_method:r.method||'',note:r.note||''}));
+   const budgetPayload=state.budgets.map(b=>({id:b.id,user_id:currentUser.id,category:b.category,month_start:String(b.month||dateISO().slice(0,7))+'-01',limit_amount:Number(b.limit)||0}));
+   const goalPayload=state.goals.map(g=>({id:g.id,user_id:currentUser.id,name:String(g.name||'Obiettivo').trim()||'Obiettivo',target_amount:Number(g.target)||0,current_amount:Number(g.current)||0,target_date:g.targetDate||null,note:g.note||''}));
+   const syncCollection=async(table,payload,rows)=>{const {data:existing,error:re}=await sb.from(table).select('id').eq('user_id',currentUser.id);if(re)throw new Error('Impossibile leggere '+table+': '+re.message);if(payload.length){const {error}=await sb.from(table).upsert(payload,{onConflict:'id'});if(error)throw new Error('Impossibile salvare '+table+': '+error.message);}const keep=new Set(payload.map(x=>String(x.id)));for(const old of (existing||[])){if(!keep.has(String(old.id))){const {error}=await sb.from(table).delete().eq('user_id',currentUser.id).eq('id',old.id);if(error)throw new Error('Impossibile sincronizzare le eliminazioni in '+table+': '+error.message);}}localStorage.setItem(financeSyncKey(rows),JSON.stringify(state[rows].map(x=>String(x.id))));};
+   // I record collegati vengono salvati prima delle transazioni; l'ordine evita riferimenti senza conto/regola.
+   await syncCollection('recurring_rules',rulePayload,'recurringRules');
+   await syncCollection('finance_transactions',txPayload,'transactions');
+   await syncCollection('finance_budgets',budgetPayload,'budgets');
+   await syncCollection('savings_goals',goalPayload,'goals');
+   // Elimina conti rimossi solo dopo aver salvato movimenti e rate aggiornati; i riferimenti FK diventano null.
+   const {data:existingAccounts,error:era}=await sb.from('finance_accounts').select('id').eq('user_id',currentUser.id);if(era)throw new Error('Impossibile leggere i conti: '+era.message);
+   const keepAccounts=new Set(state.accounts.map(a=>String(a.id)));for(const old of (existingAccounts||[])){if(!keepAccounts.has(String(old.id))){const {error}=await sb.from('finance_accounts').delete().eq('user_id',currentUser.id).eq('id',old.id);if(error)throw new Error('Impossibile eliminare il conto dal cloud: '+error.message);}}
+   localStorage.setItem(financeSyncKey('accounts'),JSON.stringify(state.accounts.map(a=>String(a.id))));
+  }else if(state.transactions.length||state.accounts.length||state.budgets.length||state.recurringRules.length||state.goals.length){
+   showSyncStatus('Debiti e rate sincronizzati. Per sincronizzare Entrate/Uscite, conti, budget e obiettivi, esegui prima il file SQL di migrazione Finanze.','error');
   }
   localStorage.setItem(KEY,JSON.stringify(state));
   localStorage.setItem(syncedDebtIdsKey(),JSON.stringify(state.debts.map(d=>String(d.id))));
-  showSyncStatus('Sincronizzato con Supabase.','ok');
+  if(financeSchemaReady)showSyncStatus('Dati sincronizzati con Supabase.','ok');
  }catch(e){showCloudError(e);throw e;}
  finally{cloudSaving=false;if(cloudSaveQueued){cloudSaveQueued=false;scheduleCloudSave();}}
 }
@@ -468,10 +722,10 @@ function render(){
  const sorted=[...state.payments].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
  $('recentList').innerHTML=sorted.length?sorted.slice(0,4).map(p=>`<div class="payment-row"><div class="payment-date">${esc((p.date||'').slice(8,10))}<br>${esc((p.date||'').slice(5,7))}</div><div class="payment-info"><strong>${esc(paymentLabel(p))}</strong><span>${dateLabel(p.date)}</span></div><div class="payment-right"><strong>− ${euro(p.amount)}</strong><span class="status paid">Registrato</span></div></div>`).join(''):'<div class="empty"><div class="empty-icon">↗</div>I pagamenti registrati appariranno qui.</div>';
  $('historyCount').textContent=state.payments.length+' '+(state.payments.length===1?'pagamento':'pagamenti');$('historyEmpty').style.display=sorted.length?'none':'block';
- $('historyTable').innerHTML=sorted.length?`<div class="table-wrap"><table><thead><tr><th>Data</th><th>Descrizione</th><th>Debito</th><th>Importo</th><th>Azioni</th></tr></thead><tbody>${sorted.map(p=>`<tr><td>${dateLabel(p.date)}</td><td>${esc(p.note||p.method||'Rata mensile')}</td><td>${esc(debtNameForPayment(p))}</td><td><strong>${euro(p.amount)}</strong></td><td><button class="table-action" onclick="editPayment('${esc(p.id)}')">Modifica</button><button class="table-action danger-text" onclick="deletePayment('${esc(p.id)}')">Elimina</button></td></tr>`).join('')}</tbody></table></div>`:'';
+ $('historyTable').innerHTML=sorted.length?`<div class="table-wrap"><table><thead><tr><th>Data</th><th>Descrizione</th><th>Debito</th><th>Importo</th><th>Azioni</th></tr></thead><tbody>${sorted.map(p=>`<tr><td data-label="Data">${dateLabel(p.date)}</td><td data-label="Descrizione">${esc(p.note||p.method||'Rata mensile')}</td><td data-label="Debito">${esc(debtNameForPayment(p))}</td><td data-label="Importo"><strong>${euro(p.amount)}</strong></td><td data-label="Azioni"><button class="table-action" onclick="editPayment('${esc(p.id)}')">Modifica</button><button class="table-action danger-text" onclick="deletePayment('${esc(p.id)}')">Elimina</button></td></tr>`).join('')}</tbody></table></div>`:'';
  $('personalName').value=state.personalName||'';$('profileName').value=state.name||'';$('profileDebt').value=state.debt;$('profileMonthly').value=state.monthly||'';$('profileDay').value=String(state.day||1);$('profileStart').value=state.startDate||'';
  $('remindersEnabled').checked=!!state.reminders;$('reminderTime').value=state.reminderTime||'18:00';$('reminderDays').value=String(state.reminderDays||7);$('notifyStatus').textContent=state.reminders?'Attivi (se supportati)':'Da configurare';
- renderRepaymentTips(rem);renderDebts();populateDebtSelects();renderProgressChart();renderSimulator();
+ renderRepaymentTips(rem);renderDebts();populateDebtSelects();renderProgressChart();renderSimulator();populateFinanceSelects();renderFinance();
 }
 function renderRepaymentTips(rem){
  const box=$('repaymentTipsBody'); if(!box)return; const debt=state.debts.length?state.debts.reduce((a,d)=>a+Number(d.amount||0),0):Math.max(0,Number(state.debt)||0), monthly=state.debts.length?state.debts.reduce((a,d)=>a+Number(d.monthly||0),0):Math.max(0,Number(state.monthly)||0);
@@ -549,11 +803,13 @@ function renderSimulator(){
 }
 function renderProgressChart(){
  const box=$('progressChart');if(!box)return;const today=new Date();const months=[];
- for(let i=5;i>=0;i--){const d=new Date(today.getFullYear(),today.getMonth()-i,1);const key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;const total=state.payments.filter(p=>(p.date||'').slice(0,7)===key).reduce((a,p)=>a+Number(p.amount||0),0);months.push({key,label:d.toLocaleDateString('it-IT',{month:'short'}).replace('.',''),total});}
- const max=Math.max(1,...months.map(m=>m.total));const has=months.some(m=>m.total>0);const w=340,h=166,left=12,right=10,top=12,bottom=28,chartH=112,base=top+chartH,barW=25,gap=(w-left-right-months.length*barW)/(months.length-1);
+ const monthCount=Math.max(3,Math.min(12,Number(visualPrefs.chartMonths)||6));
+ for(let i=monthCount-1;i>=0;i--){const d=new Date(today.getFullYear(),today.getMonth()-i,1);const key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;const total=state.payments.filter(p=>(p.date||'').slice(0,7)===key).reduce((a,p)=>a+Number(p.amount||0),0);months.push({key,label:d.toLocaleDateString('it-IT',{month:'short'}).replace('.',''),total});}
+ const max=Math.max(1,...months.map(m=>m.total));const has=months.some(m=>m.total>0);const w=340,h=166,left=12,right=10,top=12,bottom=28,chartH=112,base=top+chartH,barW=monthCount<=3?48:monthCount<=6?25:14,gap=(w-left-right-months.length*barW)/(months.length-1);
  const grid=[0,.5,1].map(f=>`<line class="chart-grid" x1="${left}" y1="${top+chartH*f}" x2="${w-right}" y2="${top+chartH*f}"/>`).join('');
- const bars=months.map((m,i)=>{const bh=m.total?Math.max(5,(m.total/max)*(chartH-8)):2;const x=left+i*(barW+gap),y=base-bh;return `<g><rect x="${x}" y="${y}" width="${barW}" height="${bh}" rx="7" class="chart-bar" opacity="${m.total?'.95':'.14'}"><title>${m.label}: ${euro(m.total)}</title></rect><text x="${x+barW/2}" y="${base+20}" text-anchor="middle" class="chart-label">${esc(m.label)}</text>${m.total?`<text x="${x+barW/2}" y="${Math.max(10,y-5)}" text-anchor="middle" class="chart-value">${m.total>=1000?(m.total/1000).toLocaleString('it-IT',{maximumFractionDigits:1})+'k':Math.round(m.total)}</text>`:''}</g>`}).join('');
- box.innerHTML=has?`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Pagamenti mensili degli ultimi sei mesi">${grid}${bars}</svg>`:'<div class="empty" style="padding:22px 8px">Non ci sono pagamenti negli ultimi sei mesi. Registra una rata per iniziare a vedere l’andamento.</div>';
+ const bars=months.map((m,i)=>{const bh=m.total?Math.max(5,(m.total/max)*(chartH-8)):2;const x=left+i*(barW+gap),y=base-bh;return `<g><rect x="${x}" y="${y}" width="${barW}" height="${bh}" rx="${Math.min(7,barW/2)}" class="chart-bar" opacity="${m.total?'.95':'.14'}"><title>${m.label}: ${euro(m.total)}</title></rect><text x="${x+barW/2}" y="${base+20}" text-anchor="middle" class="chart-label">${esc(m.label)}</text>${m.total&&monthCount<=6?`<text x="${x+barW/2}" y="${Math.max(10,y-5)}" text-anchor="middle" class="chart-value">${m.total>=1000?(m.total/1000).toLocaleString('it-IT',{maximumFractionDigits:1})+'k':Math.round(m.total)}</text>`:''}</g>`}).join('');
+ const ariaMonths=monthCount+' mesi';
+ box.innerHTML=has?`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Pagamenti mensili degli ultimi ${ariaMonths}" class="chart-months-${monthCount}">${grid}${bars}</svg>`:`<div class="empty" style="padding:22px 8px">Non ci sono pagamenti negli ultimi ${monthCount} mesi. Registra una rata per iniziare a vedere l’andamento.</div>`;
 }
 function openNewDebt(){showPage('profile');resetDebtForm();setTimeout(()=>{$('debtName').focus({preventScroll:true});$('debtForm').scrollIntoView({behavior:'smooth',block:'start'});},80)}
 function resetDebtForm(){ $('debtForm').reset();$('debtEditId').value='';$('debtDueDay').value='1';$('debtSaveBtn').textContent='＋ Salva debito';$('debtCancelBtn').hidden=true; }
@@ -565,7 +821,16 @@ $('debtCancelBtn').addEventListener('click',resetDebtForm);$('debtSort').addEven
 $('themeSelect').addEventListener('change',e=>{localStorage.setItem('le-mie-rate-theme',e.target.value);applyTheme(e.target.value)});
 function applyTheme(theme){const isDark=theme==='dark';document.body.dataset.theme=isDark?'dark':'light';document.documentElement.style.colorScheme=isDark?'dark':'light';const meta=document.querySelector('meta[name=theme-color]');if(meta)meta.content=isDark?'#050506':'#f5f6fa';if($('themeSelect'))$('themeSelect').value=isDark?'dark':'light';}
 
-function showPage(page){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+page));document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'});if(page==='payments')populateDebtSelects();if(page==='debts')renderDebts();}
+const VISUAL_PREFS_KEY='le-mie-rate-visual-settings-v1';
+let visualPrefs={showChart:true,showSimulator:true,chartMonths:6};
+function loadVisualPrefs(){try{const saved=JSON.parse(localStorage.getItem(VISUAL_PREFS_KEY)||'null');if(saved&&typeof saved==='object')visualPrefs={...visualPrefs,...saved};}catch(e){}visualPrefs.showChart=visualPrefs.showChart!==false;visualPrefs.showSimulator=visualPrefs.showSimulator!==false;visualPrefs.chartMonths=[3,6,12].includes(Number(visualPrefs.chartMonths))?Number(visualPrefs.chartMonths):6;}
+function applyVisualPrefs(){const chart=$('progressPanel'),sim=$('simulatorPanel');if(chart)chart.hidden=!visualPrefs.showChart;if(sim)sim.hidden=!visualPrefs.showSimulator;if($('settingShowChart'))$('settingShowChart').checked=visualPrefs.showChart;if($('settingShowSimulator'))$('settingShowSimulator').checked=visualPrefs.showSimulator;if($('settingChartMonths'))$('settingChartMonths').value=String(visualPrefs.chartMonths);if(typeof renderProgressChart==='function')renderProgressChart();}
+function saveVisualPrefs(){try{localStorage.setItem(VISUAL_PREFS_KEY,JSON.stringify(visualPrefs));}catch(e){}applyVisualPrefs();}
+$('settingShowChart').addEventListener('change',e=>{visualPrefs.showChart=e.target.checked;saveVisualPrefs();});
+$('settingShowSimulator').addEventListener('change',e=>{visualPrefs.showSimulator=e.target.checked;saveVisualPrefs();});
+$('settingChartMonths').addEventListener('change',e=>{visualPrefs.chartMonths=Number(e.target.value)||6;saveVisualPrefs();});
+loadVisualPrefs();
+function showPage(page){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+page));document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'});if(page==='payments'){populateDebtSelects();populateFinanceSelects();}if(page==='debts')renderDebts();if(page==='finance')renderFinance();}
 $('personalSettingsForm').addEventListener('submit',async e=>{
  e.preventDefault();
  const name=$('personalName').value.trim();
@@ -587,9 +852,9 @@ $('personalSettingsForm').addEventListener('submit',async e=>{
 });
 $('profileForm').addEventListener('submit',e=>{e.preventDefault();let debt=Number($('profileDebt').value),monthly=Number($('profileMonthly').value||0);if(!Number.isFinite(debt)||debt<0||monthly<0){$('profileToast').textContent='Inserisci importi validi.';return}state.name=$('profileName').value.trim();if(!state.debts.length){state.debt=money(debt);state.monthly=monthly?money(monthly):0;state.day=Number($('profileDay').value);state.startDate=$('profileStart').value;}save();render();syncPushPlan();$('profileToast').textContent='Profilo e piano salvati.';});
 $('paymentDebtId').addEventListener('change',()=>{const id=$('paymentDebtId').value;if(id)$('paymentForm').dataset.debtId=id;else delete $('paymentForm').dataset.debtId;});
-$('paymentForm').addEventListener('submit',e=>{e.preventDefault();const amount=Number($('paymentAmount').value),date=$('paymentDate').value;if(!date||!Number.isFinite(amount)||amount<=0){$('paymentToast').textContent='Inserisci una data e un importo validi.';return;}const wasEditing=!!editing;const debtId=$('paymentDebtId').value||$('paymentForm').dataset.debtId||'';const item={id:editing||((crypto.randomUUID&&crypto.randomUUID())||String(Date.now())),date,amount:money(amount),method:$('paymentMethod').value,note:$('paymentNote').value.trim(),debtId};if(wasEditing){state.payments=state.payments.map(p=>p.id===editing?item:p);}else{state.payments.push(item);lastSavedPayment={...item};}save();resetPaymentForm();render();$('paymentToast').textContent=wasEditing?'Pagamento aggiornato.':'Pagamento registrato correttamente.';$('undoLastPaymentBtn').hidden=wasEditing||!lastSavedPayment; if(!wasEditing)$('undoLastPaymentBtn').hidden=false;});
-function resetPaymentForm(){editing=null;$('paymentForm').reset();delete $('paymentForm').dataset.debtId;$('paymentDate').value=dateISO();$('paymentDebtId').value='';$('paymentFormTitle').textContent='Registra un pagamento';$('paymentSubmit').textContent='＋ Salva pagamento';$('cancelEdit').hidden=true}
-window.editPayment=id=>{const p=state.payments.find(x=>x.id===id);if(!p)return;editing=id;$('paymentDate').value=p.date;$('paymentAmount').value=p.amount;$('paymentMethod').value=p.method||'';$('paymentNote').value=p.note||'';populateDebtSelects();$('paymentDebtId').value=p.debtId||'';$('paymentForm').dataset.debtId=p.debtId||'';$('paymentFormTitle').textContent='Modifica pagamento';$('paymentSubmit').textContent='Salva modifiche';$('cancelEdit').hidden=false;$('undoLastPaymentBtn').hidden=true;showPage('payments')};
+$('paymentForm').addEventListener('submit',e=>{e.preventDefault();const amount=Number($('paymentAmount').value),date=$('paymentDate').value;if(!date||!Number.isFinite(amount)||amount<=0){$('paymentToast').textContent='Inserisci una data e un importo validi.';return;}const wasEditing=!!editing;const debtId=$('paymentDebtId').value||$('paymentForm').dataset.debtId||'';const item={id:editing||((crypto.randomUUID&&crypto.randomUUID())||String(Date.now())),date,amount:money(amount),method:$('paymentMethod').value,note:$('paymentNote').value.trim(),debtId,accountId:$('paymentAccountId')?.value||''};if(wasEditing){state.payments=state.payments.map(p=>p.id===editing?item:p);}else{state.payments.push(item);lastSavedPayment={...item};}save();resetPaymentForm();render();$('paymentToast').textContent=wasEditing?'Pagamento aggiornato.':'Pagamento registrato correttamente.';$('undoLastPaymentBtn').hidden=wasEditing||!lastSavedPayment; if(!wasEditing)$('undoLastPaymentBtn').hidden=false;});
+function resetPaymentForm(){editing=null;$('paymentForm').reset();delete $('paymentForm').dataset.debtId;$('paymentDate').value=dateISO();$('paymentDebtId').value='';if($('paymentAccountId'))$('paymentAccountId').value='';$('paymentFormTitle').textContent='Registra un pagamento';$('paymentSubmit').textContent='＋ Salva pagamento';$('cancelEdit').hidden=true}
+window.editPayment=id=>{const p=state.payments.find(x=>x.id===id);if(!p)return;editing=id;$('paymentDate').value=p.date;$('paymentAmount').value=p.amount;$('paymentMethod').value=p.method||'';$('paymentNote').value=p.note||'';populateDebtSelects();populateFinanceSelects();$('paymentAccountId').value=p.accountId||'';$('paymentDebtId').value=p.debtId||'';$('paymentForm').dataset.debtId=p.debtId||'';$('paymentFormTitle').textContent='Modifica pagamento';$('paymentSubmit').textContent='Salva modifiche';$('cancelEdit').hidden=false;$('undoLastPaymentBtn').hidden=true;showPage('payments')};
 window.undoLastPayment=()=>{if(!lastSavedPayment)return;if(!confirm('Annullare l’ultimo pagamento appena registrato?'))return;state.payments=state.payments.filter(p=>String(p.id)!==String(lastSavedPayment.id));lastSavedPayment=null;save();render();$('paymentToast').textContent='Ultimo pagamento annullato.';$('undoLastPaymentBtn').hidden=true;};
 window.deletePayment=id=>{if(!confirm('Vuoi eliminare questo pagamento dallo storico?'))return;state.payments=state.payments.filter(p=>String(p.id)!==String(id));if(lastSavedPayment&&String(lastSavedPayment.id)===String(id)){lastSavedPayment=null;$('undoLastPaymentBtn').hidden=true;}save();render()};
 $('cancelEdit').addEventListener('click',resetPaymentForm);
@@ -598,7 +863,104 @@ window.exportBackup=()=>{let blob=new Blob([JSON.stringify(state,null,2)],{type:
 function csvCell(value){const s=String(value??'');return '"'+s.replace(/"/g,'""')+'"'}
 window.exportCSV=()=>{const rows=[['Data','Descrizione','Debito','Importo euro','Metodo','Nota']];[...state.payments].sort((a,b)=>(a.date||'').localeCompare(b.date||'')).forEach(p=>rows.push([p.date||'',paymentLabel(p),debtNameForPayment(p),Number(p.amount||0).toFixed(2).replace('.',','),p.method||'',p.note||'']));const csv='\ufeff'+rows.map(r=>r.map(csvCell).join(';')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='storico-le-mie-rate.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);if($('dataToast'))$('dataToast').textContent='Storico CSV esportato.'};
 window.exportPDF=()=>{showPage('home');setTimeout(()=>window.print(),100)};
-$('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text());if(!d||typeof d!=='object'||!Array.isArray(d.payments)||!d.payments.every(p=>typeof p.date==='string'&&Number.isFinite(Number(p.amount))&&Number(p.amount)>0)||!Array.isArray(d.debts||[]))throw Error();if(confirm('Importare il backup? Il profilo e lo storico attuali saranno sostituiti.')){state={...state,...d,debts:Array.isArray(d.debts)?d.debts:[],payments:d.payments};save();render();$('dataToast').textContent='Backup importato. Se Supabase è connesso, la sincronizzazione partirà automaticamente.'}}catch(err){alert('File non valido: seleziona un backup JSON esportato da Le mie rate.')}e.target.value=''});
+
+// ===== Funzioni Finanze Pro (solo inserimento manuale; nessuna connessione bancaria esterna) =====
+function financeMonth(date=dateISO()){return String(date||dateISO()).slice(0,7)}
+function moneyRound(n){return Math.round((Number(n)||0)*100)/100}
+function getDebtPaymentsForMonth(month){return state.payments.filter(p=>financeMonth(p.date)===month).reduce((a,p)=>a+Number(p.amount||0),0)}
+function getExpenseTotalForMonth(month){return state.transactions.filter(t=>t.kind==='expense'&&financeMonth(t.date)===month).reduce((a,t)=>a+Number(t.amount||0),0)+getDebtPaymentsForMonth(month)}
+function getIncomeTotalForMonth(month){return state.transactions.filter(t=>t.kind==='income'&&financeMonth(t.date)===month).reduce((a,t)=>a+Number(t.amount||0),0)}
+function financeTransactionSort(a,b){return String(b.date||'').localeCompare(String(a.date||''))||String(b.id).localeCompare(String(a.id))}
+function allFinanceTransactions(){
+ const manual=state.transactions.map(t=>({...t,source:'manual'}));
+ const debt=state.payments.map(p=>({id:'debtpay-'+p.id,kind:'expense',title:paymentLabel(p),category:'Debiti',amount:Number(p.amount)||0,date:p.date,accountId:p.accountId||'',method:p.method||'',note:p.note||'',source:'debt',paymentId:p.id}));
+ return [...manual,...debt].sort(financeTransactionSort);
+}
+function accountName(id){return state.accounts.find(a=>String(a.id)===String(id))?.name||''}
+function accountBalance(account){
+ const income=state.transactions.filter(t=>t.accountId===account.id&&t.kind==='income').reduce((a,t)=>a+Number(t.amount||0),0);
+ const expenses=state.transactions.filter(t=>t.accountId===account.id&&t.kind==='expense').reduce((a,t)=>a+Number(t.amount||0),0);
+ const transfersOut=state.transactions.filter(t=>t.kind==='transfer'&&t.accountId===account.id).reduce((a,t)=>a+Number(t.amount||0),0);
+ const transfersIn=state.transactions.filter(t=>t.kind==='transfer'&&t.targetAccountId===account.id).reduce((a,t)=>a+Number(t.amount||0),0);
+ const debt=state.payments.filter(p=>p.accountId===account.id).reduce((a,p)=>a+Number(p.amount||0),0);
+ return moneyRound(Number(account.openingBalance||0)+income-expenses-debt-transfersOut+transfersIn);
+}
+function allAccountsBalance(){return state.accounts.reduce((a,x)=>a+accountBalance(x),0)}
+function estimatedNetWorth(){return allAccountsBalance()-remaining()}
+function populateCategorySelects(){
+ const kind=$('financeKind')?.value||'expense';const select=$('financeCategory');if(!select)return;const previous=select.value;const categories=kind==='income'?FINANCE_CATEGORIES.income:(kind==='transfer'?['Trasferimento']:FINANCE_CATEGORIES.expense);
+ select.innerHTML=categories.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');if(categories.includes(previous))select.value=previous;
+ const budget=$('budgetCategory');if(budget){const old=budget.value;budget.innerHTML=[...FINANCE_CATEGORIES.expense].map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');if(FINANCE_CATEGORIES.expense.includes(old))budget.value=old;}
+}
+function populateFinanceSelects(){
+ const accounts=Array.isArray(state.accounts)?state.accounts:[];
+ for(const id of ['financeAccountId','financeToAccountId','paymentAccountId']){const el=$(id);if(!el)continue;const prev=el.value;const first=id==='financeToAccountId'?'<option value="">Scegli conto</option>':'<option value="">Non specificato</option>';el.innerHTML=first+accounts.map(a=>`<option value="${esc(a.id)}">${esc(a.name)}</option>`).join('');if(accounts.some(a=>String(a.id)===String(prev)))el.value=prev;}
+ populateCategorySelects();
+}
+function advanceDateISO(date,frequency){
+ const [y,m,d]=String(date).split('-').map(Number);let dt=new Date(Date.UTC(y,m-1,d));
+ if(frequency==='weekly')dt.setUTCDate(dt.getUTCDate()+7);
+ else if(frequency==='yearly'){const oldMonth=dt.getUTCMonth();dt.setUTCFullYear(dt.getUTCFullYear()+1);if(dt.getUTCMonth()!==oldMonth)dt.setUTCDate(0);}
+ else {const day=dt.getUTCDate();dt.setUTCDate(1);dt.setUTCMonth(dt.getUTCMonth()+1);const last=new Date(Date.UTC(dt.getUTCFullYear(),dt.getUTCMonth()+1,0)).getUTCDate();dt.setUTCDate(Math.min(day,last));}
+ return dt.toISOString().slice(0,10);
+}
+function renderFinance(){
+ if(!$('financeTransactionsList'))return;
+ const month=financeMonth();const inc=getIncomeTotalForMonth(month),exp=getExpenseTotalForMonth(month),net=inc-exp,worth=estimatedNetWorth();
+ for(const [id,value] of [['financeIncomeTotal',inc],['financeExpenseTotal',exp],['financeNetTotal',net],['financeNetWorth',worth],['homeIncome',inc],['homeExpense',exp],['homeNet',net],['homeNetWorth',worth]]){const el=$(id);if(el){el.textContent=euro(value);el.classList.toggle('positive',value>0&&(id.includes('Net')||id.includes('Income')));el.classList.toggle('negative',value<0||id.includes('Expense'));}}
+ if($('homeFinancePeriod'))$('homeFinancePeriod').textContent=new Date().toLocaleDateString('it-IT',{month:'long',year:'numeric'});
+ const monthBudgets=state.budgets.filter(b=>b.month===month);const over=monthBudgets.filter(b=>budgetSpent(b)>Number(b.limit)).length;
+ if($('homeBudgetSummary'))$('homeBudgetSummary').textContent=monthBudgets.length?`${monthBudgets.length} budget attivi questo mese${over?` · ${over} ${over===1?'categoria oltre il limite':'categorie oltre il limite'}`:' · nessun budget superato'}.`:'Nessun budget impostato per questo mese. Puoi aggiungerli nella sezione Finanze.';
+ renderAccounts();renderBudgets();renderGoals();renderRecurringRules();renderFinanceTransactions();renderFinanceReports();populateFinanceSelects();
+}
+function budgetSpent(budget){
+ const manual=state.transactions.filter(t=>t.kind==='expense'&&t.category===budget.category&&financeMonth(t.date)===budget.month).reduce((a,t)=>a+Number(t.amount||0),0);
+ const debt=budget.category==='Debiti'?getDebtPaymentsForMonth(budget.month):0;
+ return manual+debt;
+}
+function renderAccounts(){const box=$('accountsList');if(!box)return;if(!state.accounts.length){box.innerHTML='<div class="finance-empty">Nessun conto ancora inserito. Puoi usare i movimenti anche senza conto associato.</div>';return;}box.innerHTML=state.accounts.map(a=>`<div class="finance-row"><div class="finance-kind-icon">${a.type==='cash'?'◉':a.type==='savings'?'◇':a.type==='card'?'▣':'▤'}</div><div class="finance-row-main"><strong>${esc(a.name)}</strong><small>${esc(({checking:'Conto corrente',cash:'Contanti',savings:'Risparmi',card:'Carta'}[a.type]||'Conto'))} · saldo iniziale ${euro(a.openingBalance)}</small></div><div class="finance-row-side"><strong>${euro(accountBalance(a))}</strong><div class="actions"><button class="finance-small-btn" onclick="editFinanceAccount('${esc(a.id)}')">Modifica</button><button class="finance-small-btn danger-text" onclick="deleteFinanceAccount('${esc(a.id)}')">Elimina</button></div></div></div>`).join('')}
+function renderBudgets(){const box=$('budgetsList');if(!box)return;const all=[...state.budgets].sort((a,b)=>String(b.month).localeCompare(String(a.month))||a.category.localeCompare(b.category,'it'));if(!all.length){box.innerHTML='<div class="finance-empty">Nessun budget ancora impostato.</div>';return;}box.innerHTML=all.map(b=>{const spent=budgetSpent(b),limit=Number(b.limit)||0,pct=limit?Math.min(100,spent/limit*100):0,over=spent>limit;const label=/^\d{4}-\d{2}$/.test(b.month||'')?new Date(Number(b.month.slice(0,4)),Number(b.month.slice(5,7))-1,1).toLocaleDateString('it-IT',{month:'long',year:'numeric'}):'Mese non specificato';return `<div class="budget-item"><div class="budget-head"><div><strong>${esc(b.category)}</strong><small>${esc(label)} · ${euro(spent)} spesi su ${euro(limit)}</small></div><div style="text-align:right"><span class="status ${over?'due':'paid'}">${over?'Oltre limite':pct.toFixed(0)+'%'}</span><div><button class="finance-small-btn" onclick="editBudget('${esc(b.id)}')">Modifica</button><button class="finance-small-btn danger-text" onclick="deleteBudget('${esc(b.id)}')">Elimina</button></div></div></div><div class="finance-progress"><span style="width:${pct}%;background:${over?'var(--red)':'var(--accent,#5367ff)'}"></span></div></div>`}).join('')}
+function renderGoals(){const box=$('goalsList');if(!box)return;if(!state.goals.length){box.innerHTML='<div class="finance-empty">Nessun obiettivo ancora inserito.</div>';return;}box.innerHTML=state.goals.map(g=>{const target=Number(g.target)||0,current=Number(g.current)||0,pct=target?Math.min(100,current/target*100):0;return `<div class="goal-item"><div class="goal-head"><div><strong>${esc(g.name)}</strong><small>${euro(current)} accantonati su ${euro(target)}${g.targetDate?' · obiettivo '+dateLabel(g.targetDate):''}</small></div><span class="finance-chip">${pct.toFixed(0)}%</span></div><div class="finance-progress"><span style="width:${pct}%"></span></div><div class="actions" style="margin-top:8px"><button class="finance-small-btn" onclick="addToGoal('${esc(g.id)}')">＋ Aggiungi risparmio</button><button class="finance-small-btn" onclick="editGoal('${esc(g.id)}')">Modifica</button><button class="finance-small-btn danger-text" onclick="deleteGoal('${esc(g.id)}')">Elimina</button></div></div>`}).join('')}
+function renderRecurringRules(){const box=$('recurringList');if(!box)return;const arr=[...state.recurringRules].sort((a,b)=>String(a.nextDate).localeCompare(String(b.nextDate)));$('recurringCount').textContent=arr.length+' '+(arr.length===1?'regola':'regole');if(!arr.length){box.innerHTML='<div class="finance-empty">Nessuna regola ricorrente. Nel modulo del movimento puoi attivare “Ripeti”.</div>';return;}box.innerHTML=arr.map(r=>`<div class="recurring-item"><div class="recurring-head"><div><strong>${esc(r.title)}</strong><small>${r.kind==='income'?'Entrata':'Uscita'} · ${esc(r.category)} · ${euro(r.amount)} · ${({weekly:'settimanale',monthly:'mensile',yearly:'annuale'}[r.frequency]||'mensile')}</small><small>Prossima data: ${dateLabel(r.nextDate)}${accountName(r.accountId)?' · '+esc(accountName(r.accountId)):''}</small></div><span class="status ${r.isActive?'paid':''}">${r.isActive?'Attiva':'In pausa'}</span></div><div class="actions" style="margin-top:7px"><button class="finance-small-btn" onclick="toggleRecurring('${esc(r.id)}')">${r.isActive?'Metti in pausa':'Riattiva'}</button><button class="finance-small-btn danger-text" onclick="deleteRecurring('${esc(r.id)}')">Elimina regola</button></div></div>`).join('')}
+function renderFinanceTransactions(){const box=$('financeTransactionsList');if(!box)return;let rows=allFinanceTransactions();if(financeFilter!=='all')rows=rows.filter(t=>t.kind===financeFilter);const query=String($('financeSearch')?.value||'').trim().toLocaleLowerCase('it-IT'),month=String($('financeHistoryMonth')?.value||'');if(month)rows=rows.filter(t=>financeMonth(t.date)===month);if(query)rows=rows.filter(t=>[t.title,t.category,t.note,accountName(t.accountId),accountName(t.targetAccountId)].some(v=>String(v||'').toLocaleLowerCase('it-IT').includes(query)));$('financeHistoryCount').textContent=rows.length+' '+(rows.length===1?'movimento':'movimenti');if(!rows.length){box.innerHTML='<div class="finance-empty">Non ci sono movimenti per questo filtro.</div>';return;}box.innerHTML='<div class="finance-list">'+rows.slice(0,250).map(t=>{const income=t.kind==='income',transfer=t.kind==='transfer',account=accountName(t.accountId),target=accountName(t.targetAccountId);return `<div class="finance-row"><div class="finance-kind-icon">${transfer?'⇄':income?'↙':'↗'}</div><div class="finance-row-main"><strong>${esc(t.title||'Movimento')}</strong><small>${dateLabel(t.date)} · ${esc(t.category||'Altro')}${account?' · '+esc(account):''}${transfer&&target?' → '+esc(target):''}${t.note?' · '+esc(t.note):''}</small><span class="finance-chip ${income?'income':transfer?'':'expense'}">${income?'Entrata':transfer?'Trasferimento':'Uscita'}${t.source==='debt'?' · Rata debito':''}</span></div><div class="finance-row-side"><strong class="${income?'positive':transfer?'':'negative'}">${transfer?'↔ ':income?'+ ':'− '}${euro(t.amount)}</strong>${t.source!=='debt'?`<div class="actions"><button class="finance-small-btn" onclick="editFinanceTransaction('${esc(t.id)}')">Modifica</button><button class="finance-small-btn danger-text" onclick="deleteFinanceTransaction('${esc(t.id)}')">Elimina</button></div>`:''}</div></div>`}).join('')+'</div>'}
+function renderFinanceReports(){const chart=$('financeTrendChart'),catBox=$('financeCategoryReport');if(!chart||!catBox)return;const count=[3,6,12].includes(Number($('financeReportMonths')?.value))?Number($('financeReportMonths').value):6,periods=[];const now=new Date();for(let i=count-1;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1),key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;periods.push({key,label:d.toLocaleDateString('it-IT',{month:'short'}).replace('.',''),income:getIncomeTotalForMonth(key),expense:getExpenseTotalForMonth(key)});}
+ const max=Math.max(1,...periods.flatMap(x=>[x.income,x.expense]));const width=360,height=178,left=20,top=12,chartH=120,base=top+chartH;const grid=[0,.5,1].map(f=>`<line x1="${left}" y1="${top+chartH*f}" x2="${width-10}" y2="${top+chartH*f}" class="chart-grid"/>`).join('');const slot=(width-left-12)/periods.length;const bars=periods.map((p,i)=>{const x=left+i*slot+Math.max(0,(slot-22)/2),bw=Math.min(13,(slot-4)/2),hi=p.income?Math.max(3,p.income/max*(chartH-8)):2,he=p.expense?Math.max(3,p.expense/max*(chartH-8)):2;return `<g><rect x="${x}" y="${base-hi}" width="${bw}" height="${hi}" rx="4" fill="#5367ff"><title>${p.label}: entrate ${euro(p.income)}</title></rect><rect x="${x+bw+3}" y="${base-he}" width="${bw}" height="${he}" rx="4" fill="#ff7284"><title>${p.label}: uscite ${euro(p.expense)}</title></rect><text x="${x+bw+1}" y="${base+20}" text-anchor="middle" class="chart-label">${esc(p.label)}</text></g>`}).join('');chart.innerHTML=`<div class="finance-section-note" style="margin:0 0 5px">Blu: entrate · Rosa: uscite (rate debiti incluse)</div><svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Report mensile di entrate e uscite">${grid}${bars}</svg>`;
+ const month=financeMonth(), expenses={};for(const t of state.transactions){if(t.kind==='expense'&&financeMonth(t.date)===month)expenses[t.category||'Altro']=(expenses[t.category||'Altro']||0)+Number(t.amount||0);}const debtMonth=getDebtPaymentsForMonth(month);if(debtMonth)expenses.Debiti=(expenses.Debiti||0)+debtMonth;const cat=Object.entries(expenses).sort((a,b)=>b[1]-a[1]);catBox.innerHTML='<div class="panel-head" style="margin-bottom:8px"><h3>Uscite per categoria · '+new Date().toLocaleDateString('it-IT',{month:'long'})+'</h3></div>'+(cat.length?cat.slice(0,8).map(([name,val])=>{const pct=Math.max(0,Math.min(100,val/Math.max(1,...cat.map(x=>x[1]))*100));return `<div class="budget-item"><div class="budget-head"><strong>${esc(name)}</strong><strong>${euro(val)}</strong></div><div class="finance-progress"><span style="width:${pct}%"></span></div></div>`}).join(''):'<div class="finance-empty">Nessuna uscita registrata in questo mese.</div>');
+}
+function resetFinanceForm(){financeEditingId=null;$('financeTransactionForm').reset();$('financeEditId').value='';$('financeDate').value=dateISO();$('financeKind').value='expense';$('financeFrequencyWrap').hidden=true;$('financeToAccountWrap').hidden=true;$('financeToAccountId').value='';$('financeMakeRecurring').checked=false;$('financeMakeRecurring').disabled=false;$('financeFormTitle').textContent='Registra un movimento';$('financeSubmit').textContent='Salva movimento';$('financeCancelEdit').hidden=true;populateFinanceSelects();}
+window.openFinanceEntry=kind=>{showPage('finance');resetFinanceForm();$('financeKind').value=kind==='income'?'income':'expense';populateCategorySelects();$('financeTitle').focus({preventScroll:true});$('transactionEditorPanel').scrollIntoView({behavior:'smooth',block:'start'});};
+function updateFinanceKindFields(){const kind=$('financeKind').value,isTransfer=kind==='transfer';$('financeToAccountWrap').hidden=!isTransfer;$('financeMakeRecurring').disabled=isTransfer||!!$('financeEditId').value;if(isTransfer){$('financeMakeRecurring').checked=false;$('financeFrequencyWrap').hidden=true;$('financeCategory').value='Trasferimento';}else if($('financeMakeRecurring').checked){$('financeFrequencyWrap').hidden=false;}populateCategorySelects();}
+$('financeKind').addEventListener('change',updateFinanceKindFields);
+$('financeMakeRecurring').addEventListener('change',e=>$('financeFrequencyWrap').hidden=!e.target.checked);
+$('financeTransactionForm').addEventListener('submit',e=>{e.preventDefault();const amount=Number($('financeAmount').value),date=$('financeDate').value,title=$('financeTitle').value.trim(),kind=$('financeKind').value,accountId=$('financeAccountId').value||'',targetAccountId=$('financeToAccountId').value||'';if(!date||!title||!Number.isFinite(amount)||amount<=0){$('financeToast').textContent='Inserisci descrizione, data e importo positivo.';return;}if(kind==='transfer'&&(!accountId||!targetAccountId||accountId===targetAccountId)){ $('financeToast').textContent='Per un trasferimento scegli due conti diversi e presenti in Conti e portafogli.';return;}if(kind==='transfer'&&$('financeMakeRecurring').checked){$('financeToast').textContent='I trasferimenti non possono essere ricorrenti: crea invece un movimento manuale a ogni trasferimento.';return;}const id=$('financeEditId').value||crypto.randomUUID();const wasEditing=!!$('financeEditId').value;let item={id,kind,title,category:kind==='transfer'?'Trasferimento':($('financeCategory').value||'Altro'),amount:moneyRound(amount),date,accountId,targetAccountId:kind==='transfer'?targetAccountId:'',method:$('financeMethod').value||'',note:$('financeNote').value.trim(),recurringRuleId:'',recurrenceDate:''};
+ if(wasEditing){const old=state.transactions.find(x=>String(x.id)===String(id));if(old){item.recurringRuleId=old.recurringRuleId||'';item.recurrenceDate=old.recurrenceDate||'';}state.transactions=state.transactions.map(x=>String(x.id)===String(id)?item:x);}else{if($('financeMakeRecurring').checked){const ruleId=crypto.randomUUID();const frequency=$('financeFrequency').value||'monthly';state.recurringRules.push({id:ruleId,title,kind,category:item.category,amount:item.amount,accountId:item.accountId,frequency,startDate:date,nextDate:advanceDateISO(date,frequency),isActive:true,method:item.method,note:item.note});item.recurringRuleId=ruleId;item.recurrenceDate=date;}state.transactions.push(item);}
+ save();render();resetFinanceForm();$('financeToast').textContent=wasEditing?'Movimento aggiornato.':'Movimento registrato.';});
+$('financeCancelEdit').addEventListener('click',resetFinanceForm);
+window.editFinanceTransaction=id=>{const t=state.transactions.find(x=>String(x.id)===String(id));if(!t)return;showPage('finance');financeEditingId=t.id;$('financeEditId').value=t.id;$('financeKind').value=t.kind;populateCategorySelects();$('financeDate').value=t.date;$('financeTitle').value=t.title;populateCategorySelects();$('financeCategory').value=t.category;$('financeAmount').value=t.amount;$('financeAccountId').value=t.accountId||'';$('financeToAccountId').value=t.targetAccountId||'';$('financeToAccountWrap').hidden=t.kind!=='transfer';$('financeMethod').value=t.method||'';$('financeNote').value=t.note||'';$('financeFormTitle').textContent='Modifica movimento';$('financeSubmit').textContent='Salva modifiche';$('financeCancelEdit').hidden=false;$('financeMakeRecurring').disabled=!!t.recurringRuleId||t.kind==='transfer';$('financeMakeRecurring').checked=false;$('financeFrequencyWrap').hidden=true;$('transactionEditorPanel').scrollIntoView({behavior:'smooth',block:'start'});};
+window.deleteFinanceTransaction=id=>{if(!confirm('Eliminare questo movimento?'))return;state.transactions=state.transactions.filter(t=>String(t.id)!==String(id));save();render();};
+$('accountForm').addEventListener('submit',e=>{e.preventDefault();const id=$('accountEditId').value,name=$('accountName').value.trim(),opening=Number($('accountOpening').value);if(!name||!Number.isFinite(opening)){ $('accountToast').textContent='Inserisci un nome e un saldo iniziale valido.';return;}if(state.accounts.some(a=>String(a.id)!==String(id)&&a.name.toLocaleLowerCase('it-IT')===name.toLocaleLowerCase('it-IT'))){$('accountToast').textContent='Esiste già un conto con questo nome.';return;}if(id){const a=state.accounts.find(x=>String(x.id)===String(id));if(a){a.name=name;a.type=$('accountType').value;a.openingBalance=moneyRound(opening);}}else state.accounts.push({id:crypto.randomUUID(),name,type:$('accountType').value,openingBalance:moneyRound(opening)});save();$('accountForm').reset();$('accountEditId').value='';$('accountOpening').value='0';$('accountSubmit').textContent='＋ Aggiungi conto';$('accountCancel').hidden=true;render();$('accountToast').textContent=id?'Conto aggiornato.':'Conto aggiunto.';});
+window.editFinanceAccount=id=>{const a=state.accounts.find(x=>String(x.id)===String(id));if(!a)return;$('accountEditId').value=a.id;$('accountName').value=a.name;$('accountType').value=a.type||'checking';$('accountOpening').value=a.openingBalance;$('accountSubmit').textContent='Salva modifiche';$('accountCancel').hidden=false;$('accountForm').scrollIntoView({behavior:'smooth',block:'center'});};
+$('accountCancel').addEventListener('click',()=>{$('accountForm').reset();$('accountEditId').value='';$('accountOpening').value='0';$('accountSubmit').textContent='＋ Aggiungi conto';$('accountCancel').hidden=true;});
+window.deleteFinanceAccount=id=>{const account=state.accounts.find(a=>String(a.id)===String(id));if(!account)return;if(!confirm(`Eliminare il conto “${account.name}”? I movimenti resteranno, ma perderanno l'associazione a questo conto.`))return;state.accounts=state.accounts.filter(a=>String(a.id)!==String(id));state.transactions=state.transactions.map(t=>t.accountId===id?{...t,accountId:''}:t);state.payments=state.payments.map(p=>p.accountId===id?{...p,accountId:''}:p);state.recurringRules=state.recurringRules.map(r=>r.accountId===id?{...r,accountId:''}:r);save();render();};
+$('budgetForm').addEventListener('submit',e=>{e.preventDefault();const month=$('budgetMonth').value,category=$('budgetCategory').value,limit=Number($('budgetLimit').value);if(!month||!category||!Number.isFinite(limit)||limit<=0){$('budgetToast').textContent='Inserisci mese e limite positivo.';return;}const existing=state.budgets.find(b=>b.month===month&&b.category===category);if(existing)existing.limit=moneyRound(limit);else state.budgets.push({id:crypto.randomUUID(),category,month,limit:moneyRound(limit)});save();render();$('budgetToast').textContent='Budget salvato.';});
+window.editBudget=id=>{const b=state.budgets.find(x=>x.id===id);if(!b)return;$('budgetMonth').value=b.month;$('budgetCategory').value=b.category;$('budgetLimit').value=b.limit;$('budgetLimit').focus({preventScroll:true});$('budgetForm').scrollIntoView({behavior:'smooth',block:'center'});};
+window.deleteBudget=id=>{if(!confirm('Eliminare questo budget?'))return;state.budgets=state.budgets.filter(b=>b.id!==id);save();render();};
+$('goalForm').addEventListener('submit',e=>{e.preventDefault();const id=$('goalEditId').value||crypto.randomUUID(),name=$('goalName').value.trim(),target=Number($('goalTarget').value),current=Number($('goalCurrent').value);if(!name||!Number.isFinite(target)||target<=0||!Number.isFinite(current)||current<0){$('goalToast').textContent='Controlla nome e importi dell’obiettivo.';return;}const goal={id,name,target:moneyRound(target),current:moneyRound(current),targetDate:$('goalDate').value||'',note:$('goalNote').value.trim()};const ix=state.goals.findIndex(g=>g.id===id);if(ix>=0)state.goals[ix]=goal;else state.goals.push(goal);save();render();$('goalForm').reset();$('goalEditId').value='';$('goalCurrent').value='0';$('goalSubmit').textContent='＋ Salva obiettivo';$('goalCancel').hidden=true;$('goalToast').textContent='Obiettivo salvato.';});
+window.editGoal=id=>{const g=state.goals.find(x=>x.id===id);if(!g)return;$('goalEditId').value=g.id;$('goalName').value=g.name;$('goalTarget').value=g.target;$('goalCurrent').value=g.current;$('goalDate').value=g.targetDate||'';$('goalNote').value=g.note||'';$('goalSubmit').textContent='Salva modifiche';$('goalCancel').hidden=false;$('goalForm').scrollIntoView({behavior:'smooth',block:'center'});};
+$('goalCancel').addEventListener('click',()=>{$('goalForm').reset();$('goalEditId').value='';$('goalCurrent').value='0';$('goalSubmit').textContent='＋ Salva obiettivo';$('goalCancel').hidden=true;});
+window.deleteGoal=id=>{if(!confirm('Eliminare questo obiettivo?'))return;state.goals=state.goals.filter(g=>g.id!==id);save();render();};
+window.addToGoal=id=>{const g=state.goals.find(x=>x.id===id);if(!g)return;const value=prompt(`Quanto vuoi aggiungere a “${g.name}”?`, '25');if(value===null)return;const amount=Number(value.replace(',','.'));if(!Number.isFinite(amount)||amount<=0){alert('Inserisci un importo positivo.');return;}g.current=moneyRound(Number(g.current||0)+amount);save();render();};
+window.toggleRecurring=id=>{const r=state.recurringRules.find(x=>x.id===id);if(!r)return;r.isActive=!r.isActive;save();render();};
+window.deleteRecurring=id=>{if(!confirm('Eliminare la regola ricorrente? I movimenti già registrati restano nello storico.'))return;state.recurringRules=state.recurringRules.filter(r=>r.id!==id);state.transactions=state.transactions.map(t=>t.recurringRuleId===id?{...t,recurringRuleId:'',recurrenceDate:''}:t);save();render();};
+$('processRecurringBtn').addEventListener('click',()=>{const today=dateISO();let count=0;for(const r of state.recurringRules){if(!r.isActive||!r.nextDate)continue;let safety=0;while(r.nextDate<=today&&safety<240){const date=r.nextDate;const exists=state.transactions.some(t=>t.recurringRuleId===r.id&&t.recurrenceDate===date);if(!exists){state.transactions.push({id:crypto.randomUUID(),kind:r.kind,title:r.title,category:r.category,amount:Number(r.amount),date,accountId:r.accountId||'',method:r.method||'',note:r.note||'',recurringRuleId:r.id,recurrenceDate:date});count++;}r.nextDate=advanceDateISO(date,r.frequency||'monthly');safety++;}}save();render();$('recurringToast').textContent=count?`${count} ${count===1?'movimento è stato registrato':'movimenti sono stati registrati'} dalle regole ricorrenti.`:'Nessuna scadenza ricorrente da registrare oggi.';});
+$('financeReportMonths').addEventListener('change',renderFinanceReports);$('financeSearch').addEventListener('input',renderFinanceTransactions);$('financeHistoryMonth').addEventListener('change',renderFinanceTransactions);
+document.querySelectorAll('[data-finance-filter]').forEach(btn=>btn.addEventListener('click',()=>{financeFilter=btn.dataset.financeFilter;document.querySelectorAll('[data-finance-filter]').forEach(b=>b.classList.toggle('active',b===btn));renderFinanceTransactions();}));
+function csvSafeCell(v){const s=String(v??'');return '"'+s.replace(/"/g,'""')+'"'}
+window.exportFinanceCSV=()=>{const rows=[['Data','Tipo','Descrizione','Categoria','Importo EUR','Conto','Metodo','Nota','Origine']];allFinanceTransactions().slice().sort((a,b)=>String(a.date).localeCompare(String(b.date))).forEach(t=>rows.push([t.date,t.kind==='income'?'Entrata':t.kind==='transfer'?'Trasferimento':'Uscita',t.title,t.category,Number(t.amount||0).toFixed(2).replace('.',','),accountName(t.accountId),t.method||'',t.note||'',t.source==='debt'?'Pagamento debito':'Movimento']));const content='\ufeff'+rows.map(row=>row.map(csvSafeCell).join(';')).join('\r\n');const blob=new Blob([content],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='le-mie-rate-movimenti.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+// Initial form defaults
+$('financeDate').value=dateISO();$('budgetMonth').value=financeMonth();populateFinanceSelects();
+
+$('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text());if(!d||typeof d!=='object'||!Array.isArray(d.payments)||!d.payments.every(p=>typeof p.date==='string'&&Number.isFinite(Number(p.amount))&&Number(p.amount)>0)||!Array.isArray(d.debts||[]))throw Error();if(confirm('Importare il backup? Il profilo e lo storico attuali saranno sostituiti.')){state={...state,...d,debts:Array.isArray(d.debts)?d.debts:[],payments:d.payments,transactions:Array.isArray(d.transactions)?d.transactions:[],accounts:Array.isArray(d.accounts)?d.accounts:[],budgets:Array.isArray(d.budgets)?d.budgets:[],recurringRules:Array.isArray(d.recurringRules)?d.recurringRules:[],goals:Array.isArray(d.goals)?d.goals:[]};save();render();$('dataToast').textContent='Backup importato. Se Supabase è connesso, la sincronizzazione partirà automaticamente.'}}catch(err){alert('File non valido: seleziona un backup JSON esportato da Le mie rate.')}e.target.value=''});
 $('remindersEnabled').addEventListener('change',e=>{state.reminders=e.target.checked;save();render()});
 $('reminderTime').addEventListener('change',e=>{state.reminderTime=e.target.value;save()});
 $('reminderDays').addEventListener('change',e=>{state.reminderDays=Number(e.target.value);save()});
@@ -643,7 +1005,7 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 window.addEventListener('focus',()=>refreshCloudIfNeeded());window.addEventListener('resize',()=>{if(document.querySelector('#page-home.active'))renderProgressChart();});
 // Controlla periodicamente il cloud: gli altri dispositivi vedono le modifiche senza dover uscire e rientrare.
 setInterval(()=>refreshCloudIfNeeded(),30000);
-safeLoad();applyTheme(localStorage.getItem('le-mie-rate-theme')||'light');$('paymentDate').value=dateISO();if(!state.startDate)state.startDate=dateISO();render();if('serviceWorker'in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').then(reg=>reg.update().catch(()=>{})).catch(()=>{});initAuth().catch(e=>showAuthMessage(e.message||'Errore di autenticazione'));maybeNotify();
+safeLoad();applyTheme(localStorage.getItem('le-mie-rate-theme')||'light');$('paymentDate').value=dateISO();if(!state.startDate)state.startDate=dateISO();render();applyVisualPrefs();if('serviceWorker'in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').then(reg=>reg.update().catch(()=>{})).catch(()=>{});initAuth().catch(e=>showAuthMessage(e.message||'Errore di autenticazione'));maybeNotify();
 </script>
 </body>
 </html>
