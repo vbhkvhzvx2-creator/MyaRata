@@ -186,6 +186,8 @@ async function cloudLoad(){
   if(pe)throw pe;
   const {data:rows,error:re}=await sb.from('payments').select('*').eq('user_id',currentUser.id).order('due_date',{ascending:false});
   if(re)throw re;
+  const {data:debtRows,error:dre}=await sb.from('debts').select('*').eq('user_id',currentUser.id).order('priority',{ascending:true});
+  if(dre)throw new Error('La tabella debts non è disponibile: esegui il file SQL di migrazione in Supabase. '+dre.message);
   if(profile){
    state.name=profile.name||'';state.debt=Number(profile.initial_debt??0);
    state.monthly=Number(profile.monthly_amount??0);state.day=Number(profile.due_day||1);state.startDate=profile.start_date||'';
@@ -296,8 +298,6 @@ $('pinForm').addEventListener('submit',async e=>{
   const actual=Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,'0')).join('');
   if(actual!==stored){showAuthMessage('PIN non corretto. Riprova.');$('pinInput').value='';updatePinDots();return}
  }else{
-  if(!pendingPin){pendingPin=pin;$('pinInput').value='';$('pinTitle').textContent='Conferma il PIN';$('pinDescription').textContent='Inserisci di nuovo le stesse 4 cifre per confermare.';$('pinContinue').textContent='Conferma PIN';updatePinDots();return;}
-  if(pin!==pendingPin){pendingPin='';$('pinInput').value='';$('pinTitle').textContent='Imposta il PIN';$('pinDescription').textContent='I codici non coincidono. Scegli di nuovo un PIN di 4 cifre.';$('pinContinue').textContent='Continua';updatePinDots();showAuthMessage('I PIN non coincidono. Riprova.');return;}
   const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pin));
   const hash=Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,'0')).join('');
   localStorage.setItem(PIN_KEY,hash);
