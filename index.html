@@ -36,6 +36,8 @@ body[data-theme="dark"] .next-card{border-color:var(--line)}
 .debt-number{background:var(--bg);padding:9px;border-radius:11px;min-width:0}.debt-number span{display:block;color:var(--muted);font-size:10px}.debt-number strong{display:block;font-size:13px;overflow-wrap:anywhere;margin-top:3px}
 .priority-tag{font-size:10px;font-weight:800;padding:4px 7px;border-radius:99px;background:#e8f5ee;color:#167653}
 @media(max-width:380px){.debt-card .debt-numbers{grid-template-columns:1fr 1fr}.debt-number:last-child{grid-column:span 2}}
+
+.debt-card{border:1px solid var(--line);border-radius:15px;padding:14px;margin:10px 0;background:var(--card)}.debt-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.debt-card h4{margin:0;font-size:14px}.debt-meta{font-size:12px;color:var(--muted);margin-top:4px}.priority-tag{border-radius:99px;background:#edf2f7;color:#526174;padding:5px 8px;font-size:11px;font-weight:800}.debt-numbers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}.debt-number{background:var(--bg);padding:10px;border-radius:10px;min-width:0}.debt-number span{display:block;color:var(--muted);font-size:10px}.debt-number strong{display:block;font-size:13px;margin-top:3px;overflow-wrap:anywhere}@media(max-width:380px){.debt-number{padding:7px}.debt-number strong{font-size:11px}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -109,6 +111,7 @@ body[data-theme="dark"] .next-card{border-color:var(--line)}
   <div class="stat"><div class="stat-top"><span class="stat-icon">↗</span>Totale pagato</div><div class="stat-value" id="statPaid">0 €</div><div class="stat-sub" id="statCount">0 rate registrate</div></div>
   <div class="stat"><div class="stat-top"><span class="stat-icon">✓</span>Prossima rata</div><div class="stat-value" id="statNext">—</div><div class="stat-sub" id="statNextSub">Imposta il giorno nel profilo</div></div>
  </div>
+ <section class="panel section-gap"><div class="panel-head"><h3>I miei debiti</h3><span class="status" id="debtCount">0 debiti</span></div><div id="debtsOverview"><div class="empty">I debiti aggiunti nel Profilo appariranno qui.</div></div></section>
  <section class="panel section-gap" id="repaymentTips"><div class="panel-head"><h3>Suggerimenti per il rimborso</h3><span class="status">Piano indicativo</span></div><div id="repaymentTipsBody" class="muted" style="font-size:13px;line-height:1.65">Inserisci il debito totale e la rata mensile nel Profilo per ricevere suggerimenti personalizzati.</div></section>
  <div class="content-grid">
   <section class="panel"><div class="panel-head"><h3>Prossimo pagamento</h3><span class="status" id="nextStatus">Da impostare</span></div><div id="nextPayment"><div class="empty"><div class="empty-icon">▦</div>Imposta la rata mensile nel tuo profilo per visualizzare la prossima scadenza.</div></div><button class="btn secondary wide" onclick="showPage('profile')">Configura piano di rimborso</button></section>
@@ -134,6 +137,19 @@ body[data-theme="dark"] .next-card{border-color:var(--line)}
 
 <section class="page" id="page-profile">
  <div class="intro"><div><div class="eyebrow">Impostazioni personali</div><h2>Profilo e piano</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Qui puoi modificare il debito e le regole delle rate.</p></div></div>
+ <section class="panel section-gap">
+  <div class="panel-head"><h3>Aggiungi o modifica un debito</h3><span class="status">Piano rate</span></div>
+  <form id="debtForm">
+   <input id="debtEditId" type="hidden">
+   <div class="field"><label for="debtName">Nome del debito</label><input id="debtName" maxlength="80" required placeholder="Es. Auto, iPhone, prestito"></div>
+   <div class="form-grid"><div class="field"><label for="debtAmount">Importo iniziale (€)</label><input id="debtAmount" type="number" min="0.01" step="0.01" required placeholder="3000"></div><div class="field"><label for="debtMonthly">Rata mensile (€)</label><input id="debtMonthly" type="number" min="0.01" step="0.01" required placeholder="100"></div></div>
+   <div class="form-grid"><div class="field"><label for="debtPriority">Priorità</label><select id="debtPriority"><option value="1">Alta</option><option value="2" selected>Media</option><option value="3">Bassa</option></select></div><div class="field"><label for="debtDueDay">Giorno di scadenza</label><select id="debtDueDay"></select></div></div>
+   <div class="field"><label for="debtStartDate">Data iniziale (facoltativa)</label><input id="debtStartDate" type="date"></div>
+   <div class="actions"><button class="btn primary" id="debtSaveBtn" type="submit">＋ Salva debito</button><button class="btn secondary" id="debtCancelBtn" type="button" hidden>Annulla modifica</button></div>
+   <div class="toast" id="debtToast" role="status"></div>
+  </form>
+  <div class="panel-head section-gap"><h3>Debiti registrati</h3></div><div id="debtsList"><div class="empty">Nessun debito registrato.</div></div>
+ </section>
  <div class="settings-grid">
   <section class="panel"><div class="panel-head"><h3>Il tuo debito</h3><span class="status">Profilo</span></div>
    <form id="profileForm">
@@ -162,6 +178,7 @@ body[data-theme="dark"] .next-card{border-color:var(--line)}
 <nav class="bottom-nav"><div class="nav-inner"><button class="nav-btn active" data-page="home" onclick="showPage('home')"><span>⌂</span><span>Panoramica</span></button><button class="nav-btn" data-page="payments" onclick="showPage('payments')"><span>＋</span><span>Pagamenti</span></button><button class="nav-btn" data-page="profile" onclick="showPage('profile')"><span>⚙</span><span>Profilo</span></button></div></nav>
 <script>
 const KEY='le-mie-rate-v2', $=id=>document.getElementById(id);
+window.addEventListener('error',event=>{console.error('Errore JavaScript:',event.error||event.message);const box=document.getElementById('authMessage');if(box&&!box.textContent)box.textContent='Errore interno dell’app: '+(event.message||'ricarica la pagina e riprova.');});
 const SUPABASE_URL='https://yzqrlwbprvaymzfjvhtn.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_nbtFfInsf9bEyloq2WvlHA_z3um0l4F';
 const supabaseConfigured = /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(SUPABASE_URL)
@@ -233,7 +250,8 @@ function showPinForCurrentUser(){
  showAuthPanel('pin');
 }
 async function initAuth(){
- if(!sb){showAuthPanel('email');showAuthMessage('Configurazione Supabase mancante o non valida. Inserisci Project URL e Publishable Key in index.html, poi riprova.');return}
+ if(!window.supabase?.createClient){showAuthPanel('email');showAuthMessage('La libreria di accesso Supabase non è stata caricata. Controlla la connessione e ricarica la pagina.');return}
+ if(!sb){showAuthPanel('email');showAuthMessage('Configurazione Supabase mancante o non valida. Verifica Project URL e Publishable Key nel codice.');return}
  const {data,error}=await sb.auth.getSession();
  if(error)throw error;
  const session=data?.session;
