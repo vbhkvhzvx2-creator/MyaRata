@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#101c2c">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -13,13 +13,13 @@
 <style>
 :root{color-scheme:light;--navy:#101c2c;--navy2:#1b2c42;--mint:#b9f3d8;--green:#167653;--bg:#f3f6fa;--card:#fff;--text:#182638;--muted:#728094;--line:#e6ebf1;--red:#b94141;--amber:#966515;--shadow:0 12px 34px #14243b0a}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:15px;line-height:1.45}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}
-.app{max-width:1120px;margin:0 auto;padding:22px 20px 110px}.header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:15px;background:var(--navy);color:var(--mint);display:grid;place-items:center;font-size:24px}.brand h1{font-size:20px;margin:0;letter-spacing:-.04em}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.avatar{height:42px;width:42px;border-radius:50%;background:#dfe8f1;color:var(--navy);font-weight:800;display:grid;place-items:center;border:2px solid #fff;box-shadow:0 0 0 1px var(--line)}
+.app{width:100%;max-width:1120px;margin:0 auto;padding:22px 20px calc(110px + env(safe-area-inset-bottom));min-width:0;overflow-x:clip}.header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:15px;background:var(--navy);color:var(--mint);display:grid;place-items:center;font-size:24px}.brand h1{font-size:20px;margin:0;letter-spacing:-.04em}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.avatar{height:42px;width:42px;border-radius:50%;background:#dfe8f1;color:var(--navy);font-weight:800;display:grid;place-items:center;border:2px solid #fff;box-shadow:0 0 0 1px var(--line)}
 .page{display:none}.page.active{display:block}.eyebrow{font-size:11px;letter-spacing:.13em;text-transform:uppercase;font-weight:800;color:var(--muted)}h2{margin:5px 0 0;font-size:28px;letter-spacing:-.05em}h3{margin:0;font-size:16px;letter-spacing:-.02em}.intro{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:20px}.muted{color:var(--muted)}.small{font-size:12px;color:var(--muted)}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 15px;border-radius:13px;font-weight:750;transition:transform .12s}.btn:active{transform:scale(.98)}.primary{background:var(--navy);color:white}.primary .plus{color:var(--mint);font-size:19px}.secondary{background:#edf1f6;color:var(--navy)}.outline{background:white;border:1px solid var(--line);color:var(--text)}.danger{background:#fff0f0;color:var(--red)}.wide{width:100%}
 .hero{background:linear-gradient(125deg,#101c2c 0%,#1d344a 100%);color:#fff;border-radius:26px;padding:26px;position:relative;overflow:hidden;box-shadow:0 18px 45px #12233a20;margin-bottom:16px}.hero:after{content:"";position:absolute;width:240px;height:240px;border:1px solid #ffffff12;border-radius:50%;right:-70px;top:-110px;box-shadow:0 0 0 30px #ffffff05,0 0 0 65px #ffffff04}.hero-top{display:flex;justify-content:space-between;align-items:center;gap:10px;position:relative;z-index:1}.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #ffffff25;background:#ffffff0d;border-radius:100px;padding:6px 10px;font-size:11px;font-weight:700;color:#d7e2ed}.dot{height:7px;width:7px;border-radius:50%;background:var(--mint)}.hero-label{font-size:13px;color:#b8c6d5;margin-top:28px}.hero-amount{font-size:clamp(36px,7vw,54px);letter-spacing:-.065em;font-weight:800;margin:3px 0 14px;position:relative;z-index:1}.hero-foot{display:flex;justify-content:space-between;gap:12px;color:#c3d0dc;font-size:12px}.bar{height:8px;border-radius:99px;background:#ffffff1d;margin:13px 0 9px;overflow:hidden;position:relative;z-index:1}.bar span{height:100%;display:block;width:0;background:var(--mint);border-radius:99px;transition:width .25s}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}.stat,.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:19px;box-shadow:var(--shadow)}.stat-top{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:12px;font-weight:650}.stat-icon{width:32px;height:32px;border-radius:10px;background:#eff4f7;display:grid;place-items:center;font-size:15px}.stat-value{font-size:22px;font-weight:800;letter-spacing:-.04em;margin-top:12px}.stat-sub{font-size:11px;color:var(--muted);margin-top:3px}.content-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);gap:16px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.next-card{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}.calendar-icon{width:48px;height:51px;border-radius:13px;background:#e8f7ef;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--green);flex-shrink:0}.calendar-icon strong{font-size:20px;line-height:1.1}.calendar-icon span{font-size:9px;font-weight:800;text-transform:uppercase}.next-details{flex:1;min-width:0}.next-details strong{display:block;font-size:14px}.next-details span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.next-amount{font-size:17px;font-weight:800;white-space:nowrap}.status{display:inline-flex;align-items:center;border-radius:99px;padding:5px 8px;font-size:10px;font-weight:800;background:#edf2f7;color:#647286}.status.paid{background:#e6f7ef;color:#18734e}.status.due{background:#fff3dc;color:#956315}.empty{padding:30px 12px;text-align:center;color:var(--muted);font-size:13px}.empty .empty-icon{font-size:26px;margin-bottom:7px}.list{display:flex;flex-direction:column;gap:9px}.payment-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.payment-row:last-child{border-bottom:0}.payment-date{width:43px;height:43px;border-radius:13px;background:#f0f3f7;display:grid;place-items:center;font-size:11px;font-weight:800;color:#4f6073;flex-shrink:0}.payment-info{flex:1;min-width:0}.payment-info strong{display:block;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.payment-info span{font-size:11px;color:var(--muted)}.payment-right{text-align:right}.payment-right strong{display:block;font-size:14px}.payment-right button{font-size:11px;color:var(--muted);background:transparent;padding:3px}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:10;background:#ffffffed;backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;justify-content:center;padding:8px 12px max(8px,env(safe-area-inset-bottom));}.nav-inner{width:min(600px,100%);display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.nav-btn{background:transparent;color:#8591a0;border-radius:13px;padding:9px 4px 7px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:750}.nav-btn span:first-child{font-size:19px}.nav-btn.active{background:#e8f5ee;color:var(--green)}
-.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}.field label{font-size:12px;font-weight:750;color:#526174}.field input,.field select,.field textarea{width:100%;border:1px solid #dce3eb;background:#fbfcfe;border-radius:12px;padding:12px 13px;outline:none;color:var(--text)}.field input:focus,.field select:focus,.field textarea:focus{border-color:#67b996;box-shadow:0 0 0 3px #67b99620}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.section-gap{margin-top:16px}.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.notice{padding:13px 14px;border-radius:13px;background:#f0f5fa;color:#526174;font-size:12px;line-height:1.55;margin-top:13px}.notice strong{color:var(--text)}.switch-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}.switch-row:last-child{border:0}.switch-row strong{display:block;font-size:13px}.switch-row span{font-size:11px;color:var(--muted)}input[type=checkbox]{accent-color:var(--green);width:19px;height:19px}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:440px}th,td{text-align:left;padding:12px 9px;border-bottom:1px solid var(--line);font-size:12px}th{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em}td:last-child{text-align:right}.table-action{background:transparent;color:var(--muted);padding:5px 7px}.toast{font-size:12px;color:var(--green);min-height:20px;margin-top:9px}.danger-text{color:var(--red)}
-@media(max-width:760px){.app{padding:17px 14px 105px}.header{margin-bottom:22px}.intro{align-items:start;flex-direction:column}.intro h2{font-size:25px}.intro .btn{width:100%}.hero{padding:21px;border-radius:22px}.stats{gap:8px}.stat{padding:13px 11px;border-radius:16px}.stat-top{display:block;font-size:10px}.stat-icon{width:27px;height:27px;margin-bottom:7px}.stat-value{font-size:17px;margin-top:8px}.stat-sub{font-size:10px}.content-grid,.settings-grid{grid-template-columns:1fr}.panel{padding:16px}.form-grid{grid-template-columns:1fr 1fr}.next-amount{font-size:15px}}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}.field label{font-size:12px;font-weight:750;color:#526174}.field input,.field select,.field textarea{width:100%;border:1px solid #dce3eb;background:#fbfcfe;border-radius:12px;padding:12px 13px;outline:none;color:var(--text)}.field input:focus,.field select:focus,.field textarea:focus{border-color:#67b996;box-shadow:0 0 0 3px #67b99620}.field input[type="time"]{display:block;width:100%;min-width:0;max-width:100%;height:48px;padding:10px 12px;border:1px solid #dce3eb;border-radius:12px;background:#fbfcfe;box-sizing:border-box;appearance:none;-webkit-appearance:none;color:var(--text);text-align:left}.field input[type="time"]::-webkit-date-and-time-value{text-align:left}.field input[type="time"]::-webkit-calendar-picker-indicator{margin:0 0 0 auto;padding:0;flex-shrink:0}body[data-theme="dark"] .field input[type="time"]{background:#111d2b;border-color:#34465a;color:#e8eef5}.avatar{flex:0 0 42px;min-width:42px;padding:0;cursor:pointer;touch-action:manipulation}.greeting-name{color:var(--mint)}html,body{width:100%;min-height:100%;overflow-x:hidden}#reminderTime{font-variant-numeric:tabular-nums}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.section-gap{margin-top:16px}.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.notice{padding:13px 14px;border-radius:13px;background:#f0f5fa;color:#526174;font-size:12px;line-height:1.55;margin-top:13px}.notice strong{color:var(--text)}.switch-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}.switch-row:last-child{border:0}.switch-row strong{display:block;font-size:13px}.switch-row span{font-size:11px;color:var(--muted)}input[type=checkbox]{accent-color:var(--green);width:19px;height:19px}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:440px}th,td{text-align:left;padding:12px 9px;border-bottom:1px solid var(--line);font-size:12px}th{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em}td:last-child{text-align:right}.table-action{background:transparent;color:var(--muted);padding:5px 7px}.toast{font-size:12px;color:var(--green);min-height:20px;margin-top:9px}.danger-text{color:var(--red)}
+@media(max-width:760px){.app{width:100%;max-width:100%;padding:calc(17px + env(safe-area-inset-top)) 14px calc(105px + env(safe-area-inset-bottom));}.header{margin-bottom:22px}.intro{align-items:start;flex-direction:column}.intro h2{font-size:25px}.intro .btn{width:100%}.hero{padding:21px;border-radius:22px}.stats{gap:8px}.stat{padding:13px 11px;border-radius:16px}.stat-top{display:block;font-size:10px}.stat-icon{width:27px;height:27px;margin-bottom:7px}.stat-value{font-size:17px;margin-top:8px}.stat-sub{font-size:10px}.content-grid,.settings-grid{grid-template-columns:1fr}.panel{padding:16px}.form-grid{grid-template-columns:1fr 1fr}.next-amount{font-size:15px}}
 @media(max-width:380px){.form-grid{grid-template-columns:1fr}.hero-amount{font-size:34px}.hero-foot{font-size:11px}}
 @media print{.bottom-nav,.header .avatar,.btn,.no-print{display:none!important}.app{padding:0}.page{display:none!important}.page.active{display:block!important}.panel,.stat,.hero{box-shadow:none;break-inside:avoid}}
 
@@ -95,11 +95,11 @@ body[data-theme="dark"] .next-card{border-color:var(--line)}
 <div class="app">
 <header class="header">
  <div class="brand"><div class="logo">↗</div><div><h1>Le mie rate</h1><p>Il tuo percorso verso zero</p></div></div>
- <button class="avatar" aria-label="Apri profilo" onclick="showPage('profile')">IO</button>
+ <button class="avatar" id="profileAvatar" aria-label="Apri e modifica profilo" title="Modifica profilo" onclick="showPage('profile')">IO</button>
 </header>
 
 <section class="page active" id="page-home">
- <div class="intro"><div><div class="eyebrow">Panoramica</div><h2>Il tuo debito, sotto controllo.</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Un passo alla volta, ogni mese.</p></div><button class="btn primary" onclick="showPage('payments')"><span class="plus">＋</span> Registra una rata</button></div>
+ <div class="intro"><div><div class="eyebrow">Panoramica</div><h2 id="welcomeTitle">Il tuo debito, sotto controllo.</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Un passo alla volta, ogni mese.</p></div><button class="btn primary" onclick="showPage('payments')"><span class="plus">＋</span> Registra una rata</button></div>
  <div class="hero">
   <div class="hero-top"><span class="pill"><span class="dot"></span> Piano di rimborso attivo</span><span style="font-size:21px">◈</span></div>
   <div class="hero-label">Debito residuo</div><div class="hero-amount" id="heroRemaining">0,00 €</div>
@@ -191,8 +191,18 @@ if (supabaseConfigured && window.supabase?.createClient) {
     });
   } catch (error) { console.error('Configurazione Supabase non valida:', error); }
 }
-let currentUser=null, isSignup=false, isUnlocked=false, syncTimer=null, remoteLoading=false;
+let currentUser=null, isSignup=false, isUnlocked=false, syncTimer=null, remoteLoading=false, cloudSaving=false, cloudSaveQueued=false, syncStatusTimer=null;
 const PIN_KEY='le-mie-rate-pin-v1';
+const SYNCED_DEBT_IDS_PREFIX='le-mie-rate-synced-debt-ids-v1-';
+const UUID_RE=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const syncedDebtIdsKey=()=>SYNCED_DEBT_IDS_PREFIX+(currentUser?.id||'');
+function showSyncStatus(message,kind='info'){
+ let el=$('cloudSyncStatus');
+ if(!el){el=document.createElement('div');el.id='cloudSyncStatus';el.setAttribute('role','status');el.setAttribute('aria-live','polite');Object.assign(el.style,{position:'fixed',left:'50%',bottom:'max(16px,env(safe-area-inset-bottom))',transform:'translateX(-50%)',zIndex:'99999',maxWidth:'min(92vw,520px)',padding:'12px 16px',borderRadius:'12px',boxShadow:'0 8px 30px #0002',fontSize:'13px',lineHeight:'1.4',fontWeight:'600',textAlign:'center',display:'none'});document.body.appendChild(el);}
+ el.textContent=message;el.style.background=kind==='error'?'#7f1d1d':kind==='ok'?'#14532d':'#1e293b';el.style.color='#fff';el.style.display='block';
+ clearTimeout(syncStatusTimer);syncStatusTimer=setTimeout(()=>{if(el)el.style.display='none'},kind==='error'?12000:3500);
+}
+
 const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(n||0);
 const dateISO=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)};
 let state={name:'',debt:0,monthly:0,day:1,startDate:'',reminders:false,reminderTime:'18:00',reminderDays:7,payments:[],debts:[]},editing=null;
@@ -202,42 +212,100 @@ function save(){
  try{localStorage.setItem(KEY,JSON.stringify(state)); if(currentUser && isUnlocked && !remoteLoading) scheduleCloudSave(); return true}
  catch(e){return false}
 }
-function scheduleCloudSave(){clearTimeout(syncTimer);syncTimer=setTimeout(()=>cloudSave().catch(e=>showCloudError(e)),500)}
-function showCloudError(e){console.error(e);const t=$('paymentToast'); if(t)t.textContent='Salvataggio online non riuscito: controlla la connessione.'}
-async function cloudLoad(){
- if(!currentUser)return;
+function scheduleCloudSave(){
+ clearTimeout(syncTimer);
+ syncTimer=setTimeout(()=>{syncTimer=null;cloudSave().catch(e=>showCloudError(e))},500);
+ showSyncStatus('Salvataggio modifiche sul cloud…','info');
+}
+function showCloudError(e){
+ console.error('Errore sincronizzazione Supabase:',e);
+ const detail=(e&&e.message)?e.message:'errore sconosciuto';
+ const message='Sincronizzazione non riuscita: '+detail;
+ const t=$('paymentToast');if(t)t.textContent=message;
+ const dt=$('debtToast');if(dt)dt.textContent=message;
+ const pt=$('profileToast');if(pt)pt.textContent=message;
+ showSyncStatus(message,'error');
+}
+async function cloudLoad({quiet=false}={}){
+ if(!currentUser||!sb)return;
  remoteLoading=true;
+ // Conserva i debiti locali non ancora arrivati al cloud: la versione precedente li salvava solo sul dispositivo.
+ const localDebtsBefore=Array.isArray(state.debts)?state.debts.map(d=>({...d})):[];
+ let previousSyncedIds=null;
+ try{const raw=localStorage.getItem(syncedDebtIdsKey());if(raw!==null){const parsed=JSON.parse(raw);if(Array.isArray(parsed))previousSyncedIds=new Set(parsed.map(String));}}catch(e){}
  try{
   const {data:profile,error:pe}=await sb.from('profiles').select('*').eq('user_id',currentUser.id).maybeSingle();
   if(pe)throw pe;
   const {data:rows,error:re}=await sb.from('payments').select('*').eq('user_id',currentUser.id).order('due_date',{ascending:false});
   if(re)throw re;
   const {data:debtRows,error:dre}=await sb.from('debts').select('*').eq('user_id',currentUser.id).order('priority',{ascending:true});
-  if(dre)throw new Error('La tabella debts non è disponibile: esegui il file SQL di migrazione in Supabase. '+dre.message);
+  if(dre)throw new Error('Impossibile leggere i debiti dalla tabella debts. Controlla le policy RLS e i permessi. '+dre.message);
   if(profile){
    state.name=profile.name||'';state.debt=Number(profile.initial_debt??0);
    state.monthly=Number(profile.monthly_amount??0);state.day=Number(profile.due_day||1);state.startDate=profile.start_date||'';
    state.reminders=!!profile.reminders_enabled;state.reminderTime=profile.reminder_time||'18:00';state.reminderDays=Number(profile.reminder_days||7);
   }else{
-   state={name:'',debt:0,monthly:0,day:1,startDate:'',reminders:false,reminderTime:'18:00',reminderDays:7,payments:[]};
-   const {error}=await sb.from('profiles').insert({user_id:currentUser.id,initial_debt:0,name:'',monthly_amount:0,due_day:1,start_date:null});
+   state={...state,name:state.name||'',debt:0,monthly:0,day:1,startDate:state.startDate||'',reminders:false,reminderTime:'18:00',reminderDays:7,payments:[]};
+   const {error}=await sb.from('profiles').insert({user_id:currentUser.id,initial_debt:0,name:state.name,monthly_amount:0,due_day:1,start_date:null});
    if(error)throw error;
   }
   state.payments=(rows||[]).map(r=>({id:r.id,date:r.due_date,amount:Number(r.amount),method:r.method||'',note:r.note||r.description||'',debtId:r.debt_id||''}));
-   state.debts=(debtRows||[]).map(r=>({id:r.id,name:r.name,amount:Number(r.initial_amount),monthly:Number(r.monthly_amount),priority:Number(r.priority||2),day:Number(r.due_day||1),startDate:r.start_date||''}));
-   if(!state.debts.length && Number(state.debt)>0){state.debts=[{id:crypto.randomUUID(),name:state.name||'Debito principale',amount:Number(state.debt),monthly:Number(state.monthly||0),priority:2,day:Number(state.day||1),startDate:state.startDate||''}];}
-  localStorage.setItem(KEY,JSON.stringify(state));render();
+  const cloudDebts=(debtRows||[]).map(r=>({id:r.id,name:r.name,amount:Number(r.initial_amount),monthly:Number(r.monthly_amount),priority:Number(r.priority||2),day:Number(r.due_day||1),startDate:r.start_date||''}));
+  const cloudIds=new Set(cloudDebts.map(d=>String(d.id)));
+  // If a local debt is not in the cloud and was not part of the last successful sync, preserve and upload it.
+  const localOnly=localDebtsBefore.filter(d=>d&&d.id&&!cloudIds.has(String(d.id))&&(!previousSyncedIds||!previousSyncedIds.has(String(d.id))));
+  for(const d of localOnly){if(!UUID_RE.test(String(d.id)))d.id=crypto.randomUUID();}
+  if(localOnly.length){
+   const debtPayload=localOnly.map(d=>({id:d.id,user_id:currentUser.id,name:String(d.name||'Debito').trim()||'Debito',initial_amount:Number(d.amount)||0,monthly_amount:Number(d.monthly)||0,priority:Number(d.priority||2),due_day:Number(d.day||1),start_date:d.startDate||null}));
+   const {error:ue}=await sb.from('debts').upsert(debtPayload,{onConflict:'id'});
+   if(ue)throw new Error('Non riesco a recuperare i debiti già presenti su questo dispositivo: '+ue.message);
+  }
+  state.debts=[...cloudDebts,...localOnly].sort((a,b)=>(Number(a.priority)||2)-(Number(b.priority)||2));
+  if(!state.debts.length && Number(state.debt)>0){
+   const legacyDebt={id:crypto.randomUUID(),name:state.name||'Debito principale',amount:Number(state.debt),monthly:Number(state.monthly||0),priority:2,day:Number(state.day||1),startDate:state.startDate||''};
+   state.debts=[legacyDebt];
+   const {error:legacyError}=await sb.from('debts').upsert({id:legacyDebt.id,user_id:currentUser.id,name:legacyDebt.name,initial_amount:legacyDebt.amount,monthly_amount:legacyDebt.monthly,priority:legacyDebt.priority,due_day:legacyDebt.day,start_date:legacyDebt.startDate||null},{onConflict:'id'});
+   if(legacyError)throw new Error('Il debito del vecchio profilo non è stato migrato: '+legacyError.message);
+  }
+  localStorage.setItem(KEY,JSON.stringify(state));
+  localStorage.setItem(syncedDebtIdsKey(),JSON.stringify(state.debts.map(d=>String(d.id))));
+  render();
+  if(!quiet)showSyncStatus('Dati caricati e sincronizzati con Supabase.','ok');
  } finally {remoteLoading=false}
 }
 async function cloudSave(){
- if(!currentUser||!isUnlocked)return;
- const profile={user_id:currentUser.id,name:state.name||'',initial_debt:state.debt,monthly_amount:state.monthly||0,due_day:state.day||1,start_date:state.startDate||null,reminders_enabled:!!state.reminders,reminder_time:state.reminderTime||'18:00',reminder_days:state.reminderDays||7};
- const {error:pe}=await sb.from('profiles').upsert(profile,{onConflict:'user_id'});if(pe)throw pe;
- const {error:de}=await sb.from('payments').delete().eq('user_id',currentUser.id);if(de)throw de;
- if(state.payments.length){
-  const payload=state.payments.map(p=>({id:(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(p.id)?p.id:crypto.randomUUID()),user_id:currentUser.id,description:p.note||p.method||'Pagamento rata',method:p.method||'',note:p.note||'',amount:p.amount,due_date:p.date,debt_id:p.debtId||null,is_paid:true,paid_at:p.date}));
-  const {error:ie}=await sb.from('payments').insert(payload);if(ie)throw ie;
- }
+ if(!currentUser||!isUnlocked||!sb)return;
+ if(cloudSaving){cloudSaveQueued=true;return;}
+ cloudSaving=true;
+ try{
+  const profile={user_id:currentUser.id,name:state.name||'',initial_debt:state.debt,monthly_amount:state.monthly||0,due_day:state.day||1,start_date:state.startDate||null,reminders_enabled:!!state.reminders,reminder_time:state.reminderTime||'18:00',reminder_days:state.reminderDays||7};
+  const {error:pe}=await sb.from('profiles').upsert(profile,{onConflict:'user_id'});if(pe)throw pe;
+  // Payments are replaced as in the previous version. Remove them first so debt deletions cannot leave broken foreign keys.
+  const {error:dp}=await sb.from('payments').delete().eq('user_id',currentUser.id);if(dp)throw dp;
+  const {data:existingDebts,error:ed}=await sb.from('debts').select('id').eq('user_id',currentUser.id);if(ed)throw new Error('Non riesco a leggere i debiti già salvati nel cloud: '+ed.message);
+  for(const d of state.debts){if(!UUID_RE.test(String(d.id)))d.id=crypto.randomUUID();}
+  const debtPayload=state.debts.map(d=>({id:d.id,user_id:currentUser.id,name:String(d.name||'Debito').trim()||'Debito',initial_amount:Number(d.amount)||0,monthly_amount:Number(d.monthly)||0,priority:Number(d.priority||2),due_day:Number(d.day||1),start_date:d.startDate||null}));
+  if(debtPayload.length){const {error:du}=await sb.from('debts').upsert(debtPayload,{onConflict:'id'});if(du)throw new Error('Impossibile salvare i debiti nel cloud: '+du.message);}
+  const keepIds=new Set(debtPayload.map(d=>String(d.id)));
+  for(const old of (existingDebts||[])){
+   if(!keepIds.has(String(old.id))){const {error:delErr}=await sb.from('debts').delete().eq('user_id',currentUser.id).eq('id',old.id);if(delErr)throw new Error('Impossibile sincronizzare un debito eliminato: '+delErr.message);}
+  }
+  if(state.payments.length){
+   const payload=state.payments.map(p=>({id:(UUID_RE.test(String(p.id))?p.id:crypto.randomUUID()),user_id:currentUser.id,description:p.note||p.method||'Pagamento rata',method:p.method||'',note:p.note||'',amount:p.amount,due_date:p.date,debt_id:p.debtId||null,is_paid:true,paid_at:p.date}));
+   const {error:ie}=await sb.from('payments').insert(payload);if(ie)throw ie;
+  }
+  localStorage.setItem(KEY,JSON.stringify(state));
+  localStorage.setItem(syncedDebtIdsKey(),JSON.stringify(state.debts.map(d=>String(d.id))));
+  showSyncStatus('Sincronizzato con Supabase.','ok');
+ }catch(e){showCloudError(e);throw e;}
+ finally{cloudSaving=false;if(cloudSaveQueued){cloudSaveQueued=false;scheduleCloudSave();}}
+}
+async function refreshCloudIfNeeded(){
+ if(!currentUser||!isUnlocked||!sb||remoteLoading||cloudSaving||syncTimer!==null)return;
+ if(document.visibilityState==='hidden')return;
+ const active=document.activeElement;
+ if(active&&active!==document.body&&active!==document.documentElement&&active.matches&&active.matches('input,textarea,select')&&active.type!=='hidden')return;
+ try{await cloudLoad({quiet:true});}catch(e){showCloudError(e);}
 }
 function showAuthPanel(which){$('authEmailPanel').hidden=which!=='email';$('authPinPanel').hidden=which!=='pin';$('authGate').style.display='flex'}
 function showAuthMessage(s){$('authMessage').textContent=s||''}
@@ -345,6 +413,7 @@ function nextDue(){if(!state.monthly||!state.day)return null;let now=new Date(),
 function dateLabel(s){if(!s)return '—';let [y,m,d]=s.split('-');return `${d}/${m}/${y}`}
 function render(){
  const paid=totalPaid(), rem=remaining(), pct=state.debt?Math.min(100,paid/state.debt*100):0;
+ const displayName=(state.name||'').trim(); const welcome=$('welcomeTitle'); if(welcome) welcome.innerHTML=displayName?`<span class="greeting-name">${esc(displayName)}</span>, il tuo debito, sotto controllo.`:'Il tuo debito, sotto controllo.'; const avatar=$('profileAvatar'); if(avatar) avatar.textContent=displayName?displayName.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toLocaleUpperCase('it-IT'):'IO';
  $('heroRemaining').textContent=euro(rem);$('heroPaidLabel').textContent=euro(paid)+' rimborsati';$('heroPct').textContent=pct.toLocaleString('it-IT',{maximumFractionDigits:1})+'% completato';$('heroBar').style.width=pct+'%';
  $('statInitial').textContent=euro(state.debt);$('statPaid').textContent=euro(paid);$('statCount').textContent=state.payments.length+' '+(state.payments.length===1?'rata registrata':'rate registrate');
  const due=nextDue();$('statNext').textContent=due?due.toLocaleDateString('it-IT',{day:'2-digit',month:'short'}):'—';$('statNextSub').textContent=state.monthly?euro(state.monthly)+' previsti':'Imposta la rata nel profilo';
@@ -439,7 +508,11 @@ async function syncPushPlan() {
  } catch(e) { console.warn('Piano push non sincronizzato',e); }
 }
 function maybeNotify(){if(!state.reminders||!('Notification'in window)||Notification.permission!=='granted')return;const due=nextDue();if(!due)return;const today=new Date();today.setHours(0,0,0,0);const days=Math.round((due-today)/86400000);if(days>=0&&days<=(state.reminderDays||1)){const key='le-mie-rate-notified-'+dateISO();if(!localStorage.getItem(key)){new Notification(days===0?'La rata è in scadenza oggi':'Promemoria rata',{body:`Hai una rata prevista di ${euro(Math.min(state.monthly,remaining()))} per ${due.toLocaleDateString('it-IT')}.`,icon:'./icon-192.png'});localStorage.setItem(key,'1')}}}
-safeLoad();applyTheme(localStorage.getItem('le-mie-rate-theme')||'light');$('paymentDate').value=dateISO();if(!state.startDate)state.startDate=dateISO();render();if('serviceWorker'in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});initAuth().catch(e=>showAuthMessage(e.message||'Errore di autenticazione'));maybeNotify();
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refreshCloudIfNeeded();});
+window.addEventListener('focus',()=>refreshCloudIfNeeded());
+// Controlla periodicamente il cloud: gli altri dispositivi vedono le modifiche senza dover uscire e rientrare.
+setInterval(()=>refreshCloudIfNeeded(),30000);
+safeLoad();applyTheme(localStorage.getItem('le-mie-rate-theme')||'light');$('paymentDate').value=dateISO();if(!state.startDate)state.startDate=dateISO();render();if('serviceWorker'in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').then(reg=>reg.update().catch(()=>{})).catch(()=>{});initAuth().catch(e=>showAuthMessage(e.message||'Errore di autenticazione'));maybeNotify();
 </script>
 </body>
 </html>
