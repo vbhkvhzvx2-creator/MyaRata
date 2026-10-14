@@ -258,7 +258,7 @@ html{background:var(--bg);scroll-behavior:smooth}body{background:var(--bg);color
  <div class="auth-card">
   <div class="brand" style="margin-bottom:22px"><div class="logo brand-mark"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true" fill="currentColor"><rect x="2.5" y="13.5" width="5" height="8" rx="1.5"/><rect x="9.5" y="8.5" width="5" height="13" rx="1.5"/><rect x="16.5" y="2.5" width="5" height="19" rx="1.5"/></svg></div><div><h1>Le mie rate</h1><p style="margin:2px 0 0">Le tue finanze, in un unico posto</p></div></div>
   <div id="authEmailPanel">
-   <h2 id="authTitle">Accedi</h2><p>Usa la tua email per sincronizzare i pagamenti. Accedi per sincronizzare i tuoi movimenti e i tuoi debiti.</p>
+   <h2 id="authTitle">Accedi</h2><p>Usa la tua email per sincronizzare i pagamenti. Accedi per sincronizzare entrate, uscite e piani rateali.</p>
    <form id="authForm">
     <div class="field"><label for="authEmail">Email</label><input id="authEmail" type="email" autocomplete="email" required placeholder="nome@esempio.it"></div>
     <div class="field"><label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="current-password" minlength="8" required placeholder="Almeno 8 caratteri"></div>
@@ -283,57 +283,77 @@ html{background:var(--bg);scroll-behavior:smooth}body{background:var(--bg);color
  </div>
 </div>
 <div class="app">
-<header class="header">
- <div class="brand"><div class="logo brand-mark"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true" fill="currentColor"><rect x="2.5" y="13.5" width="5" height="8" rx="1.5"/><rect x="9.5" y="8.5" width="5" height="13" rx="1.5"/><rect x="16.5" y="2.5" width="5" height="19" rx="1.5"/></svg></div><div><h1>Le mie rate</h1><p>Il tuo percorso verso zero</p></div></div>
- <button class="avatar" id="profileAvatar" aria-label="Apri e modifica profilo" title="Modifica profilo" onclick="showPage('profile')">IO</button>
+<header class="header" id="appHeader">
+ <div class="header-leading">
+  <button class="header-back" id="headerBack" type="button" onclick="goHeaderBack()" aria-label="Indietro al menu" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+  <div class="brand home-greeting" id="homeBrand"><div><h1 id="welcomeTitle">Ciao,</h1><p id="welcomeSubtitle">Le tue finanze sotto controllo.</p></div></div>
+  <div class="screen-header-title" id="screenHeaderTitle" hidden><h1 id="screenHeaderTitleText">Cosa vuoi fare?</h1><p id="screenHeaderSubtitle">Scegli una sezione per continuare.</p></div>
+ </div>
+ <div class="header-actions">
+  <button class="header-icon-button" id="openMenuButton" type="button" onclick="showPage('menu')" aria-label="Apri tutte le funzioni" title="Tutte le funzioni"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></button>
+  <button class="avatar" id="profileAvatar" aria-label="Apri profilo" title="Profilo" onclick="showPage('profile')">IO</button>
+ </div>
 </header>
 
 <section class="page active" id="page-home">
- <div class="intro"><div><div class="eyebrow">Panoramica</div><h2 id="welcomeTitle">Il tuo debito, sotto controllo.</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Un passo alla volta, ogni mese.</p></div><button class="btn primary" onclick="showPage('payments')"><span class="plus">＋</span> Registra una rata</button></div>
- <div class="hero">
-  <div class="hero-top"><span class="pill"><span class="dot"></span> Piano di rimborso attivo</span><span class="hero-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 17l5-5 3 3 8-9"/><path d="M15 6h5v5"/></svg></span></div>
-  <div class="hero-label">Debito residuo</div><div class="hero-amount" id="heroRemaining">0,00 €</div>
+ <div class="hero hero-balance">
+  <div class="hero-top"><span class="hero-kicker"><span class="dot"></span> Riepilogo personale</span><button class="hero-more" type="button" onclick="showPage('menu')" aria-label="Apri tutte le funzioni">···</button></div>
+  <div class="hero-label">Uscite residue</div><div class="hero-amount" id="heroRemaining">0,00 €</div>
   <div class="bar"><span id="heroBar"></span></div>
   <div class="hero-foot"><span id="heroPaidLabel">0,00 € rimborsati</span><span id="heroPct">0% completato</span></div>
  </div>
- <div class="stats">
-  <div class="stat"><div class="stat-top"><span class="stat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg></span>Debito iniziale</div><div class="stat-value" id="statInitial">0 €</div><div class="stat-sub">Totale registrato</div></div>
-  <div class="stat"><div class="stat-top"><span class="stat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/><path d="M4 20h16"/></svg></span>Totale pagato</div><div class="stat-value" id="statPaid">0 €</div><div class="stat-sub" id="statCount">0 pagamenti</div></div>
-  <div class="stat"><div class="stat-top"><span class="stat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6 9a7 7 0 0 1 11-2l3 5M4 12l3 5a7 7 0 0 0 11-2"/></svg></span>Rate mensili</div><div class="stat-value" id="statMonthly">0 €</div><div class="stat-sub">Importo previsto al mese</div></div>
-  <div class="stat"><div class="stat-top"><span class="stat-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/><path d="M8 14h3M8 17h6"/></svg></span>Prossima scadenza</div><div class="stat-value" id="statNext">—</div><div class="stat-sub" id="statNextSub">Aggiungi un debito</div></div>
+ <div class="stats dashboard-stats">
+  <div class="stat stat-income"><div class="stat-top"><span class="stat-icon">↑</span>Entrate del mese</div><div class="stat-value positive" id="homeIncome">0,00 €</div><div class="stat-sub" id="homeFinancePeriod">Mese corrente</div></div>
+  <div class="stat stat-expense"><div class="stat-top"><span class="stat-icon">↓</span>Uscite del mese</div><div class="stat-value negative" id="homeExpense">0,00 €</div><div class="stat-sub">Movimenti registrati</div></div>
+  <div class="stat stat-rate"><div class="stat-top"><span class="stat-icon">▣</span>Rate mensili</div><div class="stat-value" id="statMonthly">0,00 €</div><div class="stat-sub">Importo pianificato</div></div>
+  <div class="stat stat-next"><div class="stat-top"><span class="stat-icon">◷</span>Prossima scadenza</div><div class="stat-value" id="statNext">—</div><div class="stat-sub" id="statNextSub">Aggiungi un’uscita</div></div>
  </div>
- <section class="panel section-gap" id="homeFinancePanel"><div class="panel-head"><div><h3>Entrate e uscite del mese</h3><div class="small" id="homeFinancePeriod">Riepilogo del mese corrente</div></div><button class="table-action" onclick="showPage('finance')">Apri movimenti →</button></div><div class="finance-stat-grid"><div class="finance-stat"><span>Entrate</span><strong class="positive" id="homeIncome">0,00 €</strong></div><div class="finance-stat"><span>Uscite totali</span><strong class="negative" id="homeExpense">0,00 €</strong></div><div class="finance-stat"><span>Saldo del mese</span><strong id="homeNet">0,00 €</strong></div><div class="finance-stat"><span>Patrimonio stimato</span><strong id="homeNetWorth">0,00 €</strong></div></div><div id="homeBudgetSummary" class="finance-section-note">Aggiungi movimenti e budget per vedere il riepilogo finanziario.</div></section>
- <section class="panel section-gap"><div class="panel-head"><h3>I miei debiti</h3><span class="status" id="debtCount">0 debiti</span></div><div id="debtsOverview"><div class="empty">I debiti aggiunti nella sezione Debiti appariranno qui.</div></div></section>
- <section class="panel section-gap" id="repaymentTips"><div class="panel-head"><h3>Il tuo percorso</h3><span class="status">Piano indicativo</span></div><div id="repaymentTipsBody" class="muted" style="font-size:13px;line-height:1.65">Aggiungi i tuoi debiti per visualizzare una stima del percorso di rimborso.</div></section>
- <section class="panel section-gap" id="progressPanel"><div class="panel-head"><div><h3>Andamento dei rimborsi</h3><div class="small" style="margin-top:4px">Pagamenti registrati negli ultimi 6 mesi</div></div><span class="status">Storico</span></div><div id="progressChart" class="progress-chart" role="img" aria-label="Grafico dei pagamenti mensili"><div class="empty">Il grafico apparirà quando registrerai dei pagamenti.</div></div></section>
- <section class="panel section-gap" id="simulatorPanel"><div class="panel-head"><div><h3>Simula un pagamento extra</h3><div class="small" style="margin-top:4px">Valuta come potrebbe cambiare la durata del rimborso.</div></div><span class="status">Simulazione</span></div><div class="form-grid"><div class="field"><label for="simDebt">Debito da simulare</label><select id="simDebt"><option value="all">Tutti i debiti</option></select></div><div class="field"><label for="simExtra">Extra mensile (€)</label><input id="simExtra" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Es. 50"></div></div><div id="simResult" class="sim-result" aria-live="polite">Aggiungi un debito e una rata mensile per avviare la simulazione.</div><p class="small" style="margin:10px 0 0">Stima matematica senza interessi, commissioni, penali o variazioni future delle rate. Non modifica i dati salvati.</p></section>
- <div class="content-grid">
-  <section class="panel"><div class="panel-head"><h3>Prossimo pagamento</h3><span class="status" id="nextStatus">Da impostare</span></div><div id="nextPayment"><div class="empty"><div class="empty-icon">▦</div>Aggiungi i debiti nella sezione Debiti per visualizzare la prossima scadenza.</div></div><button class="btn secondary wide" onclick="showPage('debts')">Gestisci i debiti</button></section>
-  <section class="panel"><div class="panel-head"><h3>Rate recenti</h3><button class="table-action" onclick="goToMovementHistory()">Vai ai movimenti →</button></div><div id="recentList" class="list"><div class="empty"><div class="empty-icon">↗</div>I pagamenti registrati appariranno qui.</div></div></section>
+ <div class="home-action-stack">
+  <button class="home-action primary-action" type="button" onclick="showPage('finance')"><span class="home-action-icon">＋</span><span><strong>Registra movimento</strong><small>Entrata, uscita o trasferimento</small></span><span class="action-chevron">›</span></button>
+  <button class="home-action secondary-action" type="button" onclick="openReminders()"><span class="home-action-icon">▦</span><span><strong>Scadenze e promemoria</strong><small>Controlla le prossime rate</small></span><span class="action-chevron">›</span></button>
+ </div>
+ <button class="all-functions-link" type="button" onclick="showPage('menu')"><span class="all-functions-grid">▦</span> Cosa vuoi fare? <span>Apri tutte le funzioni →</span></button>
+ <div id="legacyDashboardNodes" hidden>
+  <section class="panel" id="homeFinancePanel"><div class="panel-head"><h3>Riepilogo finanziario</h3><div class="small" id="homeFinancePeriodLegacy"></div></div><div class="finance-stat-grid"><div class="finance-stat"><span>Avanzo mese</span><strong id="homeNet">0,00 €</strong></div><div class="finance-stat"><span>Patrimonio stimato</span><strong id="homeNetWorth">0,00 €</strong></div></div><div id="homeBudgetSummary"></div></section>
+  <div id="debtsOverview"></div><span id="statInitial">0 €</span><span id="statPaid">0 €</span><span id="statCount">0 pagamenti</span><span id="debtCount">0 uscite</span>
+  <div id="nextPayment"></div><span id="nextStatus"></span><div id="recentList" class="list"></div>
  </div>
 </section>
 
+<section class="page" id="page-menu">
+ <div class="hub-intro"><div class="eyebrow">Le mie rate · Finanze Pro</div><h2>Cosa vuoi fare?</h2><p>Scegli una sezione per continuare.</p></div>
+ <div class="hub-grid">
+  <button class="hub-card hub-movements" type="button" onclick="showPage('finance')"><span class="hub-icon">⇄</span><span class="hub-copy"><strong>Movimenti</strong><small>Entrate, uscite e trasferimenti</small></span><span class="hub-chevron">›</span></button>
+  <button class="hub-card hub-outgoings" type="button" onclick="showPage('debts')"><span class="hub-icon">↓</span><span class="hub-copy"><strong>Uscite</strong><small>Gestisci rate, importi e scadenze</small></span><span class="hub-chevron">›</span></button>
+  <button class="hub-card hub-analysis" type="button" onclick="showPage('analysis')"><span class="hub-icon">▥</span><span class="hub-copy"><strong>Analisi</strong><small>Grafici e andamento finanziario</small></span><span class="hub-chevron">›</span></button>
+  <button class="hub-card hub-budgets" type="button" onclick="showPage('budget')"><span class="hub-icon">▣</span><span class="hub-copy"><strong>Budget</strong><small>Imposta limiti per categoria</small></span><span class="hub-chevron">›</span></button>
+  <button class="hub-card hub-goals" type="button" onclick="showPage('goals')"><span class="hub-icon">↗</span><span class="hub-copy"><strong>Obiettivi</strong><small>Costruisci i tuoi traguardi di risparmio</small></span><span class="hub-chevron">›</span></button>
+  <button class="hub-card hub-profile" type="button" onclick="showPage('profile')"><span class="hub-icon">♙</span><span class="hub-copy"><strong>Profilo</strong><small>Dati personali e sicurezza</small></span><span class="hub-chevron">›</span></button>
+ </div>
+ <button class="hub-secondary-action" type="button" onclick="showPage('payments')"><span>＋</span> Registra una rata</button>
+</section>
+
 <section class="page" id="page-debts">
- <div class="intro"><div><div class="eyebrow">Il tuo piano</div><h2>I tuoi debiti</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Priorità, rate, residuo e progressi di ogni debito.</p></div><button class="btn primary" type="button" onclick="openNewDebt()"><span class="plus">＋</span> Aggiungi debito</button></div>
+ <div class="intro"><div><div class="eyebrow">Rate e uscite</div><h2>Uscite</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Gestisci le uscite rateizzate, le scadenze e gli importi residui.</p></div><button class="btn primary page-plus" type="button" aria-label="Aggiungi uscita" title="Aggiungi uscita" onclick="openNewDebt()">＋</button></div>
 <section class="panel section-gap" id="debtEditorPanel" hidden>
-  <div class="panel-head"><h3 id="debtEditorTitle">Aggiungi un debito</h3><span class="status">Piano rate</span></div>
+  <div class="panel-head"><h3 id="debtEditorTitle">Aggiungi un’uscita</h3><span class="status">Piano rate</span></div>
   <form id="debtForm">
    <input id="debtEditId" type="hidden">
-   <div class="field"><label for="debtName">Nome del debito</label><input id="debtName" maxlength="80" required placeholder="Es. Auto, iPhone, prestito"></div>
+   <div class="field"><label for="debtName">Nome dell’uscita</label><input id="debtName" maxlength="80" required placeholder="Es. Auto, iPhone, arredamento"></div>
    <div class="form-grid"><div class="field"><label for="debtAmount">Importo iniziale (€)</label><input id="debtAmount" type="number" min="0.01" step="0.01" required placeholder="3000"></div><div class="field"><label for="debtMonthly">Rata mensile (€)</label><input id="debtMonthly" type="number" min="0.01" step="0.01" required placeholder="100"></div></div>
    <div class="form-grid"><div class="field"><label for="debtPriority">Priorità</label><select id="debtPriority"><option value="1">Alta</option><option value="2" selected>Media</option><option value="3">Bassa</option></select></div><div class="field"><label for="debtDueDay">Giorno di scadenza</label><select id="debtDueDay"></select></div></div>
    <div class="field"><label for="debtStartDate">Data iniziale (facoltativa)</label><input id="debtStartDate" type="date"></div>
-   <div class="actions"><button class="btn primary" id="debtSaveBtn" type="submit">＋ Salva debito</button><button class="btn secondary" id="debtCancelBtn" type="button" hidden>Annulla modifica</button></div>
+   <div class="actions"><button class="btn primary" id="debtSaveBtn" type="submit">＋ Salva uscita</button><button class="btn secondary" id="debtCancelBtn" type="button" hidden>Annulla modifica</button></div>
    <div class="toast" id="debtToast" role="status"></div>
   </form>
   <div id="debtsList" hidden></div>
  </section>
- <section class="panel"><div class="panel-head"><h3>Riepilogo del piano</h3><span class="status" id="debtsPageCount">0 debiti</span></div><div class="debt-summary-strip"><div><span>Residuo totale</span><strong id="debtsPageRemaining">0 €</strong></div><div><span>Rate mensili</span><strong id="debtsPageMonthly">0 €</strong></div><div><span>Già pagato</span><strong id="debtsPagePaid">0 €</strong></div></div></section>
- <section class="panel section-gap"><div class="panel-head"><h3>Debiti e scadenze</h3><div class="sort-control"><label for="debtSort" class="small">Ordina</label><select id="debtSort" aria-label="Ordina i debiti"><option value="priority">Priorità</option><option value="due">Scadenza</option><option value="name">Nome</option></select></div></div><div id="debtsPageList"><div class="empty">Aggiungi il tuo primo debito.</div></div></section>
+ <section class="panel"><div class="panel-head"><h3>Riepilogo uscite</h3><span class="status" id="debtsPageCount">0 uscite</span></div><div class="debt-summary-strip"><div><span>Residuo totale</span><strong id="debtsPageRemaining">0 €</strong></div><div><span>Rate mensili</span><strong id="debtsPageMonthly">0 €</strong></div><div><span>Già pagato</span><strong id="debtsPagePaid">0 €</strong></div></div></section>
+ <section class="panel section-gap"><div class="panel-head"><h3>Uscite e scadenze</h3><div class="sort-control"><label for="debtSort" class="small">Ordina</label><select id="debtSort" aria-label="Ordina le uscite"><option value="priority">Priorità</option><option value="due">Scadenza</option><option value="name">Nome</option></select></div></div><div id="debtsPageList"><div class="empty">Aggiungi la tua prima uscita.</div></div></section>
 </section>
 
 <section class="page" id="page-finance">
- <div class="intro"><div><div class="eyebrow">Controllo del denaro</div><h2>Entrate e uscite</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Registra e cerca entrate, uscite e trasferimenti.</p></div><button class="btn primary" type="button" onclick="openFinanceEntry('expense')">＋ Nuovo movimento</button></div>
+ <div class="intro"><div><div class="eyebrow">Controllo del denaro</div><h2>Movimenti</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Entrate, uscite e trasferimenti.</p></div><button class="btn primary page-plus" type="button" aria-label="Nuovo movimento" title="Nuovo movimento" onclick="openFinanceEntry('expense')">＋</button></div>
  <div class="finance-stat-grid section-gap" id="financeSummary"><div class="finance-stat"><span>Entrate mese</span><strong id="financeIncomeTotal">0,00 €</strong></div><div class="finance-stat"><span>Uscite mese</span><strong id="financeExpenseTotal">0,00 €</strong></div><div class="finance-stat"><span>Avanzo mese</span><strong id="financeNetTotal">0,00 €</strong></div><div class="finance-stat"><span>Patrimonio stimato</span><strong id="financeNetWorth">0,00 €</strong></div></div>
  <section class="panel section-gap" id="transactionEditorPanel"><div class="panel-head"><div><h3 id="financeFormTitle">Registra un movimento</h3><div class="small">Ogni importo è un'entrata o un'uscita manuale.</div></div><span class="status">Movimento</span></div>
   <form id="financeTransactionForm">
@@ -372,11 +392,24 @@ html{background:var(--bg);scroll-behavior:smooth}body{background:var(--bg);color
 
 <section class="page" id="page-analysis">
  <div class="intro"><div><div class="eyebrow">Panoramica finanziaria</div><h2>Analisi</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Report, budget e obiettivi per capire dove va il tuo denaro.</p></div></div>
- <section class="panel section-gap"><div class="panel-head"><div><h3>Report mensile</h3><div class="small">Andamento delle entrate, delle uscite e dei pagamenti debiti.</div></div><select id="financeReportMonths" aria-label="Periodo report" style="width:auto;max-width:120px"><option value="3">3 mesi</option><option value="6" selected>6 mesi</option><option value="12">12 mesi</option></select></div><div id="financeTrendChart" class="finance-chart"><div class="finance-empty">Registra dei movimenti per vedere il report.</div></div><div id="financeCategoryReport" class="section-gap"></div></section>
+ <section class="panel section-gap"><div class="panel-head"><div><h3>Report mensile</h3><div class="small">Andamento di entrate, uscite e rate.</div></div><select id="financeReportMonths" aria-label="Periodo report" style="width:auto;max-width:120px"><option value="3">3 mesi</option><option value="6" selected>6 mesi</option><option value="12">12 mesi</option></select></div><div id="financeTrendChart" class="finance-chart"><div class="finance-empty">Registra dei movimenti per vedere il report.</div></div><div id="financeCategoryReport" class="section-gap"></div></section>
+ <section class="panel section-gap" id="repaymentTips"><div class="panel-head"><h3>Il tuo percorso</h3><span class="status">Piano indicativo</span></div><div id="repaymentTipsBody" class="muted" style="font-size:13px;line-height:1.65">Aggiungi le tue uscite rateizzate per visualizzare una stima del percorso di rimborso.</div></section>
+ <section class="panel section-gap" id="progressPanel"><div class="panel-head"><div><h3>Andamento dei rimborsi</h3><div class="small" style="margin-top:4px">Pagamenti registrati negli ultimi 6 mesi</div></div><span class="status">Storico</span></div><div id="progressChart" class="progress-chart" role="img" aria-label="Grafico dei pagamenti mensili"><div class="empty">Il grafico apparirà quando registrerai dei pagamenti.</div></div></section>
+ <section class="panel section-gap" id="simulatorPanel"><div class="panel-head"><div><h3>Simula un pagamento extra</h3><div class="small" style="margin-top:4px">Valuta come potrebbe cambiare la durata del rimborso.</div></div><span class="status">Simulazione</span></div><div class="form-grid"><div class="field"><label for="simDebt">Uscita da simulare</label><select id="simDebt"><option value="all">Tutte le uscite</option></select></div><div class="field"><label for="simExtra">Extra mensile (€)</label><input id="simExtra" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Es. 50"></div></div><div id="simResult" class="sim-result" aria-live="polite">Aggiungi un'uscita rateizzata e una rata mensile per avviare la simulazione.</div><p class="small" style="margin:10px 0 0">Stima matematica senza interessi, commissioni, penali o variazioni future delle rate. Non modifica i dati salvati.</p></section>
+
+</section>
+
+<section class="page" id="page-budget">
+ <div class="intro"><div><div class="eyebrow">Piano mensile</div><h2>Budget</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Definisci limiti e controlla quanto hai speso.</p></div></div>
  <div class="section-gap"><section class="panel"><div class="panel-head"><div><h3>Budget mensili</h3><div class="small">Definisci un limite per categoria e mese.</div></div></div>
    <form id="budgetForm"><div class="finance-form-grid"><div class="field"><label for="budgetMonth">Mese</label><input id="budgetMonth" type="month" required></div><div class="field"><label for="budgetCategory">Categoria</label><select id="budgetCategory" required></select></div><div class="field"><label for="budgetLimit">Limite (€)</label><input id="budgetLimit" type="number" min="0.01" step="0.01" inputmode="decimal" required placeholder="300"></div></div><button class="btn secondary wide" type="submit">＋ Salva budget</button><div class="toast" id="budgetToast"></div></form>
    <div id="budgetsList" class="section-gap"><div class="finance-empty">Aggiungi un limite per tenere sotto controllo le spese.</div></div>
   </section></div>
+
+</section>
+
+<section class="page" id="page-goals">
+ <div class="intro"><div><div class="eyebrow">I tuoi traguardi</div><h2>Obiettivi</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Monitora i risparmi e le spese ricorrenti.</p></div></div>
  <div class="finance-layout section-gap">
   <section class="panel"><div class="panel-head"><div><h3>Obiettivi di risparmio</h3><div class="small">Monitora fondi e traguardi personali.</div></div></div>
    <form id="goalForm"><input id="goalEditId" type="hidden"><div class="finance-form-grid"><div class="field"><label for="goalName">Nome obiettivo</label><input id="goalName" maxlength="80" required placeholder="Es. Fondo emergenza"></div><div class="field"><label for="goalTarget">Importo obiettivo (€)</label><input id="goalTarget" type="number" min="0.01" step="0.01" required placeholder="2000"></div><div class="field"><label for="goalCurrent">Già accantonato (€)</label><input id="goalCurrent" type="number" min="0" step="0.01" value="0" required></div><div class="field"><label for="goalDate">Data obiettivo (facoltativa)</label><input id="goalDate" type="date"></div></div><div class="field"><label for="goalNote">Nota (facoltativa)</label><input id="goalNote" maxlength="160" placeholder="Dettagli dell'obiettivo"></div><div class="actions"><button class="btn secondary" type="submit" id="goalSubmit">＋ Salva obiettivo</button><button class="btn secondary" type="button" id="goalCancel" hidden>Annulla</button></div><div class="toast" id="goalToast"></div></form>
@@ -389,17 +422,17 @@ html{background:var(--bg);scroll-behavior:smooth}body{background:var(--bg);color
 </section>
 
 <section class="page" id="page-payments">
- <div class="intro"><div><div class="eyebrow">Debiti</div><h2>Registra una rata</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Registra il pagamento di una rata. Lo storico completo si trova in Movimenti.</p></div></div>
+ <div class="intro"><div><div class="eyebrow">Uscite</div><h2>Registra una rata</h2><p class="muted" style="margin:6px 0 0;font-size:13px">Registra il pagamento di una rata. Lo storico completo si trova in Movimenti.</p></div></div>
  <div class="payment-entry-layout">
   <section class="panel"><div class="panel-head"><h3 id="paymentFormTitle">Registra un pagamento</h3></div>
    <form id="paymentForm">
     <div class="field"><label for="paymentDate">Data del pagamento</label><input id="paymentDate" type="date" required></div>
-    <div class="field"><label for="paymentDebtId">A quale debito si riferisce?</label><select id="paymentDebtId"><option value="">Pagamento generico / non associato</option></select></div>
+    <div class="field"><label for="paymentDebtId">A quale uscita si riferisce?</label><select id="paymentDebtId"><option value="">Pagamento generico / non associato</option></select></div>
     <div class="form-grid"><div class="field"><label for="paymentAmount">Importo pagato (€)</label><input id="paymentAmount" type="number" min="0.01" step="0.01" placeholder="150,00" inputmode="decimal" required></div><div class="field"><label for="paymentMethod">Metodo (facoltativo)</label><select id="paymentMethod"><option value="">Seleziona</option><option>Bonifico</option><option>Contanti</option><option>Addebito</option><option>Altro</option></select></div></div><div class="field"><label for="paymentAccountId">Conto utilizzato (facoltativo)</label><select id="paymentAccountId"><option value="">Non specificato</option></select></div>
     <div class="field"><label for="paymentNote">Nota (facoltativa)</label><input id="paymentNote" maxlength="120" placeholder="Es. rata ottobre"></div>
     <div class="actions"><button class="btn primary" type="submit" id="paymentSubmit">＋ Salva pagamento</button><button class="btn secondary" type="button" id="cancelEdit" hidden>Annulla</button></div><div class="toast" id="paymentToast" role="status" aria-live="polite"></div><button class="btn secondary undo-payment" id="undoLastPaymentBtn" type="button" onclick="undoLastPayment()" hidden>↶ Annulla ultimo pagamento</button>
    </form>
-   <div class="notice">Il pagamento viene registrato nello storico dei Movimenti e sottratto dal debito residuo. Per modificare importo iniziale e rata mensile apri la sezione <strong>Debiti</strong>.</div>
+   <div class="notice">Il pagamento viene registrato nello storico dei Movimenti e sottratto dal debito residuo. Per modificare importo iniziale e rata mensile apri la sezione <strong>Uscite</strong>.</div>
   <div hidden><span id="historyCount">0 pagamenti</span><div id="historyTable"></div><div id="historyEmpty"></div></div>
 </section>
  </div>
@@ -419,7 +452,7 @@ html{background:var(--bg);scroll-behavior:smooth}body{background:var(--bg);color
  
  <div class="settings-grid">
   
-  <section class="panel"><div class="panel-head"><h3>Promemoria su iPhone</h3><span class="status" id="notifyStatus">Da configurare</span></div>
+  <section class="panel" id="reminderSettingsPanel"><div class="panel-head"><h3>Promemoria su iPhone</h3><span class="status" id="notifyStatus">Da configurare</span></div>
    <p class="muted" style="font-size:13px;margin:0 0 15px">Promemoria push alle 18:00, ogni giorno nei 7 giorni prima della scadenza. Per riceverli anche quando l'app è chiusa, installa questa web app sulla schermata Home e configura il servizio gratuito descritto nel README.</p>
    <div class="switch-row"><div><strong>Promemoria giornalieri</strong><span>Un avviso al giorno nel periodo scelto</span></div><input id="remindersEnabled" type="checkbox" aria-label="Abilita promemoria"></div>
    <div class="field section-gap"><label for="reminderTime">Ora del promemoria</label><input id="reminderTime" type="time" value="18:00"></div>
@@ -435,7 +468,7 @@ html{background:var(--bg);scroll-behavior:smooth}body{background:var(--bg);color
   <div class="switch-row"><div><strong>Mostra simulatore di pagamento extra</strong><span>Consente di confrontare una rata con un extra mensile ipotetico.</span></div><input id="settingShowSimulator" type="checkbox" checked aria-label="Mostra il simulatore"></div>
   <p class="small" style="margin:12px 0 0">Le preferenze grafiche vengono salvate su questo dispositivo. La simulazione è indicativa e non modifica debiti o pagamenti reali.</p>
  </section>
- <section class="panel section-gap"><div class="panel-head"><h3>Dati e preferenze</h3></div><div class="field"><label for="themeSelect">Aspetto dell’app</label><select id="themeSelect"><option value="light">☀️ Giorno</option><option value="dark">🌙 Notte</option></select></div><div class="small">La preferenza grafica viene salvata su questo dispositivo.</div><div class="panel-head section-gap"><h3>Dati e backup</h3></div><p class="muted" style="font-size:13px;margin-top:0">La sincronizzazione cloud resta attiva quando Supabase è configurato. Il backup locale è una copia aggiuntiva utile per sicurezza.</p><div class="actions export-actions"><button class="btn secondary" onclick="exportBackup()">Esporta backup JSON</button><button class="btn secondary" onclick="exportCSV()">Esporta CSV</button><button class="btn secondary" onclick="exportPDF()">Stampa / Salva PDF</button><button class="btn secondary" onclick="document.getElementById('importFile').click()">Importa backup JSON</button><button class="btn danger" onclick="clearPayments()">Cancella storico pagamenti</button></div><input id="importFile" type="file" accept=".json,application/json" hidden><div class="toast" id="dataToast"></div></section>
+ <section class="panel section-gap"><div class="panel-head"><h3>Dati e preferenze</h3></div><div hidden aria-hidden="true"><select id="themeSelect"><option value="dark" selected>Notte</option></select></div><div class="small">Modalità notte attiva.</div><div class="panel-head section-gap"><h3>Dati e backup</h3></div><p class="muted" style="font-size:13px;margin-top:0">La sincronizzazione cloud resta attiva quando Supabase è configurato. Il backup locale è una copia aggiuntiva utile per sicurezza.</p><div class="actions export-actions"><button class="btn secondary" onclick="exportBackup()">Esporta backup JSON</button><button class="btn secondary" onclick="exportCSV()">Esporta CSV</button><button class="btn secondary" onclick="exportPDF()">Stampa / Salva PDF</button><button class="btn secondary" onclick="document.getElementById('importFile').click()">Importa backup JSON</button><button class="btn danger" onclick="clearPayments()">Cancella storico pagamenti</button></div><input id="importFile" type="file" accept=".json,application/json" hidden><div class="toast" id="dataToast"></div></section>
  <section class="panel section-gap logout-panel" aria-labelledby="logoutTitle">
   <div class="panel-head"><div><h3 id="logoutTitle">Sessione e sicurezza</h3><div class="small" style="margin-top:4px">Per uscire dall’account dovrai confermare il PIN di questo dispositivo.</div></div><span class="status">Protetto</span></div>
   <button class="btn danger wide logout-button" id="logoutButton" type="button"><svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg> Esci dall’account</button>
@@ -461,7 +494,7 @@ html{background:var(--bg);scroll-behavior:smooth}body{background:var(--bg);color
 <nav class="bottom-nav" aria-label="Navigazione principale"><div class="nav-inner">
  <button class="nav-btn active" data-page="home" onclick="showPage('home')" aria-label="Home"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg></span><span>Home</span></button>
  <button class="nav-btn" data-page="finance" onclick="showPage('finance')" aria-label="Movimenti"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h13l-3-3M17 17H4l3 3"/><path d="M20 7a8 8 0 0 1-2.3 5.7M4 17a8 8 0 0 1 2.3-5.7"/></svg></span><span>Movimenti</span></button>
- <button class="nav-btn" data-page="debts" onclick="showPage('debts')" aria-label="Debiti"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg></span><span>Debiti</span></button>
+ <button class="nav-btn" data-page="debts" onclick="showPage('debts')" aria-label="Uscite"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg></span><span>Uscite</span></button>
  <button class="nav-btn" data-page="analysis" onclick="showPage('analysis')" aria-label="Analisi"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 6-7"/></svg></span><span>Analisi</span></button>
  <button class="nav-btn" data-page="profile" onclick="showPage('profile')" aria-label="Profilo" title="Profilo"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.5-3.5 3.2-5.5 7-5.5s6.5 2 7 5.5"/></svg></span><span>Profilo</span></button>
  </div></nav>
@@ -486,6 +519,8 @@ const SYNCED_DEBT_IDS_PREFIX='le-mie-rate-synced-debt-ids-v1-';
 const UUID_RE=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const syncedDebtIdsKey=()=>SYNCED_DEBT_IDS_PREFIX+(currentUser?.id||'');
 function showSyncStatus(message,kind='info'){
+ // L'app non mostra toast per salvataggi/caricamenti riusciti: solo errori reali richiedono attenzione.
+ if(kind!=='error')return;
  let el=$('cloudSyncStatus');
  if(!el){el=document.createElement('div');el.id='cloudSyncStatus';el.setAttribute('role','status');el.setAttribute('aria-live','polite');Object.assign(el.style,{position:'fixed',left:'50%',bottom:'max(16px,env(safe-area-inset-bottom))',transform:'translateX(-50%)',zIndex:'99999',maxWidth:'min(92vw,520px)',padding:'12px 16px',borderRadius:'12px',boxShadow:'0 8px 30px #0002',fontSize:'13px',lineHeight:'1.4',fontWeight:'600',textAlign:'center',display:'none'});document.body.appendChild(el);}
  el.textContent=message;el.style.background=kind==='error'?'#7f1d1d':kind==='ok'?'#14532d':'#1e293b';el.style.color='#fff';el.style.display='block';
@@ -600,7 +635,7 @@ async function cloudLoad({quiet=false}={}){
   localStorage.setItem(KEY,JSON.stringify(state));
   localStorage.setItem(syncedDebtIdsKey(),JSON.stringify(state.debts.map(d=>String(d.id))));
   render();
-  if(!quiet){if(financeSchemaReady)showSyncStatus('Dati caricati e sincronizzati con Supabase.','ok');else showSyncStatus(financeSchemaMessage||'Dati debiti sincronizzati; esegui la migrazione SQL per sincronizzare le nuove funzioni Finanze.','error');}
+  // Nessun messaggio di conferma a ogni accesso: i problemi reali sono gestiti nel catch e durante i salvataggi.
   if(localFinanceNeedsSync&&financeSchemaReady)setTimeout(()=>scheduleCloudSave(),150);
  } finally {remoteLoading=false}
 }
@@ -775,7 +810,7 @@ function render(){
  const paid=totalPaid(), rem=remaining();
  const displayName=(state.personalName||'').trim();
  const welcome=$('welcomeTitle');
- if(welcome) welcome.innerHTML=displayName?`<span class="greeting-name">${esc(displayName)}</span>, il tuo debito sotto controllo.`:'Il tuo debito, sotto controllo.';
+ if(welcome) welcome.innerHTML=displayName?`Ciao <span class="greeting-name">${esc(displayName)}</span>,`:'Ciao,';
  const avatar=$('profileAvatar');if(avatar)avatar.textContent=displayName?displayName.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toLocaleUpperCase('it-IT'):'IO';
  $('heroRemaining').textContent=euro(rem);$('heroPaidLabel').textContent=euro(paid)+' rimborsati';
  const initial=state.debts.length?state.debts.reduce((a,d)=>a+Number(d.amount||0),0):Math.max(0,Number(state.debt)||0);
@@ -791,7 +826,7 @@ function render(){
 }
 function renderRepaymentTips(rem){
  const box=$('repaymentTipsBody'); if(!box)return; const debt=state.debts.length?state.debts.reduce((a,d)=>a+Number(d.amount||0),0):Math.max(0,Number(state.debt)||0), monthly=state.debts.length?state.debts.reduce((a,d)=>a+Number(d.monthly||0),0):Math.max(0,Number(state.monthly)||0);
- if(debt<=0){box.innerHTML='Per iniziare, apri <strong>Debiti</strong> e aggiungi il primo debito. Per ora tutti gli importi iniziali sono impostati a 0 €.';return}
+ if(debt<=0){box.innerHTML='Per iniziare, apri <strong>Uscite</strong> e aggiungi la prima uscita. Per ora tutti gli importi iniziali sono impostati a 0 €.';return}
  if(rem<=0){box.innerHTML='<strong>Ottimo:</strong> in base ai pagamenti registrati, il debito risulta rimborsato. Verifica eventuali interessi o spese direttamente con il creditore.';return}
  if(monthly<=0){box.innerHTML=`Il debito residuo è <strong>${euro(rem)}</strong>. Imposta una rata mensile sostenibile nella sezione Debiti per stimare la durata del rimborso. Considera prima le spese essenziali e un margine per imprevisti.`;return}
  const months=Math.ceil(rem/monthly); const date=new Date(); date.setMonth(date.getMonth()+months); const dateTxt=date.toLocaleDateString('it-IT',{month:'long',year:'numeric'}); const extra=monthly*1.1; const faster=Math.ceil(rem/extra);
@@ -829,7 +864,7 @@ function renderDebts(){
  const initial=debts.reduce((n,d)=>n+Number(d.amount||0),0),paid=totalPaid(),monthly=debts.reduce((n,d)=>n+Number(d.monthly||0),0),rem=Math.max(0,initial-paid),pct=initial?Math.min(100,paid/initial*100):0;
  $('statInitial').textContent=euro(initial);$('statPaid').textContent=euro(paid);$('statMonthly').textContent=euro(monthly);$('statCount').textContent=state.payments.length+' '+(state.payments.length===1?'pagamento':'pagamenti');
  $('heroRemaining').textContent=euro(rem);$('heroPaidLabel').textContent=euro(paid)+' rimborsati';$('heroPct').textContent=pct.toLocaleString('it-IT',{maximumFractionDigits:1})+'% completato';$('heroBar').style.width=pct+'%';
- $('debtCount').textContent=debts.length+' '+(debts.length===1?'debito':'debiti');
+ $('debtCount').textContent=debts.length+' '+(debts.length===1?'uscita':'uscite');
  const html=d=>{const p=Number(d.amount)>0?Math.min(100,debtPaid(d.id)/Number(d.amount)*100):0;const st=debtStatus(d);const legacy=d.id==='__legacy_profile_debt__';const editButton=legacy?'':`<button class="btn secondary" onclick="editDebt('${esc(d.id)}')">Modifica</button>`;const deleteButton=legacy?'':`<button class="btn danger" onclick="deleteDebt('${esc(d.id)}')">Elimina</button>`;return `<div class="debt-card"><div class="debt-card-top"><div><h4>${esc(d.name)}</h4><div class="debt-meta">Rata ${euro(d.monthly)}/mese · scadenza il ${Number(d.day)||1} · priorità ${Number(d.priority)===1?'alta':Number(d.priority)===2?'media':'bassa'}</div></div><span class="priority-tag">${Number(d.priority)===1?'Alta':Number(d.priority)===2?'Media':'Bassa'}</span></div><div class="debt-numbers"><div class="debt-number"><span>Iniziale</span><strong>${euro(d.amount)}</strong></div><div class="debt-number"><span>Pagato</span><strong>${euro(debtPaid(d.id))}</strong></div><div class="debt-number"><span>Residuo</span><strong>${euro(debtRemaining(d))}</strong></div></div><div class="debt-progress" role="progressbar" aria-label="Avanzamento rimborso ${esc(d.name)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(p)}"><span style="width:${p}%"></span></div><div class="debt-status-line"><span class="status ${st.cls}">${st.label}</span><span class="small">${p.toLocaleString('it-IT',{maximumFractionDigits:1})}% saldato</span></div><div class="actions" style="display:flex;gap:8px;margin-top:13px;flex-wrap:wrap">${editButton}<button class="btn secondary" onclick="startDebtPayment('${esc(d.id)}')">＋ Registra rata</button>${deleteButton}</div></div>`};
  const viewAllButton=debts.length>3?`<button class="btn secondary wide" onclick="showPage('debts')">Vedi tutti i debiti</button>`:'';
  const noDebts='<div class="empty"><div class="empty-icon">↗</div>Non hai ancora aggiunto debiti. Tocca “Aggiungi debito” per iniziare.</div>';
@@ -842,7 +877,7 @@ function renderDebts(){
  $('statNextSub').textContent=next?`${next.d.name} · ${euro(Math.min(Number(next.d.monthly),debtRemaining(next.d)))}/mese`:'Aggiungi un debito con rata';
  $('nextStatus').textContent=next?debtStatus(next.d).label:'Da impostare';
  $('nextPayment').innerHTML=next?`<div class="next-card"><div class="calendar-icon"><strong>${next.date.getDate()}</strong><span>${next.date.toLocaleDateString('it-IT',{month:'short'})}</span></div><div class="next-details"><strong>${esc(next.d.name)}</strong><span>${next.date.toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</span><span>Rata prevista · ${debtStatus(next.d).label}</span></div><div class="next-amount">${euro(Math.min(Number(next.d.monthly),debtRemaining(next.d)))}</div></div><div class="small" style="margin-bottom:15px">Scadenze indicative in base al giorno impostato. Verifica sempre le condizioni effettive con il creditore.</div>`:'<div class="empty">Aggiungi un debito con importo e rata mensile per visualizzare la prossima scadenza.</div>';
- $('debtsPageCount').textContent=debts.length+' '+(debts.length===1?'debito':'debiti');$('debtsPageRemaining').textContent=euro(rem);$('debtsPageMonthly').textContent=euro(monthly);$('debtsPagePaid').textContent=euro(paid);
+ $('debtsPageCount').textContent=debts.length+' '+(debts.length===1?'uscita':'uscite');$('debtsPageRemaining').textContent=euro(rem);$('debtsPageMonthly').textContent=euro(monthly);$('debtsPagePaid').textContent=euro(paid);
 }
 function populateDebtSelects(){
  const debts=dashboardDebts();const pay=$('paymentDebtId'),sim=$('simDebt');const oldPay=pay?.value||$('paymentForm')?.dataset.debtId||'';const oldSim=sim?.value||'all';
@@ -873,15 +908,15 @@ function renderProgressChart(){
  const ariaMonths=monthCount+' mesi';
  box.innerHTML=has?`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Pagamenti mensili degli ultimi ${ariaMonths}" class="chart-months-${monthCount}">${grid}${bars}</svg>`:`<div class="empty" style="padding:22px 8px">Non ci sono pagamenti negli ultimi ${monthCount} mesi. Registra una rata per iniziare a vedere l’andamento.</div>`;
 }
-function openNewDebt(){resetDebtForm();$('debtEditorTitle').textContent='Aggiungi un debito';$('debtEditorPanel').hidden=false;showPage('debts');setTimeout(()=>{$('debtEditorPanel').scrollIntoView({behavior:'smooth',block:'start'});$('debtName').focus({preventScroll:true});},80)}
-function resetDebtForm(){ $('debtForm').reset();$('debtEditId').value='';$('debtDueDay').value='1';$('debtSaveBtn').textContent='＋ Salva debito';$('debtCancelBtn').hidden=true; }
-$('debtForm').addEventListener('submit',e=>{e.preventDefault();const id=$('debtEditId').value||crypto.randomUUID();const d={id,name:$('debtName').value.trim(),amount:money(Number($('debtAmount').value)),monthly:money(Number($('debtMonthly').value)),priority:Number($('debtPriority').value),day:Number($('debtDueDay').value),startDate:$('debtStartDate').value};if(!d.name||d.amount<=0||d.monthly<=0){$('debtToast').textContent='Inserisci nome e importi validi.';return}const ix=state.debts.findIndex(x=>x.id===id);if(ix>=0)state.debts[ix]=d;else state.debts.push(d);save();render();resetDebtForm();$('debtEditorPanel').hidden=false;$('debtEditorTitle').textContent='Aggiungi un debito';$('debtToast').textContent='Debito salvato.';});
+function openNewDebt(){resetDebtForm();$('debtEditorTitle').textContent='Aggiungi un’uscita';$('debtEditorPanel').hidden=false;showPage('debts');setTimeout(()=>{$('debtEditorPanel').scrollIntoView({behavior:'smooth',block:'start'});$('debtName').focus({preventScroll:true});},80)}
+function resetDebtForm(){ $('debtForm').reset();$('debtEditId').value='';$('debtDueDay').value='1';$('debtSaveBtn').textContent='＋ Salva uscita';$('debtCancelBtn').hidden=true; }
+$('debtForm').addEventListener('submit',e=>{e.preventDefault();const id=$('debtEditId').value||crypto.randomUUID();const d={id,name:$('debtName').value.trim(),amount:money(Number($('debtAmount').value)),monthly:money(Number($('debtMonthly').value)),priority:Number($('debtPriority').value),day:Number($('debtDueDay').value),startDate:$('debtStartDate').value};if(!d.name||d.amount<=0||d.monthly<=0){$('debtToast').textContent='Inserisci nome e importi validi.';return}const ix=state.debts.findIndex(x=>x.id===id);if(ix>=0)state.debts[ix]=d;else state.debts.push(d);save();render();resetDebtForm();$('debtEditorPanel').hidden=false;$('debtEditorTitle').textContent='Aggiungi un’uscita';$('debtToast').textContent='Debito salvato.';});
 window.editDebt=id=>{const d=state.debts.find(x=>x.id===id);if(!d)return;$('debtEditId').value=d.id;$('debtName').value=d.name;$('debtAmount').value=d.amount;$('debtMonthly').value=d.monthly;$('debtPriority').value=String(d.priority||2);$('debtDueDay').value=String(d.day||1);$('debtStartDate').value=d.startDate||'';$('debtSaveBtn').textContent='Salva modifiche';$('debtEditorTitle').textContent='Modifica debito';$('debtCancelBtn').hidden=false;$('debtEditorPanel').hidden=false;showPage('debts');setTimeout(()=>{$('debtEditorPanel').scrollIntoView({behavior:'smooth',block:'start'});$('debtName').focus({preventScroll:true});},60);};
 window.deleteDebt=id=>{const d=state.debts.find(x=>x.id===id);if(!d)return;if(!confirm('Eliminare "'+d.name+'" e i pagamenti collegati?'))return;state.debts=state.debts.filter(x=>x.id!==id);state.payments=state.payments.filter(p=>p.debtId!==id);save();render();};
 window.startDebtPayment=id=>{const d=dashboardDebts().find(x=>String(x.id)===String(id));if(!d)return;showPage('payments');populateDebtSelects();$('paymentAmount').value=Math.min(Number(d.monthly)||0,debtRemaining(d)).toFixed(2);$('paymentNote').value='Rata '+d.name;$('paymentDate').value=dateISO();$('paymentDebtId').value=d.id==='__legacy_profile_debt__'?'':String(d.id);$('paymentForm').dataset.debtId=d.id==='__legacy_profile_debt__'?'':String(d.id);$('paymentAmount').focus();};
 $('debtCancelBtn').addEventListener('click',()=>{resetDebtForm();$('debtEditorPanel').hidden=true;$('debtToast').textContent='';});$('debtSort').addEventListener('change',()=>renderDebts());
-$('themeSelect').addEventListener('change',e=>{localStorage.setItem('le-mie-rate-theme',e.target.value);applyTheme(e.target.value)});
-function applyTheme(theme){const isDark=theme==='dark';document.body.dataset.theme=isDark?'dark':'light';document.documentElement.style.colorScheme=isDark?'dark':'light';const meta=document.querySelector('meta[name=theme-color]');if(meta)meta.content=isDark?'#050506':'#f5f6fa';if($('themeSelect'))$('themeSelect').value=isDark?'dark':'light';}
+$('themeSelect').addEventListener('change',()=>applyTheme('dark'));
+function applyTheme(theme){const isDark=true;document.body.dataset.theme='dark';document.documentElement.style.colorScheme='dark';const meta=document.querySelector('meta[name=theme-color]');if(meta)meta.content='#050506';if($('themeSelect'))$('themeSelect').value='dark';try{localStorage.setItem('le-mie-rate-theme','dark')}catch(e){}}
 
 const VISUAL_PREFS_KEY='le-mie-rate-visual-settings-v1';
 let visualPrefs={showChart:true,showSimulator:true,chartMonths:6};
@@ -892,7 +927,36 @@ $('settingShowChart').addEventListener('change',e=>{visualPrefs.showChart=e.targ
 $('settingShowSimulator').addEventListener('change',e=>{visualPrefs.showSimulator=e.target.checked;saveVisualPrefs();});
 $('settingChartMonths').addEventListener('change',e=>{visualPrefs.chartMonths=Number(e.target.value)||6;saveVisualPrefs();});
 loadVisualPrefs();
-function showPage(page){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+page));const navPage=page==='payments'?'home':page;document.querySelectorAll('.nav-btn').forEach(x=>{const active=x.dataset.page===navPage;x.classList.toggle('active',active);if(active)x.setAttribute('aria-current','page');else x.removeAttribute('aria-current');});window.scrollTo({top:0,behavior:'smooth'});if(page==='payments'){populateDebtSelects();populateFinanceSelects();}if(page==='debts')renderDebts();if(page==='finance'||page==='analysis')renderFinance();if(page==='profile'){const n=$('personalName');if(n)n.value=state.personalName||'';}}
+function goHeaderBack(){const current=document.querySelector('.page.active')?.id?.replace('page-','')||'home';showPage(current==='menu'?'home':'menu')}
+function openReminders(){showPage('profile');setTimeout(()=>{const panel=$('reminderSettingsPanel');if(panel)panel.scrollIntoView({behavior:'smooth',block:'start'});},100)}
+function showPage(page){
+ const validPages=new Set(['home','menu','debts','finance','analysis','budget','goals','payments','profile']);if(!validPages.has(page))page='home';
+ document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+page));document.body.dataset.activePage=page;
+ const titles={menu:['Cosa vuoi fare?','Scegli una sezione per continuare.'],finance:['Movimenti','Entrate, uscite e trasferimenti'],debts:['Uscite','Rate, importi e scadenze'],analysis:['Analisi','Grafici e andamento finanziario'],budget:['Budget','Limiti mensili per categoria'],goals:['Obiettivi','I tuoi traguardi di risparmio'],payments:['Registra una rata','Aggiorna il residuo delle uscite'],profile:['Profilo','Dati personali e sicurezza']};
+ const isHome=page==='home',isMenu=page==='menu';
+ const brand=$('homeBrand'),back=$('headerBack'),screen=$('screenHeaderTitle'),screenText=$('screenHeaderTitleText'),screenSubtitle=$('screenHeaderSubtitle'),menuBtn=$('openMenuButton'),avatar=$('profileAvatar');
+ if(brand)brand.hidden=!isHome;
+ if(back){back.hidden=isHome;back.setAttribute('aria-label',isMenu?'Torna alla dashboard':'Torna a tutte le funzioni');}
+ if(screen){screen.hidden=isHome;}
+ if(screenText)screenText.textContent=isHome?'':(titles[page]?.[0]||'Le mie rate');
+ if(screenSubtitle)screenSubtitle.textContent=titles[page]?.[1]||'';
+ if(menuBtn)menuBtn.hidden=!isHome;
+ if(avatar)avatar.hidden=!(isHome||isMenu);
+ document.querySelectorAll('.page > .intro').forEach(intro=>{
+  if(intro.closest('#page-home')||intro.closest('#page-menu'))return;
+  const action=intro.querySelector(':scope > button');
+  const label=intro.querySelector(':scope > div');
+  if(label)label.hidden=true;
+  intro.hidden=!action;
+ });
+ const activeNav=page==='payments'?'home':page;
+ document.querySelectorAll('.nav-btn').forEach(x=>{const active=x.dataset.page===activeNav;x.classList.toggle('active',active);if(active)x.setAttribute('aria-current','page');else x.removeAttribute('aria-current');});
+ window.scrollTo({top:0,behavior:'smooth'});
+ if(page==='payments'){populateDebtSelects();populateFinanceSelects();}
+ if(page==='debts')renderDebts();
+ if(['finance','analysis','budget','goals'].includes(page))renderFinance();
+ if(page==='profile'){const n=$('personalName');if(n)n.value=state.personalName||'';}
+}
 function goToMovementHistory(){showPage('finance');setTimeout(()=>{const panel=$('financeHistoryPanel');if(panel)panel.scrollIntoView({behavior:'smooth',block:'start'});},80);}
 $('personalSettingsForm').addEventListener('submit',async e=>{
  e.preventDefault();
@@ -1076,7 +1140,7 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 window.addEventListener('focus',()=>refreshCloudIfNeeded());window.addEventListener('resize',()=>{if(document.querySelector('#page-home.active'))renderProgressChart();});
 // Controlla periodicamente il cloud: gli altri dispositivi vedono le modifiche senza dover uscire e rientrare.
 setInterval(()=>refreshCloudIfNeeded(),30000);
-safeLoad();applyTheme(localStorage.getItem('le-mie-rate-theme')||'dark');$('paymentDate').value=dateISO();if(!state.startDate)state.startDate=dateISO();render();applyVisualPrefs();if('serviceWorker'in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').then(reg=>reg.update().catch(()=>{})).catch(()=>{});initAuth().catch(e=>showAuthMessage(e.message||'Errore di autenticazione'));maybeNotify();
+safeLoad();applyTheme('dark');$('paymentDate').value=dateISO();if(!state.startDate)state.startDate=dateISO();render();applyVisualPrefs();if('serviceWorker'in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').then(reg=>reg.update().catch(()=>{})).catch(()=>{});initAuth().catch(e=>showAuthMessage(e.message||'Errore di autenticazione'));maybeNotify();
 </script>
 <style id="layout-a-final-mobile-fixes">
 /* Rifiniture finali delle proporzioni su iPhone */
@@ -1207,6 +1271,194 @@ body[data-theme="light"] .bottom-nav{background:rgba(250,251,255,.92);border-top
 }
 @media(max-width:350px){.nav-btn{font-size:8px}.nav-icon{width:21px}.nav-icon svg{width:19px;height:19px}.bottom-nav{padding-left:5px;padding-right:5px}}
 @media(prefers-reduced-motion:reduce){.btn,.nav-btn,.avatar{transition:none!important;animation:none!important}}
+</style>
+
+
+<style id="finanze-neon-night-complete">
+:root{color-scheme:dark;--accent:#1765ff;--accent-2:#4d86ff;--bg:#05080d;--card:#111923;--text:#f5f7fb;--muted:#8997aa;--line:#1e2a38;--red:#ff6677;--amber:#ffc86a;--green:#35d6aa;--navy:#08152b;--navy2:#111b2a;--mint:#b9caff;--shadow:0 16px 36px #0005}
+html,body{width:100%;max-width:100%;min-height:100%;margin:0;overflow-x:clip;background:#05080d;color:#f5f7fb}
+body{background:radial-gradient(ellipse at 48% -10%,#102449 0%,#05080d 42%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+.app{width:100%;max-width:460px;min-height:100dvh;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 16px calc(28px + env(safe-area-inset-bottom));overflow-x:clip}
+.header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 20px;padding:0;min-width:0}
+.header-leading{display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 auto}
+.header-actions{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.home-greeting{display:flex;min-width:0;margin:0;align-items:center}
+.home-greeting h1,.screen-header-title h1{margin:0;font-size:23px;line-height:1.1;font-weight:780;letter-spacing:-.055em;color:#f7f8fc}
+.home-greeting p,.screen-header-title p{margin:4px 0 0;color:#a1aec1;font-size:12px;line-height:1.3}
+.screen-header-title{min-width:0}
+.screen-header-title h1{font-size:23px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.header-back,.header-icon-button{appearance:none;-webkit-appearance:none;display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;padding:0;border:0!important;border-radius:15px;background:#151e2a!important;color:#dbe5f4;box-shadow:none!important}
+.header-back svg,.header-icon-button svg{display:block;width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.header-back[hidden],.header-icon-button[hidden],#profileAvatar[hidden],[hidden]{display:none!important}
+.avatar{width:40px;height:40px;min-width:40px;flex:0 0 40px;border:0!important;background:linear-gradient(145deg,#253b58,#152235)!important;color:#f7f9ff!important;font-size:13px;font-weight:800;box-shadow:0 0 0 1px #ffffff13!important}
+.page{width:100%;max-width:100%;min-width:0;margin:0 auto}
+.page.active{animation:screen-in .18s ease-out both}
+@keyframes screen-in{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.page>.intro{margin:0 0 14px;min-width:0}
+.page:not(#page-home):not(#page-menu)>.intro>div[hidden]{display:none!important}
+.page:not(#page-home):not(#page-menu)>.intro[hidden]{display:none!important}
+.page h2{font-size:26px;letter-spacing:-.055em;line-height:1.12;color:var(--text)}
+h3{font-size:15px;letter-spacing:-.025em;font-weight:750;color:var(--text)}
+.eyebrow{color:#638eff;font-size:10px;letter-spacing:.12em;font-weight:800;text-transform:uppercase}
+.muted,.small,.finance-section-note{color:var(--muted)!important}
+.hero{position:relative;overflow:hidden;border:1px solid #4b7dff42!important;border-radius:25px!important;padding:22px!important;margin:0 0 13px!important;background:linear-gradient(145deg,#075bff 0%,#173ee9 50%,#111c6e 100%)!important;color:#fff;box-shadow:0 18px 42px #004cff27!important}
+.hero:before{content:"";position:absolute;width:210px;height:210px;border-radius:50%;right:-70px;top:-95px;background:#ffffff0d;border:1px solid #ffffff12;box-shadow:0 0 0 24px #ffffff05,0 0 0 52px #ffffff04;pointer-events:none}
+.hero:after{content:"";position:absolute;inset:auto -10% -52% 28%;height:160px;transform:rotate(-12deg);background:radial-gradient(ellipse,#1b80ff4a 0%,transparent 68%);pointer-events:none}
+.hero-top,.hero-label,.hero-amount,.hero-foot,.hero .bar{position:relative;z-index:1}
+.hero-kicker{display:inline-flex;align-items:center;gap:7px;color:#e0eaff;font-size:11px;font-weight:650}
+.hero-kicker .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4bf0bd;box-shadow:0 0 0 4px #4bf0bd20}
+.hero-more{width:31px;height:31px;border:0!important;border-radius:11px;background:#ffffff16!important;color:#fff;font-size:23px;line-height:1;letter-spacing:1px;padding:0 0 6px;box-shadow:none!important}
+.hero-label{margin-top:19px;color:#d9e4ff;font-size:12px}
+.hero-amount{font-size:clamp(37px,10vw,48px);font-weight:820;letter-spacing:-.065em;line-height:1.04;margin:6px 0 13px;overflow-wrap:anywhere}
+.hero .bar{height:7px;margin:0 0 10px;background:#ffffff27}
+.hero .bar span{background:#81caff;box-shadow:0 0 14px #75bbff55}
+.hero-foot{display:flex;justify-content:space-between;gap:8px;color:#dce7ff;font-size:11px;flex-wrap:wrap}
+.dashboard-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:0 0 14px}
+.dashboard-stats .stat{min-width:0;padding:14px;border:1px solid #ffffff08!important;border-radius:19px;background:linear-gradient(145deg,#141e2a,#101720)!important;box-shadow:none!important;overflow:hidden}
+.dashboard-stats .stat-top{display:flex;align-items:center;gap:8px;color:#aebacd;font-size:11px;font-weight:650;line-height:1.2;min-width:0}
+.dashboard-stats .stat-icon{width:28px;height:28px;flex:0 0 28px;display:grid;place-items:center;border-radius:10px;background:#182a42!important;color:#75a5ff;font-size:17px;font-weight:800}
+.dashboard-stats .stat-value{font-size:clamp(16px,4.3vw,20px);font-weight:790;line-height:1.18;letter-spacing:-.035em;margin-top:11px;overflow-wrap:anywhere;white-space:normal}
+.dashboard-stats .stat-sub{font-size:10px;line-height:1.35;color:#8492a8!important;margin-top:4px;overflow-wrap:anywhere}
+.dashboard-stats .stat-income .stat-icon{background:#093b35!important;color:#39dfae}
+.dashboard-stats .stat-expense .stat-icon{background:#3c202c!important;color:#ff768a}
+.dashboard-stats .stat-rate .stat-icon{background:#282050!important;color:#ad8bff}
+.dashboard-stats .stat-next .stat-icon{background:#102e60!important;color:#77a9ff}
+.positive{color:#39dca8!important}.negative{color:#ff6f80!important}
+.home-action-stack{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin:0 0 12px}
+.home-action{appearance:none;-webkit-appearance:none;display:flex;align-items:center;gap:12px;width:100%;min-width:0;min-height:66px;text-align:left;padding:12px 14px;border:0!important;border-radius:19px;background:linear-gradient(145deg,#131e2c,#0e1722)!important;color:#f6f8fd!important;box-shadow:inset 0 1px #ffffff08!important}
+.home-action.primary-action{background:linear-gradient(120deg,#0965ff,#2045ec)!important;box-shadow:0 9px 24px #004dff29!important}
+.home-action-icon{display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;border-radius:14px;background:#ffffff17;color:#fff;font-size:25px;font-weight:500}
+.home-action>span:nth-child(2){display:flex;flex:1 1 auto;flex-direction:column;gap:4px;min-width:0}
+.home-action strong{font-size:14px;line-height:1.2;font-weight:750}
+.home-action small{font-size:11px;line-height:1.25;color:#bdc8d8}
+.home-action .action-chevron{font-size:26px;line-height:1;font-weight:300;color:#9fb7ff;flex:0 0 auto}
+.all-functions-link{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:44px;padding:8px 12px;border:0!important;background:transparent!important;color:#8faaff;font-size:12px;font-weight:700;box-shadow:none!important}
+.all-functions-link>span:last-child{color:#74829a;font-weight:550}
+.all-functions-grid{font-size:17px;color:#9cb3ff}
+/* App hub: one direct button for every main function, no bottom submenu. */
+.hub-intro{margin:0 0 19px}
+.hub-intro .eyebrow{margin-bottom:7px}
+.hub-intro h2{margin:0;font-size:28px;font-weight:790;letter-spacing:-.06em}
+.hub-intro p{margin:7px 0 0;color:var(--muted);font-size:13px}
+.hub-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.hub-card{appearance:none;-webkit-appearance:none;display:flex;align-items:center;gap:13px;width:100%;min-width:0;min-height:74px;text-align:left;padding:12px 13px;border:0!important;border-radius:20px;background:linear-gradient(145deg,#17212e,#101720)!important;color:#f5f7fb!important;box-shadow:inset 0 1px #ffffff08,0 5px 15px #0002!important;transition:transform .13s ease,filter .13s ease}
+.hub-card:active,.home-action:active{transform:scale(.988);filter:brightness(1.07)}
+.hub-icon{display:grid;place-items:center;width:43px;height:43px;flex:0 0 43px;border-radius:14px;background:linear-gradient(145deg,#0b8b72,#00b994);color:white;font-size:25px;font-weight:650}
+.hub-movements .hub-icon{background:linear-gradient(145deg,#00b88e,#007f72)}
+.hub-outgoings .hub-icon{background:linear-gradient(145deg,#ff6a76,#e93659)}
+.hub-analysis .hub-icon{background:linear-gradient(145deg,#178bff,#224cff)}
+.hub-budgets .hub-icon{background:linear-gradient(145deg,#ffb32c,#ff7900)}
+.hub-goals .hub-icon{background:linear-gradient(145deg,#9c6aff,#653bdf)}
+.hub-profile .hub-icon{background:linear-gradient(145deg,#73849c,#34465e)}
+.hub-copy{display:flex;flex:1 1 auto;flex-direction:column;gap:4px;min-width:0}
+.hub-copy strong{font-size:14px;line-height:1.2;font-weight:750}
+.hub-copy small{font-size:11px;line-height:1.3;color:#93a2b7;white-space:normal}
+.hub-chevron{font-size:25px;font-weight:300;color:#8998ac;line-height:1;flex:0 0 auto}
+.hub-secondary-action{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:48px;margin-top:12px;border:0!important;border-radius:16px;background:#172234!important;color:#e4eaff!important;font-weight:700;box-shadow:none!important}
+.hub-secondary-action span{font-size:22px;color:#74a4ff}
+/* Screen title bar replaces the bottom tab menu; the back key always returns to the action hub. */
+.bottom-nav{display:none!important}
+.app{padding-bottom:calc(26px + env(safe-area-inset-bottom))}
+.page:not(#page-home):not(#page-menu)>.intro{display:flex;align-items:center;justify-content:flex-end;min-height:0;margin:0 0 10px;padding:0}
+.page:not(#page-home):not(#page-menu)>.intro>div[hidden]{display:none!important}
+.page:not(#page-home):not(#page-menu)>.intro>.page-plus{display:grid;place-items:center;flex:0 0 44px;width:44px;max-width:44px;min-height:44px;height:44px;padding:0;border-radius:15px;font-size:25px;line-height:1}
+.page:not(#page-home):not(#page-menu)>.intro>.page-plus{color:white!important;background:linear-gradient(135deg,#176bff,#2751eb)!important}
+.page:not(#page-home):not(#page-menu)>.intro>.page-plus:focus-visible{outline:2px solid #7296ff;outline-offset:3px}
+.panel,.stat,.finance-stat,.debt-card{background:linear-gradient(145deg,#141d29,#101720)!important;border:1px solid #ffffff0a!important;border-radius:20px!important;box-shadow:none!important;color:var(--text)}
+.panel{padding:16px!important}
+.panel-head{align-items:center;min-width:0;gap:10px}
+.panel-head>*{min-width:0}
+.btn{border:0!important;border-radius:15px!important;min-height:45px;box-shadow:none!important;font-weight:730}
+.btn.primary,.btn.primary:visited{background:linear-gradient(120deg,#0867ff,#244cf0)!important;color:#fff!important}
+.btn.secondary,.btn.outline,.secondary.btn,.outline.btn{background:#1c2837!important;color:#e5ebf5!important}
+.btn.danger,.danger.btn{background:#3b1e2a!important;color:#ff8392!important}
+button:not(.field button):focus-visible,.btn:focus-visible,.avatar:focus-visible{outline:2px solid #6e8fff!important;outline-offset:3px}
+.field{min-width:0;max-width:100%}
+.field label{color:#aab6c8!important;font-size:11px}
+.field input,.field select,.field textarea,.field input[type=time]{background:#0b121b!important;color:#f4f7fc!important;border:1px solid #263548!important;border-radius:13px!important;min-height:46px;max-width:100%;font-size:16px;box-shadow:none!important}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#326fff!important;box-shadow:0 0 0 3px #316bff1e!important}
+.finance-filter{gap:6px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;scrollbar-width:none}
+.finance-filter::-webkit-scrollbar{display:none}
+.finance-filter button{flex:0 0 auto;background:#192433!important;color:#aab8cb!important;border:0!important}
+.finance-filter button.active{background:#155cff!important;color:white!important}
+.finance-row{border-color:#202d3b!important}
+.finance-kind-icon{border-radius:13px!important}
+.finance-chip{border:0!important}
+.table-wrap{border-color:#263344!important}
+th,td{border-color:#263344!important}
+.status{background:#202b3a!important;color:#a7b5c9!important}
+.status.paid{background:#123529!important;color:#6fe2b2!important}
+.status.due{background:#3a2b18!important;color:#ffd07b!important}
+.notice{border:1px solid #263344!important;background:#101924!important;color:#9aa9bc!important}
+.notice strong{color:#e7edf7!important}
+.toast{color:#6dd9ad!important}
+/* PIN is deliberately borderless, with generous touch targets. */
+.pin-keypad{width:min(280px,100%);max-width:280px;margin:20px auto 16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));justify-items:center;gap:11px 18px}
+.pin-keypad button{appearance:none;-webkit-appearance:none;width:58px;max-width:100%;height:58px;min-height:58px;padding:0;border:0!important;outline-offset:3px;border-radius:50%!important;background:transparent!important;box-shadow:none!important;color:#f5f7fc!important;font-size:24px;font-weight:460;display:grid;place-items:center;transition:background .12s ease,color .12s ease}
+.pin-keypad button:active{background:#ffffff13!important;color:#77a4ff!important}
+.pin-keypad .key-empty{visibility:hidden;background:transparent!important}
+.pin-dots span{background:#25364d!important;border-color:#25364d!important}
+.pin-dots span.filled{background:#1768ff!important;border-color:#1768ff!important}
+#authGate{min-height:100dvh;background:radial-gradient(ellipse at 50% 0%,#0c2858 0%,#06101f 34%,#030509 76%)!important;padding:calc(22px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom))!important}
+.auth-card{width:min(390px,100%)!important;margin:auto!important;background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important;padding:26px 2px!important;color:#f5f7fb!important}
+.auth-card .brand{display:flex;flex-direction:column;align-items:flex-start;gap:11px;margin:0 0 34px!important}
+.auth-card .brand .logo{width:45px!important;height:50px!important;min-width:45px;border-radius:0!important;background:transparent!important;color:#2669ff!important;box-shadow:none!important}
+.auth-card .brand h1{font-size:31px!important;letter-spacing:-.06em!important;font-weight:800!important}
+.auth-card .brand p{font-size:13px!important;color:#8fb6ff!important}
+.auth-card h2{font-size:27px!important;margin:0 0 9px!important;line-height:1.08}
+.auth-card p{color:#9eacc0!important}
+.auth-card .field input{background:#0b131f!important;border-color:#213149!important;border-radius:15px!important;color:#f5f7fc!important;min-height:50px;font-size:16px!important}
+.auth-card .primary{background:linear-gradient(120deg,#0569ff,#234cf0)!important;border:0!important;min-height:52px!important;border-radius:999px!important;box-shadow:0 10px 28px #0055ff2e!important}
+.auth-card .secondary{background:#0e1723!important;border:0!important;min-height:52px!important;border-radius:999px!important;color:#e4ecfa!important}
+.auth-error{color:#ff8897!important}
+#authPinPanel .brand{display:flex;flex-direction:row;align-items:center;gap:10px;margin:0 0 24px!important}
+#authPinPanel .brand .logo{width:35px!important;height:38px!important;min-width:35px}
+#authPinPanel .brand h1{font-size:22px!important}
+#authPinPanel .brand p{font-size:11px!important}
+#authPinPanel h2{text-align:center!important;margin-top:24px!important}
+#authPinPanel p{text-align:center!important}
+#logoutPinOverlay{background:#02050bdc!important;backdrop-filter:blur(22px)!important}
+.pin-logout-card{background:#101823!important;border:1px solid #243247!important;border-radius:26px!important;box-shadow:0 30px 90px #0008!important}
+.pin-logout-card .auth-actions .btn{border:0!important}
+/* Uscite are rate cards, while Movimenti is a clean list with distinct amount colors. */
+.debt-card{padding:16px!important;border-radius:20px!important;margin:10px 0!important}
+.debt-progress,.bar{background:#263342!important}
+.debt-progress span{background:linear-gradient(90deg,#1768ff,#60a5ff)!important}
+.priority-tag{border:0!important;border-radius:999px!important;background:#1e2a47!important;color:#8faaff!important}
+.debt-number{background:#0d1520!important;border:1px solid #202c3a!important}
+#page-profile .logout-panel{margin-bottom:20px}
+#page-profile .logout-button{min-height:52px;border-radius:17px!important;background:linear-gradient(110deg,#ff536d,#e93659)!important;color:white!important}
+#page-profile #themeSelect{display:none!important}
+#page-profile .finance-layout{grid-template-columns:minmax(0,1fr)}
+#page-budget .panel,#page-goals .panel,#page-analysis .panel{margin-bottom:12px}
+#page-goals .finance-layout{grid-template-columns:minmax(0,1fr);gap:12px}
+#page-budget .finance-form-grid,#page-goals .finance-form-grid{grid-template-columns:minmax(0,1fr)}
+#page-budget .btn,#page-goals .btn{width:100%}
+#page-profile .export-actions .btn{flex:1 1 100%;min-height:45px}
+@media(max-width:390px){
+ .app{padding-left:14px;padding-right:14px}
+ .home-greeting h1,.screen-header-title h1{font-size:21px}
+ .header{margin-bottom:17px}
+ .header-actions{gap:7px}
+ .header-back,.header-icon-button{width:39px;height:39px;flex-basis:39px;border-radius:13px}
+ .avatar{width:38px;height:38px;min-width:38px;flex-basis:38px}
+ .hero{padding:19px!important;border-radius:22px!important}
+ .dashboard-stats .stat{padding:12px 11px}
+ .dashboard-stats .stat-top{font-size:10px;gap:6px}
+ .dashboard-stats .stat-icon{width:26px;height:26px;flex-basis:26px}
+ .dashboard-stats .stat-value{font-size:17px}
+ .home-action{min-height:64px;padding:11px 12px}
+ .hub-card{min-height:70px;padding:11px}
+ .hub-icon{width:41px;height:41px;flex-basis:41px}
+ .pin-keypad{max-width:260px;gap:8px 12px}
+ .pin-keypad button{width:55px;height:55px;min-height:55px}
+}
+@media(max-width:340px){.dashboard-stats .stat{padding:10px 8px}.dashboard-stats .stat-top{font-size:9px}.dashboard-stats .stat-value{font-size:15px}.header-icon-button{width:35px;height:35px;flex-basis:35px}.avatar{width:35px;height:35px;min-width:35px;flex-basis:35px}}
+@media(prefers-reduced-motion:reduce){.page.active{animation:none}.hub-card,.home-action{transition:none}}
+
+/* Final visual correction after mobile preview */
+#page-menu .hub-intro{display:none!important}
+#page-menu .hub-grid{margin-top:4px}
 </style>
 
 </body>
